@@ -5,3 +5,37 @@ html {
 .container-fluid {
   padding: 0px;
 }
+
+.nav-pills > li.active > a {
+  font-family: "GDS Transport", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  line-height: 1.1428571429;
+  background-color: #eee !important;
+  color: #1d70b8;
+  font-size: 15px;
+  border-color: #1d70b8;
+}
+
+.nav-pills > li.active > a, 
+.nav-pills > li.active > a:focus, 
+.nav-pills > li.active > a:hover {
+  color: #1d70b8 !important;
+}
+
+.nav-pills > li > a:focus,
+.nav-pills > li > a:hover {
+   border-color: #1d70b8;
+}
+
+.nav-pills > li > a {
+  font-family: "GDS Transport", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  line-height: 1.1428571429;
+  font-size: 15px;
+  padding: 10px;
+  border-left: 4px solid transparent;
+}

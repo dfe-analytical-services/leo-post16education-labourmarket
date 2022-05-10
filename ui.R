@@ -72,7 +72,7 @@ ui <- fluidPage(
       "Feedback Types",
       value = "panel3",
       gov_layout(
-        size = "one-half",
+        size = "full",
         heading_text("Page 3", size = "l"),
         label_hint(
           "label3",
