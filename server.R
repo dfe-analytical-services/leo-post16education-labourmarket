@@ -10,4 +10,6 @@
 library(shiny)
 
 # Define server logic 
-server <- function(input, output, session) {}
+server <- function(input, output, session) {
+  sayHello()
+}
