@@ -8,8 +8,10 @@ tabPanelOne <- function() {
       value = "panel1",
       gov_layout(
         size = "full",
-        heading_text("Page 1",
-                     size = "l"),
+        heading_text(
+          text_input = "Page 1",
+          size = "l"
+        ),
         label_hint(
           "label1",
           "These are some examples of the types of user\n                   select type inputs that you can use"
@@ -35,7 +37,10 @@ tabPanelOne <- function() {
           label = "Which types of waste do you transport?",
           hint_label = "Select all that apply."
         ),
-        heading_text("select_Input", size = "s"),
+        heading_text(
+          text_input = "select_Input", 
+          size = "s"
+        ),
         select_Input(
           inputId = "sorter",
           label = "Sort by",
@@ -48,13 +53,22 @@ tabPanelOne <- function() {
           select_value = c("published",
                            "updated", "view", "comments")
         ),
-        heading_text("file_Input",
-                     size = "s"),
-        file_Input(inputId = "file1",
-                   label = "Upload a file"),
-        heading_text("button_Input",
-                     size = "s"),
-        button_Input("btn1", "Go to next page")
+        heading_text(
+          text_input = "file_Input",
+          size = "s"
+        ),
+        file_Input(
+          inputId = "file1",
+          label = "Upload a file"
+        ),
+        heading_text(
+          text_input = "button_Input",
+          size = "s"
+        ),
+        button_Input(
+          inputId = "btn1", 
+          label = "Go to next page"
+        )
       )
     )
   )
