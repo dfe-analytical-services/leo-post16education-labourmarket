@@ -1,5 +1,7 @@
 library(shiny)
 library(shinyGovstyle)
+library(dplyr)
+library(plotly)
 
 tabPanelOne <- function() {
   return (
@@ -193,12 +195,15 @@ tabPanelFour <- function() {
             tags$br(),
             tags$br(),
             heading_text("Plot", size = "m"),
+            plotly::plotlyOutput(
+              outputId = "plot"
+            )
           ),
           tabPanel(
             title = "Map",
             tags$br(),
             tags$br(),
-            heading_text("Map", size = "m"),
+            heading_text("Map", size = "m")
           ),
           tabPanel(
             tags$br(),
