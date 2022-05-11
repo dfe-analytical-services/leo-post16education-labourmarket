@@ -163,6 +163,10 @@ tabPanelFour <- function() {
       gov_layout(
         size = "full",
         heading_text("Page 4", size = "l"),
+        label_hint(
+          "label3",
+          "This is an example of using a tabbed layout"
+        ),
         tabsetPanel(
           type = "tabs",
           tabPanel(
