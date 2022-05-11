@@ -8,8 +8,17 @@
 #
 
 library(shiny)
+library(shinyjs)
 
 # Define server logic 
 server <- function(input, output, session) {
   sayHello()
+  
+  observeEvent(input$btn1, {
+    updateNavlistPanel(
+      session,
+      "navlistPanel",
+      selected = "panel2"
+    )
+  })
 }
