@@ -36,7 +36,8 @@ ui <- fluidPage(
     well = FALSE,
     tabPanelOne(),
     tabPanelTwo(),
-    tabPanelThree()
+    tabPanelThree(),
+    tabPanelFour()
   ),
   gov_layout(
     size = "full",
