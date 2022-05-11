@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyGovstyle)
 
 tabPanelOne <- function() {
   return (
@@ -148,6 +149,40 @@ tabPanelThree <- function() {
           title_txt = "Important",
           body_txt = "You have 7 days left to send your application.",
           type = "standard"
+        )
+      )
+    )
+  )
+}
+
+tabPanelFour <- function() {
+  return (
+    shiny::tabPanel(
+      "Tabs Layout",
+      value = "panel4",
+      gov_layout(
+        size = "full",
+        heading_text("Page 4", size = "l"),
+        tabsetPanel(
+          type = "tabs",
+          tabPanel(
+            title = "Plot",
+            tags$br(),
+            tags$br(),
+            heading_text("Plot", size = "m"),
+          ),
+          tabPanel(
+            tags$br(),
+            tags$br(),
+            title = "Summary",
+            heading_text("Summary", size = "m"),
+          ),
+          tabPanel(
+            tags$br(),
+            tags$br(),
+            title = "Table",
+            heading_text("Table", size = "m"),
+          ),
         )
       )
     )
