@@ -9,6 +9,9 @@
 
 library(shiny)
 library(shinyjs)
+library(ggplot2)
+library(plotly)
+library(govstyle)
 
 # Define server logic 
 server <- function(input, output, session) {
@@ -19,6 +22,21 @@ server <- function(input, output, session) {
       session,
       "navlistPanel",
       selected = "panel2"
+    )
+  })
+  
+  output$plot <- renderPlotly({
+    ggplotly(
+      ggplot(
+        data = mtcars, 
+        mapping = aes(
+          x = wt, 
+          y = mpg,
+          col = factor(cyl)
+        )
+      ) + 
+      geom_point() +
+      govstyle::theme_gov()
     )
   })
 }
