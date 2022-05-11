@@ -156,6 +156,11 @@ tabPanelThree <- function() {
 }
 
 tabPanelFour <- function() {
+  Months <- c("January", "February", "March")
+  Bikes <- c("£85", "£75", "£165")
+  Cars <- c("£95", "£55", "£125")
+  example_data <- data.frame(Months, Bikes, Cars)
+  
   return (
     shiny::tabPanel(
       "Tabs Layout",
@@ -176,16 +181,24 @@ tabPanelFour <- function() {
             heading_text("Plot", size = "m"),
           ),
           tabPanel(
+            title = "Map",
             tags$br(),
             tags$br(),
-            title = "Summary",
-            heading_text("Summary", size = "m"),
+            heading_text("Map", size = "m"),
           ),
           tabPanel(
             tags$br(),
             tags$br(),
             title = "Table",
             heading_text("Table", size = "m"),
+            shinyGovstyle::govTable(
+              inputId = "tab1", 
+              df = example_data, 
+              caption = NULL, 
+              caption_size = "l", 
+              num_col = c(2,3),
+              width_overwrite = c("one-half", "one-quarter", "one-quarter")
+            )
           ),
         )
       )
