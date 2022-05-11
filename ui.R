@@ -31,7 +31,7 @@ ui <- fluidPage(
   ),
   shiny::navlistPanel(
     "",
-    id = "nav",
+    id = "navlistPanel",
     widths = c(2, 8),
     well = FALSE,
     tabPanelOne(),
@@ -46,6 +46,16 @@ ui <- fluidPage(
     tags$br(),
     tags$br(),
     tags$br()
+  ),
+  tags$script(
+    "$(document).ready(function () {
+      $('button').on('click', function (e) {
+        let buttonText = e.target.innerText;
+        if (buttonText.includes('next page')) {
+          window.scrollTo(0, 0);
+        }
+      });
+    });"
   ),
   footer(full = TRUE)
 )
