@@ -27,6 +27,10 @@ html {
   padding: 0px;
 }
 
+.row {
+  margin-right: 0px;
+}
+
 .nav-pills > li.active > a {
   font-family: "GDS Transport", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
