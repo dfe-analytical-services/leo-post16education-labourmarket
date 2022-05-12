@@ -208,7 +208,9 @@ tabPanelFour <- function() {
             title = "Map",
             tags$br(),
             tags$br(),
-            heading_text("Map", size = "m")
+            heading_text("Map", size = "m"),
+            p("This is just a sample map. A UK specific map will be added later."),
+            leafletOutput("map")
           ),
           tabPanel(
             tags$br(),
