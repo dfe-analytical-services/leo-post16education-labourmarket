@@ -11,10 +11,6 @@
 #    https://github.com/moj-analytical-services/shinyGovstyle
 #
 
-library(shiny)
-library(shinyjs)
-library(shinyGovstyle)
-
 shinyjs::useShinyjs()
 
 ui <- fluidPage(
