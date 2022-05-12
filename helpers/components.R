@@ -191,12 +191,17 @@ tabPanelFour <- function() {
         tabsetPanel(
           type = "tabs",
           tabPanel(
-            title = "Plot",
+            title = "Plots",
             tags$br(),
             tags$br(),
-            heading_text("Plot", size = "m"),
+            heading_text("Plots", size = "m"),
             plotly::plotlyOutput(
               outputId = "plot"
+            ),
+            tags$br(),
+            tags$br(),
+            plotly::plotlyOutput(
+              outputId = "sankey"
             )
           ),
           tabPanel(
