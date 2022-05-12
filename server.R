@@ -104,4 +104,10 @@ server <- function(input, output, session) {
     
     fig
   })
+  
+  output$map <- renderLeaflet({
+    leaflet() %>%
+      addTiles() %>%
+      setView(zoom = 9, lng = 0, lat = 51)
+  })
 }
