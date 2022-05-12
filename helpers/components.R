@@ -1,8 +1,3 @@
-library(shiny)
-library(shinyGovstyle)
-library(dplyr)
-library(plotly)
-
 tabPanelOne <- function() {
   return (
     shiny::tabPanel(
@@ -208,7 +203,12 @@ tabPanelFour <- function() {
             title = "Map",
             tags$br(),
             tags$br(),
-            heading_text("Map", size = "m")
+            heading_text("Map", size = "m"),
+            leafletOutput(
+              "mymap", 
+              width="100%", 
+              height="865px"
+            )
           ),
           tabPanel(
             tags$br(),
