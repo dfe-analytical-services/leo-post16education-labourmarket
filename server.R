@@ -120,6 +120,7 @@ server <- function(input, output, session) {
     leaflet() %>% 
       setView(lng = -1.61, lat = 52.909, zoom = 7) %>% 
       addProviderTiles(providers$CartoDB.Positron) %>%
+      addFullscreenControl() %>%
       addPolygons(
         data = map_data, 
         fillColor = ~pal(`Average Earnings`),
