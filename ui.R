@@ -11,10 +11,6 @@
 #    https://github.com/moj-analytical-services/shinyGovstyle
 #
 
-library(shiny)
-library(shinyjs)
-library(shinyGovstyle)
-
 shinyjs::useShinyjs()
 
 ui <- fluidPage(
@@ -48,14 +44,35 @@ ui <- fluidPage(
     tags$br()
   ),
   tags$script(
-    "$(document).ready(function () {
-      $('button').on('click', function (e) {
-        let buttonText = e.target.innerText;
-        if (buttonText.includes('next page')) {
-          window.scrollTo(0, 0);
-        }
-      });
-    });"
+    src="script.js"
   ),
+  tags$script(HTML(
+    "
+    function plotZoom(el){
+        el = $(el);
+        var parent = el.parent().parent();
+        if(el.attr('data-full_screen') === 'false') {
+            parent.addClass('full-screen').trigger('resize').hide().show();
+            $('.fullscreen-button').text('Exit full screen');
+            el.attr('data-full_screen', 'true');
+        } else {
+            parent.removeClass('full-screen').trigger('resize').hide().show();
+            $('.fullscreen-button').text('View full screen');
+            el.attr('data-full_screen', 'false');
+        }
+    }
+    
+    $(function(){
+       $('.plotly-full-screen  .plotly.html-widget').append(
+        `
+        <div style='position: relative;'>
+            <button onclick=plotZoom(this) class='plot-zoom' data-full_screen='false' title='Full screen'>
+                <a href='#' class='govuk-link fullscreen-button'>View full screen</a>
+            </button>
+        </div>
+        `); 
+    })
+    "
+  )),
   footer(full = TRUE)
 )

@@ -1,8 +1,3 @@
-library(shiny)
-library(shinyGovstyle)
-library(dplyr)
-library(plotly)
-
 tabPanelOne <- function() {
   return (
     shiny::tabPanel(
@@ -195,13 +190,19 @@ tabPanelFour <- function() {
             tags$br(),
             tags$br(),
             heading_text("Plots", size = "m"),
-            plotly::plotlyOutput(
-              outputId = "plot"
+            div(
+              class = "plotly-full-screen",
+              plotly::plotlyOutput(
+                outputId = "plot"
+              )
             ),
             tags$br(),
             tags$br(),
-            plotly::plotlyOutput(
-              outputId = "sankey"
+            div(
+              class = "plotly-full-screen",
+              plotly::plotlyOutput(
+                outputId = "sankey"
+              )
             )
           ),
           tabPanel(
@@ -209,8 +210,11 @@ tabPanelFour <- function() {
             tags$br(),
             tags$br(),
             heading_text("Map", size = "m"),
-            p("This is just a sample map. A UK specific map will be added later."),
-            leafletOutput("map")
+            leafletOutput(
+              "mymap", 
+              width="100%", 
+              height="865px"
+            )
           ),
           tabPanel(
             tags$br(),
