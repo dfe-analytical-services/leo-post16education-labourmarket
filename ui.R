@@ -52,9 +52,14 @@ ui <- fluidPage(
         el = $(el);
         var parent = el.parent().parent();
         if(el.attr('data-full_screen') === 'false') {
+            $('html').css('visibility', 'hidden');
             parent.addClass('full-screen').trigger('resize').hide().show();
             $('.fullscreen-button').text('Exit full screen');
             el.attr('data-full_screen', 'true');
+            setTimeout(function() {
+              $('html').css('visibility', 'visible');
+            }, 700);
+            
         } else {
             parent.removeClass('full-screen').trigger('resize').hide().show();
             $('.fullscreen-button').text('View full screen');
