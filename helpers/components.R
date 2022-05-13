@@ -190,13 +190,19 @@ tabPanelFour <- function() {
             tags$br(),
             tags$br(),
             heading_text("Plots", size = "m"),
-            plotly::plotlyOutput(
-              outputId = "plot"
+            div(
+              class = "plotly-full-screen",
+              plotly::plotlyOutput(
+                outputId = "plot"
+              )
             ),
             tags$br(),
             tags$br(),
-            plotly::plotlyOutput(
-              outputId = "sankey"
+            div(
+              class = "plotly-full-screen",
+              plotly::plotlyOutput(
+                outputId = "sankey"
+              )
             )
           ),
           tabPanel(
