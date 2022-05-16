@@ -192,16 +192,26 @@ tabPanelFour <- function() {
             heading_text("Plots", size = "m"),
             div(
               class = "plotly-full-screen",
-              plotly::plotlyOutput(
-                outputId = "plot"
+              shinycssloaders::withSpinner(
+                plotly::plotlyOutput(
+                  outputId = "plot"
+                ),
+                type = 8,
+                color = "#1D70B8",
+                size = 0.5
               )
             ),
             tags$br(),
             tags$br(),
             div(
               class = "plotly-full-screen",
-              plotly::plotlyOutput(
-                outputId = "sankey"
+              shinycssloaders::withSpinner(
+                plotly::plotlyOutput(
+                  outputId = "sankey"
+                ),
+                type = 8,
+                color = "#1D70B8",
+                size = 0.5
               )
             )
           ),
@@ -210,10 +220,15 @@ tabPanelFour <- function() {
             tags$br(),
             tags$br(),
             heading_text("Map", size = "m"),
-            leafletOutput(
-              "mymap", 
-              width="100%", 
-              height="865px"
+            shinycssloaders::withSpinner(
+              leafletOutput(
+                "mymap", 
+                width="100%", 
+                height="865px"
+              ),
+              type = 8,
+              color = "#1D70B8",
+              size = 0.5
             )
           ),
           tabPanel(

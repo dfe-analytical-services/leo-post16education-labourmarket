@@ -1,6 +1,7 @@
 # shiny app development and appearance
 library(shiny)
 library(shinyGovstyle)
+library(shinycssloaders)
 
 # data import and manipulation
 library(dplyr)
