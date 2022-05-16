@@ -203,6 +203,18 @@ tabPanelFour <- function() {
             ),
             tags$br(),
             tags$br(),
+            select_Input(
+              inputId = "sankey_filter",
+              label = "Filter by",
+              select_text = c(
+                "All",
+                "FSM"
+              ),
+              select_value = c(
+                "all",
+                "fsm"
+              )
+            ),
             div(
               class = "plotly-full-screen",
               shinycssloaders::withSpinner(

@@ -52,46 +52,48 @@ server <- function(input, output, session) {
   })
   
   output$sankey <- plotly::renderPlotly({
-    # Lift from https://plotly.com/r/sankey-diagram/#basic-sankey-diagram
+    # Adapted from https://plotly.com/r/sankey-diagram/#basic-sankey-diagram
     
-    json_file <- "https://raw.githubusercontent.com/plotly/plotly.js/master/test/image/mocks/sankey_energy.json"
-    json_data <- fromJSON(paste(readLines(json_file), collapse=""))
+    if (input$sankey_filter == "all") {
+      selected_pathways = list(
+        source = c(0,1,0,2,3,3),
+        target = c(2,3,3,4,4,5),
+        value =  c(8,4,2,8,4,2)
+      )
+    }
+    
+    if (input$sankey_filter == "fsm") {
+      selected_pathways = list(
+        source = c(0,1,0,2,3,3,2),
+        target = c(2,3,3,4,4,5,6),
+        value =  c(3,2,1,1,2,1,3)
+      )
+    }
     
     fig <- plot_ly(
       type = "sankey",
-      domain = list(
-        x =  c(0,1),
-        y =  c(0,1)
-      ),
       orientation = "h",
-      valueformat = ".0f",
-      valuesuffix = "TWh",
       
       node = list(
-        label = json_data$data[[1]]$node$label,
-        color = json_data$data[[1]]$node$color,
+        label = c("KS5", "other_education", "HE 2", "adult_FE", "employed_final", "HE_final", "unknown_final"),
+        color = c("#f47738", "#f47738", "#f47738", "#f47738", "#1d70b8", "#1d70b8"),
         pad = 15,
-        thickness = 15,
+        thickness = 20,
         line = list(
           color = "black",
           width = 0.5
         )
       ),
       
-      link = list(
-        source = json_data$data[[1]]$link$source,
-        target = json_data$data[[1]]$link$target,
-        value =  json_data$data[[1]]$link$value,
-        label =  json_data$data[[1]]$link$label
-      )
-    ) 
+      link = selected_pathways
+    )
     fig <- fig %>% layout(
-      title = "Energy forecast for 2050<br>Source: Department of Energy & Climate Change, Tom Counsell via <a href='https://bost.ocks.org/mike/sankey/'>Mike Bostock</a>",
+      title = "Education pathway outcomes POC",
       font = list(
         size = 10
       ),
-      xaxis = list(showgrid = F, zeroline = F),
-      yaxis = list(showgrid = F, zeroline = F)
+      plot_bgcolor = 'white',
+      paper_bgcolor = 'white'
     )
     
     fig
