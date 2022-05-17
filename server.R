@@ -54,19 +54,36 @@ server <- function(input, output, session) {
   output$sankey <- plotly::renderPlotly({
     # Adapted from https://plotly.com/r/sankey-diagram/#basic-sankey-diagram
     
+    pathways <- readr::read_csv("data/sankey-data.csv")
+    
+    dfe_orange = 'rgb(244, 119, 56, 0.1)'
+    dfe_blue = 'rgb(29, 112, 184, 0.1)'
+    
     if (input$sankey_filter == "all") {
+      sankey_node_mappings <- generate_sankey_node_mappings(
+        df = pathways %>%
+          filter(group == "All")
+      )
+      
       selected_pathways = list(
-        source = c(0,1,0,2,3,3),
-        target = c(2,3,3,4,4,5),
-        value =  c(8,4,2,8,4,2)
+        source = sankey_node_mappings[[2]],
+        target = sankey_node_mappings[[3]],
+        value =  sankey_node_mappings[[4]]
+        #color = c("#f47738", "#f47738", "#f47738", "#f47738", "#f47738", "#f47738", "#f47738")
       )
     }
     
     if (input$sankey_filter == "fsm") {
+      sankey_node_mappings <- generate_sankey_node_mappings(
+        df = pathways %>%
+          filter(group == "FSM")
+      )
+      
       selected_pathways = list(
-        source = c(0,1,0,2,3,3,2),
-        target = c(2,3,3,4,4,5,6),
-        value =  c(3,2,1,1,2,1,3)
+        source = sankey_node_mappings[[2]],
+        target = sankey_node_mappings[[3]],
+        value =  sankey_node_mappings[[4]]
+        #color = c("#f47738", "#f47738", "#f47738", "#f47738", "#f47738", "#f47738", "#f47738")
       )
     }
     
@@ -75,8 +92,8 @@ server <- function(input, output, session) {
       orientation = "h",
       
       node = list(
-        label = c("KS5", "other_education", "HE 2", "adult_FE", "employed_final", "HE_final", "unknown_final"),
-        color = c("#f47738", "#f47738", "#f47738", "#f47738", "#1d70b8", "#1d70b8"),
+        label = sankey_node_mappings[[1]],
+        #color = c("#f47738", "#f47738", "#f47738", "#f47738", "#1d70b8", "#1d70b8"),
         pad = 15,
         thickness = 20,
         line = list(

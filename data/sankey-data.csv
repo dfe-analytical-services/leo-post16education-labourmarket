@@ -1,0 +1,13 @@
+﻿from,to ,value,group
+KS5 ,adultFE,100,All
+adultFE,highereducation,60,All
+adultFE,employment,25,All
+adultFE,benefits,10,All
+adultFE,no sustained activity,2,All
+adultFE,not captured,3,All
+KS5 ,adultFE,50,FSM
+adultFE,highereducation,20,FSM
+adultFE,employment,25,FSM
+adultFE,benefits,10,FSM
+adultFE,no sustained activity,2,FSM
+adultFE,not captured,3,FSM
