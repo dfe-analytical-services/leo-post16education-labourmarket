@@ -54,10 +54,18 @@ server <- function(input, output, session) {
   output$sankey <- plotly::renderPlotly({
     # Adapted from https://plotly.com/r/sankey-diagram/#basic-sankey-diagram
     
-    pathways <- readr::read_csv("data/sankey-data.csv")
+    dfe_orange = 'rgba(244, 119, 56, 0.4)'
+    dfe_blue = 'rgba(29, 112, 184, 0.4)'
+    dfe_dark = 'rgba(0, 0, 0, 0.4)'
     
-    dfe_orange = 'rgb(244, 119, 56, 0.1)'
-    dfe_blue = 'rgb(29, 112, 184, 0.1)'
+    pathways <- readr::read_csv("data/sankey-data.csv") %>% 
+    mutate(
+      path_color = case_when(
+        to == "adultFE" ~ dfe_orange,
+        to == "highereducation" ~ dfe_orange,
+        to == "not captured" ~ dfe_dark,
+        TRUE ~ dfe_blue)
+    )
     
     if (input$sankey_filter == "all") {
       sankey_node_mappings <- generate_sankey_node_mappings(
@@ -68,8 +76,8 @@ server <- function(input, output, session) {
       selected_pathways = list(
         source = sankey_node_mappings[[2]],
         target = sankey_node_mappings[[3]],
-        value =  sankey_node_mappings[[4]]
-        #color = c("#f47738", "#f47738", "#f47738", "#f47738", "#f47738", "#f47738", "#f47738")
+        value =  sankey_node_mappings[[4]],
+        color = sankey_node_mappings[[5]]
       )
     }
     
@@ -82,8 +90,8 @@ server <- function(input, output, session) {
       selected_pathways = list(
         source = sankey_node_mappings[[2]],
         target = sankey_node_mappings[[3]],
-        value =  sankey_node_mappings[[4]]
-        #color = c("#f47738", "#f47738", "#f47738", "#f47738", "#f47738", "#f47738", "#f47738")
+        value =  sankey_node_mappings[[4]],
+        color = sankey_node_mappings[[5]]
       )
     }
     
@@ -93,7 +101,7 @@ server <- function(input, output, session) {
       
       node = list(
         label = sankey_node_mappings[[1]],
-        #color = c("#f47738", "#f47738", "#f47738", "#f47738", "#1d70b8", "#1d70b8"),
+        color = get_label_node_colors(sankey_node_mappings[[1]]),
         pad = 15,
         thickness = 20,
         line = list(
