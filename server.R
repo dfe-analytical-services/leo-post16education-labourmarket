@@ -52,46 +52,73 @@ server <- function(input, output, session) {
   })
   
   output$sankey <- plotly::renderPlotly({
-    # Lift from https://plotly.com/r/sankey-diagram/#basic-sankey-diagram
+    # Adapted from https://plotly.com/r/sankey-diagram/#basic-sankey-diagram
     
-    json_file <- "https://raw.githubusercontent.com/plotly/plotly.js/master/test/image/mocks/sankey_energy.json"
-    json_data <- fromJSON(paste(readLines(json_file), collapse=""))
+    dfe_orange = 'rgba(244, 119, 56, 0.4)'
+    dfe_blue = 'rgba(29, 112, 184, 0.4)'
+    dfe_dark = 'rgba(0, 0, 0, 0.4)'
+    
+    pathways <- readr::read_csv("data/sankey-data.csv") %>% 
+    mutate(
+      path_color = case_when(
+        to == "adultFE" ~ dfe_orange,
+        to == "highereducation" ~ dfe_orange,
+        to == "not captured" ~ dfe_dark,
+        TRUE ~ dfe_blue)
+    )
+    
+    if (input$sankey_filter == "all") {
+      sankey_node_mappings <- generate_sankey_node_mappings(
+        df = pathways %>%
+          filter(group == "All")
+      )
+      
+      selected_pathways = list(
+        source = sankey_node_mappings[[2]],
+        target = sankey_node_mappings[[3]],
+        value =  sankey_node_mappings[[4]],
+        color = sankey_node_mappings[[5]]
+      )
+    }
+    
+    if (input$sankey_filter == "fsm") {
+      sankey_node_mappings <- generate_sankey_node_mappings(
+        df = pathways %>%
+          filter(group == "FSM")
+      )
+      
+      selected_pathways = list(
+        source = sankey_node_mappings[[2]],
+        target = sankey_node_mappings[[3]],
+        value =  sankey_node_mappings[[4]],
+        color = sankey_node_mappings[[5]]
+      )
+    }
     
     fig <- plot_ly(
       type = "sankey",
-      domain = list(
-        x =  c(0,1),
-        y =  c(0,1)
-      ),
       orientation = "h",
-      valueformat = ".0f",
-      valuesuffix = "TWh",
       
       node = list(
-        label = json_data$data[[1]]$node$label,
-        color = json_data$data[[1]]$node$color,
+        label = sankey_node_mappings[[1]],
+        color = get_label_node_colors(sankey_node_mappings[[1]]),
         pad = 15,
-        thickness = 15,
+        thickness = 20,
         line = list(
           color = "black",
           width = 0.5
         )
       ),
       
-      link = list(
-        source = json_data$data[[1]]$link$source,
-        target = json_data$data[[1]]$link$target,
-        value =  json_data$data[[1]]$link$value,
-        label =  json_data$data[[1]]$link$label
-      )
-    ) 
+      link = selected_pathways
+    )
     fig <- fig %>% layout(
-      title = "Energy forecast for 2050<br>Source: Department of Energy & Climate Change, Tom Counsell via <a href='https://bost.ocks.org/mike/sankey/'>Mike Bostock</a>",
+      title = "Education pathway outcomes POC",
       font = list(
         size = 10
       ),
-      xaxis = list(showgrid = F, zeroline = F),
-      yaxis = list(showgrid = F, zeroline = F)
+      plot_bgcolor = 'white',
+      paper_bgcolor = 'white'
     )
     
     fig

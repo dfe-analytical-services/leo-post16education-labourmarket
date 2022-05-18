@@ -5,6 +5,7 @@ library(shinycssloaders)
 
 # data import and manipulation
 library(dplyr)
+library(purrr)
 library(rjson)
 library(readr)
 
@@ -20,7 +21,7 @@ library(viridis)
 
 source("helpers/import_data.R", encoding = "UTF-8")
 source("helpers/components.R", encoding = "UTF-8")
-
+source("helpers/generate_sankey_nodes.R", encoding = "UTF-8")
 
 # Reading shape files - https://cengel.github.io/R-spatial/intro.html#loading-shape-files-into-r
 
