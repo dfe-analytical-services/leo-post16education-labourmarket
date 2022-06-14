@@ -19,7 +19,74 @@ server <- function(input, output, session) {
     )
   })
   
+ observeEvent(input$earn_select1, {
+  # temp <- earnings_main_categories[earnings_main_categories$types == input$category_sorter, "names(earnings)"]
+  updateSelectizeInput(session = session,
+                       inputId = "earn_subcat",
+                       choices = unique(earnings_main_categories[earnings_main_categories$types == input$earn_select1, "names"]),
+                       server = TRUE)
+   })
+  
   output$plot <- plotly::renderPlotly({
+    mpg_mean <- mean(mtcars$mpg)
+    ggplotly(
+      ggplot(
+        data = mtcars, 
+        mapping = aes(
+          x = wt, 
+          y = mpg,
+          col = factor(cyl),
+          text = row.names(mtcars)
+        )
+      ) 
+      + geom_point()
+      + geom_hline(
+        aes(
+          yintercept = mpg_mean,
+        ),
+        linetype = "dashed",
+        colour = 'black',
+        size=0.4
+      )
+      + annotate(
+        geom="text", 
+        label="Mean", 
+        x=1, 
+        y=mpg_mean + 1, 
+        vjust=-1
+      )
+      + govstyle::theme_gov()
+    ) 
+  })
+  
+  
+  # test for plotting with user input
+  #userinput1 <- "national"
+  #userinput2 <- "eth_minor"
+  # reactive(
+  #   if(input$earn_select1 == "national" && input$earn_subcat == "all"){
+  #   earningsplot <- plot_all_earnings(national_all)
+  # } else{
+  #   earningsplot <- plot_other_earnings(input$earn_select1, input$earn_subcat, earnings_data_ex_all)
+  # }
+  # )
+  # reactive(
+  #   if(input$earn_select1 == "national" && input$earn_subcat == "all"){
+  #     output$earningsplot <- plotly::renderPlotly({
+  #       plot_all_earnings(national_all)
+  #     })
+  #   } else{
+  #     output$earningsplot <- plotly::renderPlotly({
+  #       plot_other_earnings(input$earn_select1, input$earn_subcat, earnings_data_ex_all)
+  #     })
+  #   }
+  # )
+  
+  output$earningsplot <- plotly::renderPlotly({
+    plot_other_earnings(input$earn_select1, input$earn_subcat, earnings_data_ex_all)
+  })
+  
+  output$plot2 <- plotly::renderPlotly({
     mpg_mean <- mean(mtcars$mpg)
     ggplotly(
       ggplot(

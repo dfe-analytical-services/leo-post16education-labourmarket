@@ -22,7 +22,7 @@ ui <- fluidPage(
   ),
   shinyGovstyle::header(
     main_text = "DfE", 
-    secondary_text = "Attendance prediction", 
+    secondary_text = "Longitudinal Educational Outcomes (LEO) - Interactive Tool", 
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
   shiny::navlistPanel(
@@ -30,10 +30,14 @@ ui <- fluidPage(
     id = "navlistPanel",
     widths = c(2, 8),
     well = FALSE,
-    tabPanelOne(),
-    tabPanelTwo(),
-    tabPanelThree(),
-    tabPanelFour()
+    #tabPanelOne(),
+    #tabPanelTwo(),
+    #tabPanelThree(),
+    #tabPanelFour(),
+    tabPanelFive(),
+    tabPanelSix(),
+    tabPanelSeven(),
+    tabPanelEight()
   ),
   gov_layout(
     size = "full",

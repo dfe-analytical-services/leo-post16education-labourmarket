@@ -262,3 +262,197 @@ tabPanelFour <- function() {
     )
   )
 }
+tabPanelFive <- function(){
+  return(
+    shiny::tabPanel(
+      title = "Introduction",      
+      value = "panel5",
+      gov_layout(
+        size = "full",
+        heading_text("Introduction", size = "l"),
+        # label_hint(
+        #   "label3",
+        #   "Intro to what the LEO data is."
+        # ),
+        p("This interactive tool has been made to accompany the Post-16 education and labour market activities, pathways and outcomes (LEO) published report.  
+          This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors."),
+        p("You can view the published report and data tables at:"),
+        a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "LEO - Longitudinal Education Outcomes"),
+        h3("Notes:"),
+        p("insert notes here"),
+        p("notes")
+      )
+    )
+  )
+}
+tabPanelSix <- function() {
+  return(shiny::tabPanel(
+    title = "Earnings Trajectory",
+    value = "panel6",
+    gov_layout(
+      size = "full",
+      heading_text("Earnings Trajectory", size = "l"),
+      label_hint("label3",
+                 "This is an example of how LEO stuff will look like"),
+      p("Charts comparing chosen categories and their respective earnings trajetory"),
+      sidebarLayout(
+        sidebarPanel(
+          width = 3,
+          select_Input(
+            inputId = "category_sorter",
+            label = "Choose a population:",
+            select_text = c(
+              "National level",
+              "Graduate Status",
+              "Non-Graduate Status"
+            ),
+            select_value = c("national", "grads", "nongrads")
+          ),
+          
+          select_Input(
+            inputId = "subcat_sorter",
+            label = "Choose a factor:",
+            select_text = earnings_main_categories[,1],
+            select_value = earnings_main_categories[,1]
+          ),
+          
+          p("This is a section where the inputs dont use govstyle"),
+          selectInput(
+            inputId = "earn_select1",
+            label = "Choose a population: ",
+            choices = c("National level" = "national",
+                  "Graduate level" = "grads",
+                  "Non-Graduate level" = "nongrads")
+          ),
+          
+          selectizeInput(inputId = "earn_subcat",
+                         label = "Select a subcategory: ",
+                         choices = NULL,
+                         selected = NULL),
+        ),
+        mainPanel(
+          tabsetPanel(
+          type = "tabs",
+          tabPanel(title = "Display plots here",
+                   div(
+                     class = "plotly-full-screen",
+                     shinycssloaders::withSpinner(
+                       plotly::plotlyOutput(
+                         outputId = "earningsplot"
+                       ),
+                       type = 8,
+                       color = "#1D70B8",
+                       size = 0.5
+                     )
+                   ),
+                   p(
+                     "Once you have chosen the categories, the plot will appear here"
+                   )
+                   ),
+          tabPanel(title = "Table of data",
+                   p(
+                     "the table alternative to the plot goes here"
+                   ))
+        )
+      ),
+    )
+  )))
+}
+tabPanelSeven <- function(){
+  return(
+    shiny::tabPanel(
+    title = "Main Activities",
+    value = "panel7",
+    gov_layout(
+      size = "full",
+      heading_text("Main Activities", size = "l"),
+      label_hint(
+        "label7",
+        "Main activities stacked bar charts go here"
+      ),
+      p("Stacked Bar charts here to show the main activties"),
+      sidebarLayout(
+        sidebarPanel(
+          width = 3,
+          
+          pickerInput(
+            inputId = "act_all_picker", 
+            label = "Overall Activity by categories", 
+            choices = act_all_choices,
+            #choicesOpt = c("Overall, Gender, FSM, SEN, Ethnicity - Major, First Language, Ethnicity - Minor, School Type, KS4, KS4 Region, IDACI"), 
+            options = list(
+              `actions-box` = TRUE, 
+              size = 10,
+              `selected-text-format` = "count > 3"
+            ), 
+            multiple = TRUE
+          ),
+          pickerInput(
+            inputId = "grad_all_picker", 
+            label = "Activity of Graduates by categories", 
+            choices = act_grad_choices,
+            #choicesOpt = c("Overall, Gender, FSM, SEN, Ethnicity - Major, First Language, Ethnicity - Minor, School Type, KS4, KS4 Region, IDACI"), 
+            options = list(
+              `actions-box` = TRUE, 
+              size = 10,
+              `selected-text-format` = "count > 3"
+            ), 
+            multiple = TRUE
+          ),
+          pickerInput(
+            inputId = "nongrad_all_picker", 
+            label = "Activity of Non-Graduates by categories", 
+            choices = act_nongrad_choices,
+            #choicesOpt = c("Overall, Gender, FSM, SEN, Ethnicity - Major, First Language, Ethnicity - Minor, School Type, KS4, KS4 Region, IDACI"), 
+            options = list(
+              `actions-box` = TRUE, 
+              size = 10,
+              `selected-text-format` = "count > 3"
+            ), 
+            multiple = TRUE
+          )
+        ),
+        mainPanel(
+          tabsetPanel(
+            type = "tabs",
+            tabPanel(title = "Display plots here",
+                     # div(
+                     #   class = "plotly-full-screen",
+                     #   shinycssloaders::withSpinner(
+                     #     plotly::plotlyOutput(
+                     #       outputId = "plot3"
+                     #     ),
+                     #     type = 8,
+                     #     color = "#1D70B8",
+                     #     size = 0.5
+                     #   )
+                     # ),
+                     p(
+                       "Once you have chosen the categories, the plot will appear here"
+                     )),
+            tabPanel(title = "Table of data",
+                     p(
+                       "the table alternative to the plot goes here"
+                     ))
+          )
+        ),
+      )
+    )))
+}
+tabPanelEight <- function(){
+  return(
+    shiny::tabPanel(
+      title = "Accessibility",      
+      value = "panel8",
+      gov_layout(
+        size = "full",
+        #heading_text("Page 8", size = "l"),
+        label_hint(
+          "label8",
+          "Accessibility statement goes here"
+        ),
+        p("Accessibility statement")
+      )
+    )
+  )
+}
