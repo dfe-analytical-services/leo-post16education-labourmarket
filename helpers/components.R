@@ -292,9 +292,8 @@ tabPanelSix <- function() {
     gov_layout(
       size = "full",
       heading_text("Earnings Trajectory", size = "l"),
-      label_hint("label3",
-                 "This is an example of how LEO stuff will look like"),
-      p("Charts comparing chosen categories and their respective earnings trajetory"),
+      label_hint("earningslabel",
+                 paste(htmlOutput("ern_choice_txt"))),
       sidebarLayout(
         sidebarPanel(
           width = 3,
@@ -320,20 +319,32 @@ tabPanelSix <- function() {
           selectInput(
             inputId = "earn_select1",
             label = "Choose a population: ",
-            choices = c("National level" = "national",
-                  "Graduate level" = "grads",
-                  "Non-Graduate level" = "nongrads")
+            choices = c("National level" = "National",
+                  "Graduate level" = "Grads",
+                  "Non-Graduate level" = "Non-grads")
           ),
           
           selectizeInput(inputId = "earn_subcat",
-                         label = "Select a subcategory: ",
+                         label = "Select a subpopulation: ",
                          choices = NULL,
                          selected = NULL),
+          
+          checkbox_Input(
+            inputId = "comparisoncheck",
+            cb_labels = "Compare with National Average",
+            checkboxIds = "Yes",
+            label = "",
+            hint_label = NULL,
+            small = TRUE
+          ),
+          p("Download table of data as csv file."),
+          downloadButton("downloadearnings", "Download")
         ),
         mainPanel(
+          width = 9,
           tabsetPanel(
           type = "tabs",
-          tabPanel(title = "Display plots here",
+          tabPanel(title = "Earnings Trajectory - Line chart",
                    div(
                      class = "plotly-full-screen",
                      shinycssloaders::withSpinner(
@@ -344,15 +355,13 @@ tabPanelSix <- function() {
                        color = "#1D70B8",
                        size = 0.5
                      )
-                   ),
-                   p(
-                     "Once you have chosen the categories, the plot will appear here"
                    )
                    ),
           tabPanel(title = "Table of data",
-                   p(
-                     "the table alternative to the plot goes here"
-                   ))
+                   DT::dataTableOutput("table_earnings_tbl")
+                   )
+          
+          
         )
       ),
     )
@@ -367,77 +376,60 @@ tabPanelSeven <- function(){
       size = "full",
       heading_text("Main Activities", size = "l"),
       label_hint(
-        "label7",
-        "Main activities stacked bar charts go here"
+        "activitieslabel", paste(htmlOutput("act_choice_txt"))
       ),
-      p("Stacked Bar charts here to show the main activties"),
+      
+      #main_text("This is main text"),
+      #sub_text("this is sub text"),
       sidebarLayout(
         sidebarPanel(
           width = 3,
+          selectInput(
+            inputId = "activity_select1",
+            label = "Choose a population: ",
+            choices = c("National level" = "National",
+                        "Graduate level" = "Grads",
+                        "Non-Graduate level" = "Non-grads")
+          ),
           
-          pickerInput(
-            inputId = "act_all_picker", 
-            label = "Overall Activity by categories", 
-            choices = act_all_choices,
-            #choicesOpt = c("Overall, Gender, FSM, SEN, Ethnicity - Major, First Language, Ethnicity - Minor, School Type, KS4, KS4 Region, IDACI"), 
-            options = list(
-              `actions-box` = TRUE, 
-              size = 10,
-              `selected-text-format` = "count > 3"
-            ), 
-            multiple = TRUE
-          ),
-          pickerInput(
-            inputId = "grad_all_picker", 
-            label = "Activity of Graduates by categories", 
-            choices = act_grad_choices,
-            #choicesOpt = c("Overall, Gender, FSM, SEN, Ethnicity - Major, First Language, Ethnicity - Minor, School Type, KS4, KS4 Region, IDACI"), 
-            options = list(
-              `actions-box` = TRUE, 
-              size = 10,
-              `selected-text-format` = "count > 3"
-            ), 
-            multiple = TRUE
-          ),
-          pickerInput(
-            inputId = "nongrad_all_picker", 
-            label = "Activity of Non-Graduates by categories", 
-            choices = act_nongrad_choices,
-            #choicesOpt = c("Overall, Gender, FSM, SEN, Ethnicity - Major, First Language, Ethnicity - Minor, School Type, KS4, KS4 Region, IDACI"), 
-            options = list(
-              `actions-box` = TRUE, 
-              size = 10,
-              `selected-text-format` = "count > 3"
-            ), 
-            multiple = TRUE
-          )
+          selectizeInput(inputId = "activity_subcat",
+                         label = "Select a subpopulation: ",
+                         choices = NULL,
+                         selected = NULL),
+          
+          selectizeInput(inputId = "activity_subsubcat",
+                         label = "Select a characteristic: ",
+                         choices = NULL,
+                         selected = NULL),
         ),
+        
         mainPanel(
+          width = 9,
           tabsetPanel(
             type = "tabs",
-            tabPanel(title = "Display plots here",
-                     # div(
-                     #   class = "plotly-full-screen",
-                     #   shinycssloaders::withSpinner(
-                     #     plotly::plotlyOutput(
-                     #       outputId = "plot3"
-                     #     ),
-                     #     type = 8,
-                     #     color = "#1D70B8",
-                     #     size = 0.5
-                     #   )
-                     # ),
-                     p(
-                       "Once you have chosen the categories, the plot will appear here"
-                     )),
+            tabPanel(title = "Main Activities - Stacked bar chart",
+                     # useShinyjs(),
+                     # actionButton("hide", "Hide"),
+                     div(
+                       class = "plotly-full-screen",
+                       shinycssloaders::withSpinner(
+                         plotly::plotlyOutput(
+                           outputId = "activitiesplot"
+                         ),
+                         type = 8,
+                         color = "#1D70B8",
+                         size = 0.5
+                       )
+                     )
+                     ),
             tabPanel(title = "Table of data",
-                     p(
-                       "the table alternative to the plot goes here"
-                     ))
+                     DT::dataTableOutput("table_activities_tbl")
+            )
           )
         ),
       )
-    )))
+    )
+    ))
 }
 tabPanelEight <- function(){
   return(

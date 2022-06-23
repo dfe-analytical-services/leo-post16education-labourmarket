@@ -3,6 +3,7 @@ library(shiny)
 library(shinyGovstyle)
 library(shinycssloaders)
 library(shinyWidgets)
+library(shinyjs)
 
 # data import and manipulation
 library(dplyr)
@@ -14,6 +15,7 @@ library(readxl)
 # visuals
 library(plotly)
 library(ggplot2)
+library(DT)
 
 # geo-spatial data and mapping
 library(sf)
@@ -24,6 +26,14 @@ library(viridis)
 source("helpers/import_data.R", encoding = "UTF-8")
 source("helpers/components.R", encoding = "UTF-8")
 # source("helpers/generate_sankey_nodes.R", encoding = "UTF-8")
+
+# DfE colours
+# All of the colours havE been take from this link: https://govuk-elements.herokuapp.com/colour/#colour-extended-palette
+Dfe_colours <- c("#12436D","#F46A25", "#801650", "#28A197", "#505A5F", "#85994B", "#1D70B8", "#912B88", "#F499BE",
+                 "#B58840", "#0B0C0C", "#6F72AF", "#D53880", "#00703C", "#FFDD00", "#D4351C")
+
+#"#1D70B8","#F47738","#912B88","#28A197","#D53880" 
+
 # 
 # # Reading shape files - https://cengel.github.io/R-spatial/intro.html#loading-shape-files-into-r
 # 
@@ -48,30 +58,98 @@ source("helpers/components.R", encoding = "UTF-8")
 
 # Plotting functions -----------------------------------------------------------
 
-# Plotting national average earnings
-plot_all_earnings <- function(data){ # data here should be national_all
-  p_all <- ggplot(data, aes(years_after_KS4, average))+
-    geom_line()+
-    ylab("Average Earnings (£)")+
-    xlab("Years after KS4")
-  plotly::ggplotly(p_all , res = 1200) %>%
-    layout(hovermode = "x unified", autosize = T) %>%
-    config(displayModeBar = TRUE)
-}
+# Plotting other average earnings 
 
-# Plotting other average earnings
-
-plot_other_earnings <- function(input1, input2, alldata){
-  temp <- alldata %>%
+plot_earnings <- function(input1, input2){
+  temp <- earnings_data_all %>%
     filter(col1 == input1, col2 == input2)
   
-  p_other <- ggplot(temp, aes(years_after_KS4, average, color = subgroup))+
+  p_earnings <- ggplot(temp, aes(`Years after KS4`, `Average Earnings`, color = Subpopulation, linetype = Subpopulation))+
     geom_line()+
     ylab("Average Earnings (£)")+
-    xlab("Years after KS4")
+    xlab("Years after KS4")+
+    scale_color_manual(values= Dfe_colours) +
+    govstyle::theme_gov() 
+    
   
-  plotly::ggplotly(p_other , res = 1200) %>%
-    layout(hovermode = "x unified", autosize = T) %>%
+  plotly::ggplotly(p_earnings , res = 1200, mode = "lines") %>%
+    layout(hovermode = "x unified", autosize = T, showlegend = TRUE) %>%
     config(displayModeBar = TRUE)
 }
+
+table_earnings <- function(input1, input2){
+  temp <- earnings_data_all %>%
+    filter(col1 == input1, col2 == input2) %>%
+    select(`Years after KS4`, `Average Earnings`, Subpopulation)
+  temp
+}
+
+# ---- National average comparison ---------------------------------------------
+plot_earnings_comparison <- function(input1, input2){
+  temp <- earnings_data_all %>%
+    filter(col1 == input1, col2 == input2)
+  
+  p_earnings2 <- ggplot(temp, aes(`Years after KS4`, `Average Earnings`, color = Subpopulation, linetype = Subpopulation))+
+    geom_line()+
+    ylab("Average Earnings (£)")+
+    xlab("Years after KS4")+
+    scale_color_manual(values= Dfe_colours) +
+    govstyle::theme_gov() 
+  
+  p_earnings2 <- p_earnings2 + geom_line(data = national_earnings, aes(x = `Years after KS4`, y = `Average Earnings`))
+  
+  plotly::ggplotly(p_earnings2 , res = 1200, mode = "lines") %>%
+    layout(hovermode = "x unified", autosize = T, showlegend = TRUE) %>%
+    config(displayModeBar = TRUE)
+}
+
+table_earnings_comparison <- function (input1, input2){
+  temp <- earnings_data_all %>%
+    filter(col1 == input1, col2 == input2) %>%
+    select(`Years after KS4`, `Average Earnings`, Subpopulation) %>%
+    rbind(national_earnings) %>%
+    distinct()
+  temp
+}
+
+#table_earnings_comparison("National", "All")
+# Plotting Main activities stacked bar charts 
+
+plot_activities <- function (input1, input2, input3){
+  temp <- activities_data_all %>%
+    filter(col1 == input1, col2 == input2, Subpopulation == input3)
+  
+  p_activities <- ggplot(temp, aes(`Years after KS4`, Percentage, fill = Activity, group = Subpopulation)) +
+    geom_bar(position = 'stack', stat = 'identity')+
+    ylab("Percentage (%)")+
+    xlab("Years after KS4")+
+    scale_fill_manual(values= Dfe_colours) +
+    govstyle::theme_gov()
+  
+  plotly::ggplotly(p_activities , res = 1200, mode = "bar") %>%
+    layout(autosize = T, showlegend = TRUE, barmode = "stack", title = list(text = paste0(input1, " - ", input3),y = 0.95, x = 0.1, xanchor = 'Right', yanchor =  'top')) %>%
+    config(displayModeBar = TRUE)
+}
+
+
+table_activities <- function(input1, input2, input3){
+  temp <- activities_data_all %>%
+    filter(col1 == input1, col2 == input2, Subpopulation == input3) %>%
+    select(`Years after KS4`, `Activity`, Subpopulation)
+  temp
+}
+
+
+
+
+#plot_activities("national", "Gender", activities_data_all)
+# table_earnings("national", "Gender")
+
+# test1 <- "national"
+# test2 <- "Gender"
+# activities_data_all %>%
+#   filter(col1 == test1, col2 == test2) %>%
+#   distinct(Subpopulation)
+# 
+# unique(activities_data_all[activities_data_all$col1 == test1 & activities_data_all$col2 == test2, "Subpopulation"])
 

@@ -11,185 +11,236 @@
 server <- function(input, output, session) {
   sayHello()
   
-  observeEvent(input$btn1, {
-    updateNavlistPanel(
-      session,
-      "navlistPanel",
-      selected = "panel2"
-    )
-  })
+  # observeEvent(input$btn1, {
+  #   updateNavlistPanel(
+  #     session,
+  #     "navlistPanel",
+  #     selected = "panel2"
+  #   )
+  # })
   
+# ---- Earnings Trajectory Page ------------------------------------------------
+  
+  # Second user input asking for the subpopulation, changes depending on the first population input 
  observeEvent(input$earn_select1, {
-  # temp <- earnings_main_categories[earnings_main_categories$types == input$category_sorter, "names(earnings)"]
   updateSelectizeInput(session = session,
                        inputId = "earn_subcat",
                        choices = unique(earnings_main_categories[earnings_main_categories$types == input$earn_select1, "names"]),
                        server = TRUE)
    })
   
-  output$plot <- plotly::renderPlotly({
-    mpg_mean <- mean(mtcars$mpg)
-    ggplotly(
-      ggplot(
-        data = mtcars, 
-        mapping = aes(
-          x = wt, 
-          y = mpg,
-          col = factor(cyl),
-          text = row.names(mtcars)
+  # Output to display and confirm the choices of the user.
+    output$ern_choice_txt <- renderText({ 
+    paste("You have selected to see the", tags$b(input$earn_select1),"population, subpopulation of ", tags$b(input$earn_subcat), ".")
+  })
+    
+  # Observe event looking at the population, subpopulation and comparison checkbox,
+  # Looks to see if the box is checked. If box is not checked (null), then the plot without the national average line is plotted.
+  # If it is checked, plot choices including the national average line.
+  observeEvent(eventExpr = {
+    input$comparisoncheck
+    input$earn_select1
+    input$earn_subcat},
+    {
+      if(is.null(input$comparisoncheck)){
+        
+        output$earningsplot <- plotly::renderPlotly({
+          plot_earnings(input$earn_select1, input$earn_subcat)
+        })
+        
+        # Displays the data plotted as a table.
+        output$table_earnings_tbl <- DT ::renderDataTable(
+          DT::datatable(table_earnings(input$earn_select1, input$earn_subcat),
+                        options = list(dom = 'ftp',
+                                       pageLength = 10))
         )
-      ) 
-      + geom_point()
-      + geom_hline(
-        aes(
-          yintercept = mpg_mean,
-        ),
-        linetype = "dashed",
-        colour = 'black',
-        size=0.4
+      }else{
+        output$earningsplot <- plotly::renderPlotly({
+          plot_earnings_comparison(input$earn_select1, input$earn_subcat)
+        })
+        
+        output$table_earnings_tbl <- DT ::renderDataTable(
+          DT::datatable(table_earnings_comparison(input$earn_select1, input$earn_subcat),
+                        options = list(dom = 'ftp',
+                                       pageLength = 10)))
+      }
+    })
+  
+
+  
+  #Download button
+  observeEvent(eventExpr = {
+    input$earn_select1
+    input$earn_subcat
+    input$comparisoncheck},
+    if(is.null(input$comparisoncheck)){
+      
+      output$downloadearnings <- downloadHandler(
+        filename = function() {
+          paste("Earnings_Trajectory",input$earn_select1,input$earn_subcat,".csv", sep = "_")
+        },
+        content = function(file) {
+          write.csv(table_earnings(input$earn_select1, input$earn_subcat), file, row.names = FALSE)
+        }
       )
-      + annotate(
-        geom="text", 
-        label="Mean", 
-        x=1, 
-        y=mpg_mean + 1, 
-        vjust=-1
+    }else{
+      output$downloadearnings <- downloadHandler(
+        filename = function() {
+          paste("Earnings_Trajectory",input$earn_select1,input$earn_subcat,"ave_comparison.csv", sep = "_")
+        },
+        content = function(file) {
+          write.csv(table_earnings(input$earn_select1, input$earn_subcat), file, row.names = FALSE)
+        }
       )
-      + govstyle::theme_gov()
-    ) 
+    }
+)
+
+  
+  #output$value <- renderPrint({ input$comparisoncheck })
+ 
+  
+# ---- Main Activity Page ------------------------------------------------------  
+  
+  # Second input that responds to the first population choice
+ observeEvent(input$activity_select1,{
+   updateSelectizeInput(session = session,
+                        inputId = "activity_subcat",
+                        choices = unique(activities_main_categories[activities_main_categories$types == input$activity_select1, "names"]),
+                        server = TRUE)
+ })
+ 
+  # Another observe event that responds to the first and second choices, giving users ability to choose specific characteristics to view
+ observeEvent(eventExpr = {
+   input$activity_select1 
+   input$activity_subcat},
+   {
+   updateSelectizeInput(session = session,
+                        inputId = "activity_subsubcat",
+                        choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 & activities_data_all$col2 == input$activity_subcat, "Subpopulation"]),
+                        server = TRUE)
+ })
+ 
+ # Output to display and confirm the choices of the user.
+ output$act_choice_txt <- renderText({ 
+   paste("You have selected to see the", tags$b(input$activity_select1),"population, subpopulation of ", tags$b(input$activity_subcat)," and specific characteristic of ", tags$b(input$activity_subsubcat), ".")
+ })
+ 
+ 
+  # This then plots it
+  output$activitiesplot <- plotly::renderPlotly({
+    plot_activities(input$activity_select1, input$activity_subcat, input$activity_subsubcat)
   })
   
+  # This produces a table alternative of the data
+  output$table_activities_tbl <- DT ::renderDataTable(
+    DT::datatable(table_activities(input$activity_select1, input$activity_subcat, input$activity_subsubcat), options = list(dom = 'ftp', pageLength = 10))
+  )
   
-  # test for plotting with user input
-  #userinput1 <- "national"
-  #userinput2 <- "eth_minor"
-  # reactive(
-  #   if(input$earn_select1 == "national" && input$earn_subcat == "all"){
-  #   earningsplot <- plot_all_earnings(national_all)
-  # } else{
-  #   earningsplot <- plot_other_earnings(input$earn_select1, input$earn_subcat, earnings_data_ex_all)
-  # }
-  # )
-  # reactive(
-  #   if(input$earn_select1 == "national" && input$earn_subcat == "all"){
-  #     output$earningsplot <- plotly::renderPlotly({
-  #       plot_all_earnings(national_all)
-  #     })
-  #   } else{
-  #     output$earningsplot <- plotly::renderPlotly({
-  #       plot_other_earnings(input$earn_select1, input$earn_subcat, earnings_data_ex_all)
-  #     })
+#------ COmmented out -----------------------------------------------------------
+  # output$plot2 <- plotly::renderPlotly({
+  #   mpg_mean <- mean(mtcars$mpg)
+  #   ggplotly(
+  #     ggplot(
+  #       data = mtcars, 
+  #       mapping = aes(
+  #         x = wt, 
+  #         y = mpg,
+  #         col = factor(cyl),
+  #         text = row.names(mtcars)
+  #       )
+  #     ) 
+  #     + geom_point()
+  #     + geom_hline(
+  #       aes(
+  #         yintercept = mpg_mean,
+  #       ),
+  #       linetype = "dashed",
+  #       colour = 'black',
+  #       size=0.4
+  #     )
+  #     + annotate(
+  #       geom="text", 
+  #       label="Mean", 
+  #       x=1, 
+  #       y=mpg_mean + 1, 
+  #       vjust=-1
+  #     )
+  #     + govstyle::theme_gov()
+  #   ) 
+  # })
+  # 
+  # output$sankey <- plotly::renderPlotly({
+  #   # Adapted from https://plotly.com/r/sankey-diagram/#basic-sankey-diagram
+  #   
+  #   dfe_orange = 'rgba(244, 119, 56, 0.4)'
+  #   dfe_blue = 'rgba(29, 112, 184, 0.4)'
+  #   dfe_dark = 'rgba(0, 0, 0, 0.4)'
+  #   
+  #   pathways <- readr::read_csv("data/sankey-data.csv") %>% 
+  #   mutate(
+  #     path_color = case_when(
+  #       to == "adultFE" ~ dfe_orange,
+  #       to == "highereducation" ~ dfe_orange,
+  #       to == "not captured" ~ dfe_dark,
+  #       TRUE ~ dfe_blue)
+  #   )
+  #   
+  #   if (input$sankey_filter == "all") {
+  #     sankey_node_mappings <- generate_sankey_node_mappings(
+  #       df = pathways %>%
+  #         filter(group == "All")
+  #     )
+  #     
+  #     selected_pathways = list(
+  #       source = sankey_node_mappings[[2]],
+  #       target = sankey_node_mappings[[3]],
+  #       value =  sankey_node_mappings[[4]],
+  #       color = sankey_node_mappings[[5]]
+  #     )
   #   }
-  # )
-  
-  output$earningsplot <- plotly::renderPlotly({
-    plot_other_earnings(input$earn_select1, input$earn_subcat, earnings_data_ex_all)
-  })
-  
-  output$plot2 <- plotly::renderPlotly({
-    mpg_mean <- mean(mtcars$mpg)
-    ggplotly(
-      ggplot(
-        data = mtcars, 
-        mapping = aes(
-          x = wt, 
-          y = mpg,
-          col = factor(cyl),
-          text = row.names(mtcars)
-        )
-      ) 
-      + geom_point()
-      + geom_hline(
-        aes(
-          yintercept = mpg_mean,
-        ),
-        linetype = "dashed",
-        colour = 'black',
-        size=0.4
-      )
-      + annotate(
-        geom="text", 
-        label="Mean", 
-        x=1, 
-        y=mpg_mean + 1, 
-        vjust=-1
-      )
-      + govstyle::theme_gov()
-    ) 
-  })
-  
-  output$sankey <- plotly::renderPlotly({
-    # Adapted from https://plotly.com/r/sankey-diagram/#basic-sankey-diagram
-    
-    dfe_orange = 'rgba(244, 119, 56, 0.4)'
-    dfe_blue = 'rgba(29, 112, 184, 0.4)'
-    dfe_dark = 'rgba(0, 0, 0, 0.4)'
-    
-    pathways <- readr::read_csv("data/sankey-data.csv") %>% 
-    mutate(
-      path_color = case_when(
-        to == "adultFE" ~ dfe_orange,
-        to == "highereducation" ~ dfe_orange,
-        to == "not captured" ~ dfe_dark,
-        TRUE ~ dfe_blue)
-    )
-    
-    if (input$sankey_filter == "all") {
-      sankey_node_mappings <- generate_sankey_node_mappings(
-        df = pathways %>%
-          filter(group == "All")
-      )
-      
-      selected_pathways = list(
-        source = sankey_node_mappings[[2]],
-        target = sankey_node_mappings[[3]],
-        value =  sankey_node_mappings[[4]],
-        color = sankey_node_mappings[[5]]
-      )
-    }
-    
-    if (input$sankey_filter == "fsm") {
-      sankey_node_mappings <- generate_sankey_node_mappings(
-        df = pathways %>%
-          filter(group == "FSM")
-      )
-      
-      selected_pathways = list(
-        source = sankey_node_mappings[[2]],
-        target = sankey_node_mappings[[3]],
-        value =  sankey_node_mappings[[4]],
-        color = sankey_node_mappings[[5]]
-      )
-    }
-    
-    fig <- plot_ly(
-      type = "sankey",
-      orientation = "h",
-      
-      node = list(
-        label = sankey_node_mappings[[1]],
-        color = get_label_node_colors(sankey_node_mappings[[1]]),
-        pad = 15,
-        thickness = 20,
-        line = list(
-          color = "black",
-          width = 0.5
-        )
-      ),
-      
-      link = selected_pathways
-    )
-    fig <- fig %>% layout(
-      title = "Education pathway outcomes POC",
-      font = list(
-        size = 10
-      ),
-      plot_bgcolor = 'white',
-      paper_bgcolor = 'white'
-    )
-    
-    fig
-  })
+  #   
+  #   if (input$sankey_filter == "fsm") {
+  #     sankey_node_mappings <- generate_sankey_node_mappings(
+  #       df = pathways %>%
+  #         filter(group == "FSM")
+  #     )
+  #     
+  #     selected_pathways = list(
+  #       source = sankey_node_mappings[[2]],
+  #       target = sankey_node_mappings[[3]],
+  #       value =  sankey_node_mappings[[4]],
+  #       color = sankey_node_mappings[[5]]
+  #     )
+  #   }
+  #   
+  #   fig <- plot_ly(
+  #     type = "sankey",
+  #     orientation = "h",
+  #     
+  #     node = list(
+  #       label = sankey_node_mappings[[1]],
+  #       color = get_label_node_colors(sankey_node_mappings[[1]]),
+  #       pad = 15,
+  #       thickness = 20,
+  #       line = list(
+  #         color = "black",
+  #         width = 0.5
+  #       )
+  #     ),
+  #     
+  #     link = selected_pathways
+  #   )
+  #   fig <- fig %>% layout(
+  #     title = "Education pathway outcomes POC",
+  #     font = list(
+  #       size = 10
+  #     ),
+  #     plot_bgcolor = 'white',
+  #     paper_bgcolor = 'white'
+  #   )
+  #   
+  #   fig
+  # })
   
   # Mapping code adapted from https://rstudio.github.io/leaflet/choropleths.html
   # For guidance on colour palettes see: 
@@ -251,4 +302,5 @@ server <- function(input, output, session) {
   #       position = "topright"
   #     )
   # })
+  
 }
