@@ -72,7 +72,7 @@ plot_earnings <- function(input1, input2){
     govstyle::theme_gov() 
     
   
-  plotly::ggplotly(p_earnings , res = 1200, mode = "lines") %>%
+  plotly::ggplotly(p_earnings ,res = 1200, mode = "lines", tooltip = c("Years after KS4", "Average Earnings", "linetype")) %>%
     layout(hovermode = "x unified", autosize = T, showlegend = TRUE) %>%
     config(displayModeBar = TRUE)
 }
@@ -98,10 +98,12 @@ plot_earnings_comparison <- function(input1, input2){
   
   p_earnings2 <- p_earnings2 + geom_line(data = national_earnings, aes(x = `Years after KS4`, y = `Average Earnings`))
   
-  plotly::ggplotly(p_earnings2 , res = 1200, mode = "lines") %>%
+  plotly::ggplotly(p_earnings2 , res = 1200, mode = "lines", tooltip = c("Years after KS4", "Average Earnings", "linetype")) %>%
     layout(hovermode = "x unified", autosize = T, showlegend = TRUE) %>%
     config(displayModeBar = TRUE)
 }
+
+plot_earnings_comparison("National", "Gender")
 
 table_earnings_comparison <- function (input1, input2){
   temp <- earnings_data_all %>%
@@ -113,11 +115,14 @@ table_earnings_comparison <- function (input1, input2){
 }
 
 #table_earnings_comparison("National", "All")
-# Plotting Main activities stacked bar charts 
+
+#---- Plotting Main activities stacked bar charts -----------------------------------
 
 plot_activities <- function (input1, input2, input3){
   temp <- activities_data_all %>%
-    filter(col1 == input1, col2 == input2, Subpopulation == input3)
+    filter(col1 == input1, col2 == input2, Subpopulation %in% input3)
+  
+  temp$Activity <- factor(temp$Activity, levels = c("KS5","Other Education", "Adult FE", "Higher education", "Employment", "Out of work benefits", "No sustained activity", "Activity not captured"))
   
   p_activities <- ggplot(temp, aes(`Years after KS4`, Percentage, fill = Activity, group = Subpopulation)) +
     geom_bar(position = 'stack', stat = 'identity')+
@@ -127,29 +132,54 @@ plot_activities <- function (input1, input2, input3){
     govstyle::theme_gov()
   
   plotly::ggplotly(p_activities , res = 1200, mode = "bar") %>%
-    layout(autosize = T, showlegend = TRUE, barmode = "stack", title = list(text = paste0(input1, " - ", input3),y = 0.95, x = 0.1, xanchor = 'Right', yanchor =  'top')) %>%
+    layout(autosize = T, showlegend = TRUE, barmode = "stack", title = list(text = paste0(input1, " - ", input3),y = 0.95, x = 0.1, xanchor = 'Right', yanchor =  'top'), legend=list(traceorder = "normal")) %>%
     config(displayModeBar = TRUE)
 }
+
+testinput3 <- c("Female", "Male")
+temp <- activities_data_all %>%
+  filter(col1 == "National", col2 == "Gender", Subpopulation %in% testinput3) %>%
+  select(`Years after KS4`, `Activity`, Subpopulation)
+# 
+# p_activities<- ggplot(temp %>% select(`Years after KS4`, Percentage, Subpopulation, Activity), aes(`Years after KS4`, Percentage, fill = Activity, group = Subpopulation)) +
+#   geom_bar(position = 'stack', stat = 'identity')+
+#   ylab("Percentage (%)")+
+#   xlab("Years after KS4")+
+#   scale_fill_manual(values= Dfe_colours) +
+#   #scale_x_discrete(limits=c("KS5", "Adult FE", "Other Education", "Higher Education", "Employment", "Out of work benefits", "No sustained activity", "Activity not captured")) +
+#   govstyle::theme_gov()
+# 
+# plotly::ggplotly(p_activities , res = 1200, mode = "bar") %>%
+#   layout(autosize = T, showlegend = TRUE, barmode = "stack", legend=list(traceorder = "normal")) %>%
+#   config(displayModeBar = TRUE)
+# 
+# 
+# fig <- plot_ly(temp %>% group_by(Subpopulation), x = ~`Years after KS4`, y = ~Percentage, type = 'bar', name = temp$Activity)
+# fig <- fig %>% layout(yaxis = list(title = 'Count'), barmode = 'stack', legend = list(traceorder = "normal")) 
+# 
+# fig
 
 
 table_activities <- function(input1, input2, input3){
   temp <- activities_data_all %>%
-    filter(col1 == input1, col2 == input2, Subpopulation == input3) %>%
+    filter(col1 == input1, col2 == input2, Subpopulation %in% input3) %>%
     select(`Years after KS4`, `Activity`, Subpopulation)
   temp
 }
 
-
+#table_activities("National", "Gender", testinput3)
 
 
 #plot_activities("national", "Gender", activities_data_all)
 # table_earnings("national", "Gender")
 
-# test1 <- "national"
-# test2 <- "Gender"
-# activities_data_all %>%
-#   filter(col1 == test1, col2 == test2) %>%
-#   distinct(Subpopulation)
-# 
+# test1 <- "National"
+# test2 <- "Ethnicity Major"
+# test3 <- c("Mixed", "White", "Asian")
+# test <- activities_data_all %>%
+#   filter(col1 == "National", col2 == "Ethnicity Major", Subpopulation %in% test3)
+# length(test3)
+# test
+
 # unique(activities_data_all[activities_data_all$col1 == test1 & activities_data_all$col2 == test2, "Subpopulation"])
 

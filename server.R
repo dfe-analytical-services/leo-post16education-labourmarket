@@ -31,7 +31,7 @@ server <- function(input, output, session) {
   
   # Output to display and confirm the choices of the user.
     output$ern_choice_txt <- renderText({ 
-    paste("You have selected to see the", tags$b(input$earn_select1),"population, subpopulation of ", tags$b(input$earn_subcat), ".")
+    paste("You have selected to see the", tags$b(input$earn_select1),"population, subpopulation of ", tags$b(input$earn_subcat),".")
   })
     
   # Observe event looking at the population, subpopulation and comparison checkbox,
@@ -108,34 +108,67 @@ server <- function(input, output, session) {
                         choices = unique(activities_main_categories[activities_main_categories$types == input$activity_select1, "names"]),
                         server = TRUE)
  })
- 
+ # 
   # Another observe event that responds to the first and second choices, giving users ability to choose specific characteristics to view
- observeEvent(eventExpr = {
-   input$activity_select1 
-   input$activity_subcat},
-   {
-   updateSelectizeInput(session = session,
-                        inputId = "activity_subsubcat",
-                        choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 & activities_data_all$col2 == input$activity_subcat, "Subpopulation"]),
-                        server = TRUE)
- })
+  observeEvent(eventExpr = {
+    input$activity_select1
+    input$activity_subcat},
+    {
+      # updateSelectizeInput(session = session,
+      #                      inputId = "activity_subsubcat",
+      #                      choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 & activities_data_all$col2 == input$activity_subcat, "Subpopulation"]),
+      #                      server = TRUE)
+      
+      updatePickerInput(
+        session = session,
+        inputId = "picker1",
+        label = NULL,
+        selected = NULL,
+        choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 & activities_data_all$col2 == input$activity_subcat, "Subpopulation"]),
+        choicesOpt = NULL,
+        options = NULL,
+        clearOptions = TRUE
+      )
+    })
+  
+  observeEvent(input$picker1,{
+    out = list()
+    if(is.null(input$picker1)){
+      output$activitiesplot <- renderText("Pick something")
+    }else{
+      output$activitiesplot <- plotly::renderPlotly({
+        plot_activities(input$activity_select1, input$activity_subcat, input$picker1)
+      })
+    }
+  })
  
  # Output to display and confirm the choices of the user.
- output$act_choice_txt <- renderText({ 
-   paste("You have selected to see the", tags$b(input$activity_select1),"population, subpopulation of ", tags$b(input$activity_subcat)," and specific characteristic of ", tags$b(input$activity_subsubcat), ".")
+ output$act_choice_txt <- renderText({
+   paste("You have selected to see the", tags$b(input$activity_select1),"population, subpopulation of ", tags$b(input$activity_subcat)," and specific characteristic of ", tags$b(input$picker1), ".")
  })
  
  
   # This then plots it
-  output$activitiesplot <- plotly::renderPlotly({
-    plot_activities(input$activity_select1, input$activity_subcat, input$activity_subsubcat)
-  })
-  
+  # output$activitiesplot <- plotly::renderPlotly({
+  #   plot_activities(input$activity_select1, input$activity_subcat, input$activity_subsubcat)
+  # })
+  # 
   # This produces a table alternative of the data
   output$table_activities_tbl <- DT ::renderDataTable(
-    DT::datatable(table_activities(input$activity_select1, input$activity_subcat, input$activity_subsubcat), options = list(dom = 'ftp', pageLength = 10))
+    DT::datatable(table_activities(input$activity_select1, input$activity_subcat, input$picker1), options = list(dom = 'ftp', pageLength = 10))
   )
   
+  #Download Handler
+  output$downloadtrajectories <- downloadHandler(
+    filename = function() {
+      paste("Main_activities",input$activity_select1,input$activity_subcat,input$activity_subsubcat,".csv", sep = "_")
+    },
+    content = function(file) {
+      write.csv(table_activities(input$activity_select1, input$activity_subcat, input$activity_subsubcat), file, row.names = FALSE)
+    }
+  )
+  
+
 #------ COmmented out -----------------------------------------------------------
   # output$plot2 <- plotly::renderPlotly({
   #   mpg_mean <- mean(mtcars$mpg)

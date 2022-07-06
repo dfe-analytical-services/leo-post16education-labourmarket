@@ -278,13 +278,45 @@ tabPanelFive <- function(){
           This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors."),
         p("You can view the published report and data tables at:"),
         a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "LEO - Longitudinal Education Outcomes"),
-        h3("Notes:"),
-        p("insert notes here"),
-        p("notes")
+        h3("Details:"),
+        p("This research uses Longitudinal Education Outcomes (LEO) data to carry out analysis of over 3.6 million individuals doing their GCSEs between 2002 and 2007."),
+        p("The analysis makes comparisons using the following background ‘characteristics’:"),
+        tags$ul(
+          tags$li("free school meals (FSM) eligibility"),
+          tags$li("special educational needs (SEN) status"),
+          tags$li("gender"),
+          tags$li("ethnicity"),
+          tags$li("first language"),
+          tags$li("key stage 4 attainment"),
+          tags$li("school type"),
+          tags$li("region")
+        ),
+        p("It also observes how these differ for different education levels, doing comparisons of:"),
+        tags$ul(
+          tags$li("graduate and non-graduates"),
+          tags$li("level 3 or above and level 2 or below")
+        ),
+        insert_text(inputId = "intronotes",
+                    text = paste(tags$b("Notes: "), "<br>", "insert notes here")),
+        details(
+          inputId = "plotuserguide",
+          label = "Interactive Plots User Guide:",
+          help_text = (
+            tags$ul(
+              tags$li("Hover over lines/bars in the plot to see specific values."), 
+              tags$li("The bar along the top of the plots contains extra interactive features such as download as PNG and/or resize plot and zoom."),
+              tags$br(),
+              tags$b("Using the Key:"),
+              tags$li("Double clicking a line/value in the key will isolate the value in the plot."),
+              tags$li("Double clicking the same value again will restore the original plot"),
+              tags$li("Single clicking a line/value in the key will remove that line/value from the plot"))
+            )
+        )
       )
     )
   )
 }
+
 tabPanelSix <- function() {
   return(shiny::tabPanel(
     title = "Earnings Trajectory",
@@ -297,25 +329,25 @@ tabPanelSix <- function() {
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          select_Input(
-            inputId = "category_sorter",
-            label = "Choose a population:",
-            select_text = c(
-              "National level",
-              "Graduate Status",
-              "Non-Graduate Status"
-            ),
-            select_value = c("national", "grads", "nongrads")
-          ),
+          # select_Input(
+          #   inputId = "category_sorter",
+          #   label = "Choose a population:",
+          #   select_text = c(
+          #     "National level",
+          #     "Graduate Status",
+          #     "Non-Graduate Status"
+          #   ),
+          #   select_value = c("national", "grads", "nongrads")
+          # ),
+          # 
+          # select_Input(
+          #   inputId = "subcat_sorter",
+          #   label = "Choose a factor:",
+          #   select_text = earnings_main_categories[,1],
+          #   select_value = earnings_main_categories[,1]
+          # ),
           
-          select_Input(
-            inputId = "subcat_sorter",
-            label = "Choose a factor:",
-            select_text = earnings_main_categories[,1],
-            select_value = earnings_main_categories[,1]
-          ),
-          
-          p("This is a section where the inputs dont use govstyle"),
+          #p("This is a section where the inputs dont use govstyle"),
           selectInput(
             inputId = "earn_select1",
             label = "Choose a population: ",
@@ -337,6 +369,8 @@ tabPanelSix <- function() {
             hint_label = NULL,
             small = TRUE
           ),
+      #    checkboxInput("compcheck2", "Compare with National Average", value = TRUE, width = NULL),
+          
           p("Download table of data as csv file."),
           downloadButton("downloadearnings", "Download")
         ),
@@ -375,61 +409,148 @@ tabPanelSeven <- function(){
     gov_layout(
       size = "full",
       heading_text("Main Activities", size = "l"),
-      label_hint(
-        "activitieslabel", paste(htmlOutput("act_choice_txt"))
+      fluidRow(
+        column(width = 3,
+               selectInput(
+                 inputId = "activity_select1",
+                 label = "Choose a population: ",
+                 choices = c("National level" = "National",
+                             "Graduate level" = "Grads",
+                             "Non-Graduate level" = "Non-grads")
+               )
+               ),
+        column(width = 3,
+               selectizeInput(inputId = "activity_subcat",
+                              label = "Select a subpopulation: ",
+                              choices = NULL,
+                              selected = NULL)
+        ),
+        # column(width = 3,
+        #        selectizeInput(inputId = "activity_subsubcat",
+        #                       label = "Select a characteristic: ",
+        #                       choices = NULL,
+        #                       selected = NULL)
+        # ),
+        column(width = 3,
+               pickerInput(inputId = "picker1",
+                           label = "Choose a characteristic:",
+                           choices = NULL,
+                           selected = NULL,
+                           multiple = TRUE,
+                           options = list(),
+                           choicesOpt = NULL,
+                           width = "auto",
+                           inline = FALSE
+               )
+         ),
+        # p(htmlOutput("value")),
+        # label_hint(
+        #   "activitieslabel", paste(htmlOutput("act_choice_txt"))
+        # ),
+        column(width =3,
+               p("Download data"),
+               downloadButton("downloadtrajectories", "Download data as csv file"))
+      ),
+      fluidRow(
+        label_hint(
+          "activitieslabel", paste(htmlOutput("act_choice_txt"))
+        )
+      ),
+      
+      fluidRow(
+        warning_text(inputId = "roundingwarn", text = "Due to the nature of rounding, the percentage breakdowns do not always sum to 100%.")
+      ),
+      
+      fluidRow(
+        tabsetPanel(
+        type = "tabs",
+        tabPanel(title = "Main Activities - Stacked bar chart",
+                 # useShinyjs(),
+                 # actionButton("hide", "Hide"),
+                 div(
+                   class = "plotly-full-screen",
+                   shinycssloaders::withSpinner(
+                     plotly::plotlyOutput(
+                       outputId = "activitiesplot"
+                     ),
+                     type = 8,
+                     color = "#1D70B8",
+                     size = 0.5
+                   )
+                 )
+        ),
+        tabPanel(title = "Table of data",
+                 DT::dataTableOutput("table_activities_tbl")
+        )
+      )
       ),
       
       #main_text("This is main text"),
       #sub_text("this is sub text"),
-      sidebarLayout(
-        sidebarPanel(
-          width = 3,
-          selectInput(
-            inputId = "activity_select1",
-            label = "Choose a population: ",
-            choices = c("National level" = "National",
-                        "Graduate level" = "Grads",
-                        "Non-Graduate level" = "Non-grads")
-          ),
+      # sidebarLayout(
+      #   sidebarPanel(
+      #     width = 3,
+          # selectInput(
+          #   inputId = "activity_select1",
+          #   label = "Choose a population: ",
+          #   choices = c("National level" = "National",
+          #               "Graduate level" = "Grads",
+          #               "Non-Graduate level" = "Non-grads")
+          # ),
+          # 
+          # selectizeInput(inputId = "activity_subcat",
+          #                label = "Select a subpopulation: ",
+          #                choices = NULL,
+          #                selected = NULL),
+          # 
+          # selectizeInput(inputId = "activity_subsubcat",
+          #                label = "Select a characteristic: ",
+          #                choices = NULL,
+          #                selected = NULL),
+          # 
+          # pickerInput(inputId = "picker1",
+          #             label = "Choose a characteristic",
+          #             choices = NULL,
+          #             selected = NULL,
+          #             multiple = TRUE,
+          #             options = list(),
+          #             choicesOpt = NULL,
+          #             width = "auto",
+          #             inline = FALSE
+          # ),
           
-          selectizeInput(inputId = "activity_subcat",
-                         label = "Select a subpopulation: ",
-                         choices = NULL,
-                         selected = NULL),
-          
-          selectizeInput(inputId = "activity_subsubcat",
-                         label = "Select a characteristic: ",
-                         choices = NULL,
-                         selected = NULL),
-        ),
+          # p("Download table of data as csv file."),
+          # downloadButton("downloadtrajectories", "Download")
+        #),
         
-        mainPanel(
-          width = 9,
-          tabsetPanel(
-            type = "tabs",
-            tabPanel(title = "Main Activities - Stacked bar chart",
-                     # useShinyjs(),
-                     # actionButton("hide", "Hide"),
-                     div(
-                       class = "plotly-full-screen",
-                       shinycssloaders::withSpinner(
-                         plotly::plotlyOutput(
-                           outputId = "activitiesplot"
-                         ),
-                         type = 8,
-                         color = "#1D70B8",
-                         size = 0.5
-                       )
-                     )
-                     ),
-            tabPanel(title = "Table of data",
-                     DT::dataTableOutput("table_activities_tbl")
-            )
-          )
-        ),
-      )
+       # mainPanel(
+          #width = 12,
+          # tabsetPanel(
+          #   type = "tabs",
+          #   tabPanel(title = "Main Activities - Stacked bar chart",
+          #            # useShinyjs(),
+          #            # actionButton("hide", "Hide"),
+          #            div(
+          #              class = "plotly-full-screen",
+          #              shinycssloaders::withSpinner(
+          #                plotly::plotlyOutput(
+          #                  outputId = "activitiesplot"
+          #                ),
+          #                type = 8,
+          #                color = "#1D70B8",
+          #                size = 0.5
+          #              )
+          #            )
+          #            ),
+          #   tabPanel(title = "Table of data",
+          #            DT::dataTableOutput("table_activities_tbl")
+          #   )
+          # )
+        #)
+      #)
     )
-    ))
+    )
+  )
 }
 tabPanelEight <- function(){
   return(
@@ -438,12 +559,71 @@ tabPanelEight <- function(){
       value = "panel8",
       gov_layout(
         size = "full",
-        #heading_text("Page 8", size = "l"),
+        heading_text("Accessibility", size = "l"),
         label_hint(
           "label8",
-          "Accessibility statement goes here"
+          "Accessibility statement goes here"),
+        fluidRow(
+            column(3,
+                   p("test"),
+                   selectInput(
+                     inputId = "test",
+                     label = "Choose a population: ",
+                     choices = c("National level" = "National",
+                                 "Graduate level" = "Grads",
+                                 "Non-Graduate level" = "Non-grads")
+                   )),
+            column(3, 
+                   p("test2"),
+                   selectInput(
+                     inputId = "activity_select1",
+                     label = "Choose a population: ",
+                     choices = c("National level" = "National",
+                                 "Graduate level" = "Grads",
+                                 "Non-Graduate level" = "Non-grads")
+                   )),
+            column(3,
+                   p("test3"),
+                   selectInput(
+                     inputId = "activity_select1",
+                     label = "Choose a population: ",
+                     choices = c("National level" = "National",
+                                 "Graduate level" = "Grads",
+                                 "Non-Graduate level" = "Non-grads")
+                   )),
+            column(3,
+                   p("test4"),
+                   pickerInput(
+                     inputId = "picker1",
+                     label = "Choose a characteristic",
+                     choices = NULL,
+                     selected = NULL,
+                     multiple = TRUE,
+                     options = list(),
+                     choicesOpt = NULL,
+                     width = "auto",
+                     inline = FALSE
+                   ))
         ),
-        p("Accessibility statement")
+        p("Accessibility statement"),
+        DT::dataTableOutput("test_table")
+      )
+    )
+  )
+}
+tabPanelNine <- function(){
+  return(
+    shiny::tabPanel(
+      title = "Feedback and Suggestions",      
+      value = "panel9",
+      gov_layout(
+        size = "full",
+        heading_text("Feedback and Suggestions", size = "l"),
+        label_hint(
+          "label9",
+          "Feedback and suggestions"
+        ),
+        p("Feedback form or something to input suggestions here")
       )
     )
   )
