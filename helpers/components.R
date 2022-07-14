@@ -324,81 +324,117 @@ tabPanelSix <- function() {
     gov_layout(
       size = "full",
       heading_text("Earnings Trajectory", size = "l"),
-      label_hint("earningslabel",
-                 paste(htmlOutput("ern_choice_txt"))),
-      sidebarLayout(
-        sidebarPanel(
+      fluidRow(
+        column(
           width = 3,
-          # select_Input(
-          #   inputId = "category_sorter",
-          #   label = "Choose a population:",
-          #   select_text = c(
-          #     "National level",
-          #     "Graduate Status",
-          #     "Non-Graduate Status"
-          #   ),
-          #   select_value = c("national", "grads", "nongrads")
-          # ),
-          # 
-          # select_Input(
-          #   inputId = "subcat_sorter",
-          #   label = "Choose a factor:",
-          #   select_text = earnings_main_categories[,1],
-          #   select_value = earnings_main_categories[,1]
-          # ),
-          
-          #p("This is a section where the inputs dont use govstyle"),
           selectInput(
             inputId = "earn_select1",
             label = "Choose a population: ",
             choices = c("National level" = "National",
-                  "Graduate level" = "Grads",
-                  "Non-Graduate level" = "Non-grads")
-          ),
-          
+                        "Graduate level" = "Grads",
+                        "Non-Graduate level" = "Non-grads")
+                  )
+        ),
+        column(
+          width = 3,
           selectizeInput(inputId = "earn_subcat",
                          label = "Select a subpopulation: ",
                          choices = NULL,
                          selected = NULL),
           
-          checkbox_Input(
-            inputId = "comparisoncheck",
-            cb_labels = "Compare with National Average",
-            checkboxIds = "Yes",
-            label = "",
-            hint_label = NULL,
-            small = TRUE
-          ),
-      #    checkboxInput("compcheck2", "Compare with National Average", value = TRUE, width = NULL),
-          
+        ),
+        column(
+          width = 3,
+          checkbox_Input(inputId = "comparisoncheck",
+                         cb_labels = "Compare with National Average",
+                         checkboxIds = "Yes",
+                         label = "",
+                         hint_label = NULL,
+                         small = TRUE),
+        ),
+        column(
+          width = 3,
           p("Download table of data as csv file."),
           downloadButton("downloadearnings", "Download")
-        ),
-        mainPanel(
-          width = 9,
-          tabsetPanel(
-          type = "tabs",
-          tabPanel(title = "Earnings Trajectory - Line chart",
-                   div(
-                     class = "plotly-full-screen",
-                     shinycssloaders::withSpinner(
-                       plotly::plotlyOutput(
-                         outputId = "earningsplot"
-                       ),
-                       type = 8,
-                       color = "#1D70B8",
-                       size = 0.5
-                     )
-                   )
-                   ),
-          tabPanel(title = "Table of data",
-                   DT::dataTableOutput("table_earnings_tbl")
-                   )
-          
-          
         )
       ),
-    )
+      fluidRow(label_hint("earningslabel",
+                          paste(htmlOutput("ern_choice_txt")))),
+      fluidRow(tabsetPanel(
+              type = "tabs",
+              tabPanel(title = "Earnings Trajectory - Line chart",
+                       div(
+                         class = "plotly-full-screen",
+                         shinycssloaders::withSpinner(
+                           plotly::plotlyOutput(
+                             outputId = "earningsplot"
+                           ),
+                           type = 8,
+                           color = "#1D70B8",
+                           size = 0.5
+                         )
+                       )
+                       ),
+              tabPanel(title = "Table of data",
+                       DT::dataTableOutput("table_earnings_tbl")
+                       )
+
+
+            )),
+    #   sidebarLayout(
+    #     sidebarPanel(
+    #       width = 3,
+    #       selectInput(
+    #         inputId = "earn_select1",
+    #         label = "Choose a population: ",
+    #         choices = c("National level" = "National",
+    #               "Graduate level" = "Grads",
+    #               "Non-Graduate level" = "Non-grads")
+    #       ),
+    #       
+    #       selectizeInput(inputId = "earn_subcat",
+    #                      label = "Select a subpopulation: ",
+    #                      choices = NULL,
+    #                      selected = NULL),
+    #       
+    #       checkbox_Input(
+    #         inputId = "comparisoncheck",
+    #         cb_labels = "Compare with National Average",
+    #         checkboxIds = "Yes",
+    #         label = "",
+    #         hint_label = NULL,
+    #         small = TRUE
+    #       ),
+    #   #    checkboxInput("compcheck2", "Compare with National Average", value = TRUE, width = NULL),
+    #       
+    #       p("Download table of data as csv file."),
+    #       downloadButton("downloadearnings", "Download")
+    #     ),
+    #     mainPanel(
+    #       width = 9,
+    #       tabsetPanel(
+    #       type = "tabs",
+    #       tabPanel(title = "Earnings Trajectory - Line chart",
+    #                div(
+    #                  class = "plotly-full-screen",
+    #                  shinycssloaders::withSpinner(
+    #                    plotly::plotlyOutput(
+    #                      outputId = "earningsplot"
+    #                    ),
+    #                    type = 8,
+    #                    color = "#1D70B8",
+    #                    size = 0.5
+    #                  )
+    #                )
+    #                ),
+    #       tabPanel(title = "Table of data",
+    #                DT::dataTableOutput("table_earnings_tbl")
+    #                )
+    #       
+    #       
+    #     )
+    #   ),
+    # )
   )))
 }
 tabPanelSeven <- function(){
@@ -563,50 +599,7 @@ tabPanelEight <- function(){
         label_hint(
           "label8",
           "Accessibility statement goes here"),
-        fluidRow(
-            column(3,
-                   p("test"),
-                   selectInput(
-                     inputId = "test",
-                     label = "Choose a population: ",
-                     choices = c("National level" = "National",
-                                 "Graduate level" = "Grads",
-                                 "Non-Graduate level" = "Non-grads")
-                   )),
-            column(3, 
-                   p("test2"),
-                   selectInput(
-                     inputId = "activity_select1",
-                     label = "Choose a population: ",
-                     choices = c("National level" = "National",
-                                 "Graduate level" = "Grads",
-                                 "Non-Graduate level" = "Non-grads")
-                   )),
-            column(3,
-                   p("test3"),
-                   selectInput(
-                     inputId = "activity_select1",
-                     label = "Choose a population: ",
-                     choices = c("National level" = "National",
-                                 "Graduate level" = "Grads",
-                                 "Non-Graduate level" = "Non-grads")
-                   )),
-            column(3,
-                   p("test4"),
-                   pickerInput(
-                     inputId = "picker1",
-                     label = "Choose a characteristic",
-                     choices = NULL,
-                     selected = NULL,
-                     multiple = TRUE,
-                     options = list(),
-                     choicesOpt = NULL,
-                     width = "auto",
-                     inline = FALSE
-                   ))
-        ),
-        p("Accessibility statement"),
-        DT::dataTableOutput("test_table")
+        p("Accessibility statement")
       )
     )
   )

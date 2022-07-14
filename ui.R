@@ -18,7 +18,14 @@ ui <- fluidPage(
     tags$link(
       rel = "stylesheet", 
       type = "text/css", 
-      href = "style.css")
+      href = "style.css"),
+    tags$style(HTML("
+      .shiny-output-error-validation {
+        color: red;
+        font-size:16px;
+        font-weight:bold;
+      }
+    "))
   ),
   shinyGovstyle::header(
     main_text = "DfE", 

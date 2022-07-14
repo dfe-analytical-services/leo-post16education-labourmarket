@@ -52,7 +52,8 @@ server <- function(input, output, session) {
         output$table_earnings_tbl <- DT ::renderDataTable(
           DT::datatable(table_earnings(input$earn_select1, input$earn_subcat),
                         options = list(dom = 'ftp',
-                                       pageLength = 10))
+                                       pageLength = 10), colnames = c("Years after KS4", "Average Earnings (£)", "Subpopulation")) %>%
+            formatCurrency("Average Earnings",currency = "", interval = 3, mark = ",", digits=0)
         )
       }else{
         output$earningsplot <- plotly::renderPlotly({
@@ -62,7 +63,8 @@ server <- function(input, output, session) {
         output$table_earnings_tbl <- DT ::renderDataTable(
           DT::datatable(table_earnings_comparison(input$earn_select1, input$earn_subcat),
                         options = list(dom = 'ftp',
-                                       pageLength = 10)))
+                                       pageLength = 10), colnames = c("Years after KS4", "Average Earnings (£)", "Subpopulation")) %>%
+            formatCurrency("Average Earnings",currency = "", interval = 3, mark = ",", digits=0))
       }
     })
   
@@ -114,11 +116,6 @@ server <- function(input, output, session) {
     input$activity_select1
     input$activity_subcat},
     {
-      # updateSelectizeInput(session = session,
-      #                      inputId = "activity_subsubcat",
-      #                      choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 & activities_data_all$col2 == input$activity_subcat, "Subpopulation"]),
-      #                      server = TRUE)
-      
       updatePickerInput(
         session = session,
         inputId = "picker1",
@@ -131,34 +128,31 @@ server <- function(input, output, session) {
       )
     })
   
+  # This is a space to give the user an error message when you do not pick a value in the picker
   observeEvent(input$picker1,{
-    out = list()
-    if(is.null(input$picker1)){
-      output$activitiesplot <- renderText("Pick something")
-    }else{
       output$activitiesplot <- plotly::renderPlotly({
+        validate(
+          need(!is.null(input$picker1), "Please select at least one characteristic.")
+        )
         plot_activities(input$activity_select1, input$activity_subcat, input$picker1)
       })
-    }
   })
  
- # Output to display and confirm the choices of the user.
+ # Output sentence to display and confirm the choices of the user.
  output$act_choice_txt <- renderText({
-   paste("You have selected to see the", tags$b(input$activity_select1),"population, subpopulation of ", tags$b(input$activity_subcat)," and specific characteristic of ", tags$b(input$picker1), ".")
+   picker_choices <- paste(input$picker1, collapse = " & ")
+   
+   c(paste("You have selected to see the", tags$b(input$activity_select1),"population, subpopulation of ", tags$b(input$activity_subcat)," and specific characteristic(s) of ")
+   ,paste("<b>", picker_choices,"</b>"), paste("."))
  })
  
  
-  # This then plots it
-  # output$activitiesplot <- plotly::renderPlotly({
-  #   plot_activities(input$activity_select1, input$activity_subcat, input$activity_subsubcat)
-  # })
-  # 
   # This produces a table alternative of the data
   output$table_activities_tbl <- DT ::renderDataTable(
-    DT::datatable(table_activities(input$activity_select1, input$activity_subcat, input$picker1), options = list(dom = 'ftp', pageLength = 10))
+    DT::datatable(table_activities(input$activity_select1, input$activity_subcat, input$picker1), options = list(dom = 'ftp', pageLength = 10), colnames = c("Years after KS4", "Activity", "Subpopulation", "Percentage (%)"))
   )
   
-  #Download Handler
+  #Download Handler for main activities page
   output$downloadtrajectories <- downloadHandler(
     filename = function() {
       paste("Main_activities",input$activity_select1,input$activity_subcat,input$activity_subsubcat,".csv", sep = "_")
