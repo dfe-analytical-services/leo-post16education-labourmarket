@@ -270,34 +270,62 @@ tabPanelFive <- function(){
       gov_layout(
         size = "full",
         heading_text("Introduction", size = "l"),
-        # label_hint(
-        #   "label3",
-        #   "Intro to what the LEO data is."
+        p("This dashboard accompanies the post-16 education and labour market activities, pathways and outcomes (LEO) research report. 
+          It is an interactive tool allowing for visualisation and exploration of the data published alongside the report. This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors.", class = "normal-text"),
+        #p("This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors.", class = "normal-text"),
+        p("You can view the published report and data tables at:", class = "normal-text"),
+        a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities, pathways and outcomes.", style = "font-family: GDS Transport; font-size :17px;"),
+        #h3("Details:"),
+        h3(tags$b("Contents:")),
+        fluidRow(
+          column(
+            width = 6,
+            p(tags$b("Earnings Trajectory")," - This tab looks at the average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years. You can build on the 
+          presented plots by selecting breakdowns you wish to see and compare. There is also a function to compare with the overall average for all individuals.", class = "normal-text"),
+          p(tags$b("Main Activities"), " - This tab looks at the main activities for individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years. You can compare the main activities by selecting multiple breakdowns.",class = "normal-text"),
+          ),
+          column(
+            width = 6,
+            p("For each tab, the following sub-groups are available: ", class = "normal-text"),
+            tags$ul(
+              tags$li("Overall average"),
+              tags$li("Gender"),
+              tags$li("Free school meals (FSM) eligibility"),
+              tags$li("Special educational needs (SEN)"),
+              tags$li("Ethnicity (major and minor groups)"),
+              tags$li("First language"),
+              tags$li("School type"),
+              tags$li("Region of school"),
+              tags$li("Income Deprivation Affecting Children Index (IDACI)")
+            ), 
+            p("With populations of:", class = "normal-text"),
+            tags$ul(
+              tags$li("All individuals"),
+              tags$li("Graduate and non-graduate"),
+              tags$li("Level 3 or above and level 2 or below")
+            ),
+          )
+        ),
+        
+        # p("This research uses Longitudinal Education Outcomes (LEO) data to carry out analysis of over 3.6 million individuals doing their GCSEs between 2002 and 2007."),
+        # p("The analysis makes comparisons using the following background ‘characteristics’:"),
+        # tags$ul(
+        #   tags$li("free school meals (FSM) eligibility"),
+        #   tags$li("special educational needs (SEN) status"),
+        #   tags$li("gender"),
+        #   tags$li("ethnicity"),
+        #   tags$li("first language"),
+        #   tags$li("key stage 4 attainment"),
+        #   tags$li("school type"),
+        #   tags$li("region")
         # ),
-        p("This interactive tool has been made to accompany the Post-16 education and labour market activities, pathways and outcomes (LEO) published report.  
-          This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors."),
-        p("You can view the published report and data tables at:"),
-        a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "LEO - Longitudinal Education Outcomes"),
-        h3("Details:"),
-        p("This research uses Longitudinal Education Outcomes (LEO) data to carry out analysis of over 3.6 million individuals doing their GCSEs between 2002 and 2007."),
-        p("The analysis makes comparisons using the following background ‘characteristics’:"),
-        tags$ul(
-          tags$li("free school meals (FSM) eligibility"),
-          tags$li("special educational needs (SEN) status"),
-          tags$li("gender"),
-          tags$li("ethnicity"),
-          tags$li("first language"),
-          tags$li("key stage 4 attainment"),
-          tags$li("school type"),
-          tags$li("region")
-        ),
-        p("It also observes how these differ for different education levels, doing comparisons of:"),
-        tags$ul(
-          tags$li("graduate and non-graduates"),
-          tags$li("level 3 or above and level 2 or below")
-        ),
-        insert_text(inputId = "intronotes",
-                    text = paste(tags$b("Notes: "), "<br>", "insert notes here")),
+        # p("It also observes how these differ for different education levels, doing comparisons of:"),
+        # tags$ul(
+        #   tags$li("graduate and non-graduates"),
+        #   tags$li("level 3 or above and level 2 or below")
+        # ),
+        #insert_text(inputId = "intronotes",
+        #           text = paste(tags$b("Notes: "), "<br>", "insert notes here")),
         details(
           inputId = "plotuserguide",
           label = "Interactive Plots User Guide:",
@@ -310,7 +338,7 @@ tabPanelFive <- function(){
               tags$li("Double clicking a line/value in the key will isolate the value in the plot."),
               tags$li("Double clicking the same value again will restore the original plot"),
               tags$li("Single clicking a line/value in the key will remove that line/value from the plot"))
-            )
+          )
         )
       )
     )
@@ -330,44 +358,63 @@ tabPanelSix <- function() {
           selectInput(
             inputId = "earn_select1",
             label = "Choose a population: ",
-            choices = c("National level" = "National",
-                        "Graduate level" = "Grads",
-                        "Non-Graduate level" = "Non-grads")
+            choices = c("All individuals" = "National",
+                        "Graduates" = "Grads",
+                        "Non-Graduates" = "Non-grads")
                   )
         ),
         column(
           width = 3,
           selectizeInput(inputId = "earn_subcat",
-                         label = "Select a subpopulation: ",
+                         label = "Select a sub-group: ",
                          choices = NULL,
                          selected = NULL),
           
         ),
-        column(
-          width = 3,
-          checkbox_Input(inputId = "comparisoncheck",
-                         cb_labels = "Compare with National Average",
-                         checkboxIds = "Yes",
-                         label = "",
-                         hint_label = NULL,
-                         small = TRUE),
+        column(width = 3,
+               pickerInput(inputId = "earn_picker",
+                           label = "Select breakdown(s):",
+                           choices = NULL,
+                           selected = NULL,
+                           multiple = TRUE,
+                           options = list('actions-box' = TRUE),
+                           choicesOpt = NULL,
+                           width = "100%",
+                           inline = FALSE
+               )
         ),
         column(
           width = 3,
-          p("Download table of data as csv file."),
-          downloadButton("downloadearnings", "Download")
+          p("Download data"),
+          downloadButton("downloadearnings", "Download data as csv file")
         )
       ),
+      fluidRow(
+        column(
+          width = 6,
+          checkbox_Input(inputId = "comparisoncheck",
+                         cb_labels = "Compare with all individuals",
+                         checkboxIds = "Yes",
+                         label = "",
+                         hint_label = NULL,
+                         small = TRUE)
+        )
+      ),
+      fluidRow(label_hint(
+        "earn_label",
+        "Average earnings of individuals in employment for Key Stage 4 cohorts 2001/02 to 2006/07 over 15 years."
+      )),
       fluidRow(label_hint("earningslabel",
                           paste(htmlOutput("ern_choice_txt")))),
       fluidRow(tabsetPanel(
               type = "tabs",
-              tabPanel(title = "Earnings Trajectory - Line chart",
+              tabPanel(title = "Earnings Trajectory",
                        div(
                          class = "plotly-full-screen",
                          shinycssloaders::withSpinner(
                            plotly::plotlyOutput(
-                             outputId = "earningsplot"
+                             outputId = "earningsplot",
+                             height = "100%"
                            ),
                            type = 8,
                            color = "#1D70B8",
@@ -450,64 +497,56 @@ tabPanelSeven <- function(){
                selectInput(
                  inputId = "activity_select1",
                  label = "Choose a population: ",
-                 choices = c("National level" = "National",
-                             "Graduate level" = "Grads",
-                             "Non-Graduate level" = "Non-grads")
+                 choices = c("All individuals" = "National",
+                             "Graduates" = "Grads",
+                             "Non-Graduates" = "Non-grads")
                )
                ),
         column(width = 3,
                selectizeInput(inputId = "activity_subcat",
-                              label = "Select a subpopulation: ",
+                              label = "Select a sub-group: ",
                               choices = NULL,
                               selected = NULL)
         ),
-        # column(width = 3,
-        #        selectizeInput(inputId = "activity_subsubcat",
-        #                       label = "Select a characteristic: ",
-        #                       choices = NULL,
-        #                       selected = NULL)
-        # ),
+
         column(width = 3,
                pickerInput(inputId = "picker1",
-                           label = "Choose a characteristic:",
+                           label = "Select breakdown(s):",
                            choices = NULL,
                            selected = NULL,
                            multiple = TRUE,
                            options = list(),
                            choicesOpt = NULL,
-                           width = "auto",
+                           width = "100%",
                            inline = FALSE
                )
          ),
-        # p(htmlOutput("value")),
-        # label_hint(
-        #   "activitieslabel", paste(htmlOutput("act_choice_txt"))
-        # ),
+
         column(width =3,
                p("Download data"),
                downloadButton("downloadtrajectories", "Download data as csv file"))
       ),
       fluidRow(
+        label_hint("act_label", "Main activities of individuals for Key Stage 4 cohorts 2001/02 to 2006/07 over 15 years."),
         label_hint(
           "activitieslabel", paste(htmlOutput("act_choice_txt"))
         )
       ),
-      
+
       fluidRow(
         warning_text(inputId = "roundingwarn", text = "Due to the nature of rounding, the percentage breakdowns do not always sum to 100%.")
       ),
-      
+
       fluidRow(
         tabsetPanel(
         type = "tabs",
-        tabPanel(title = "Main Activities - Stacked bar chart",
-                 # useShinyjs(),
-                 # actionButton("hide", "Hide"),
+        tabPanel(title = "Main Activities",
                  div(
                    class = "plotly-full-screen",
                    shinycssloaders::withSpinner(
                      plotly::plotlyOutput(
-                       outputId = "activitiesplot"
+                       outputId = "activitiesplot",
+                       height = "100%", # this bit needs to be reactive but is a problem
                      ),
                      type = 8,
                      color = "#1D70B8",
@@ -520,74 +559,12 @@ tabPanelSeven <- function(){
         )
       )
       ),
-      
-      #main_text("This is main text"),
-      #sub_text("this is sub text"),
-      # sidebarLayout(
-      #   sidebarPanel(
-      #     width = 3,
-          # selectInput(
-          #   inputId = "activity_select1",
-          #   label = "Choose a population: ",
-          #   choices = c("National level" = "National",
-          #               "Graduate level" = "Grads",
-          #               "Non-Graduate level" = "Non-grads")
-          # ),
-          # 
-          # selectizeInput(inputId = "activity_subcat",
-          #                label = "Select a subpopulation: ",
-          #                choices = NULL,
-          #                selected = NULL),
-          # 
-          # selectizeInput(inputId = "activity_subsubcat",
-          #                label = "Select a characteristic: ",
-          #                choices = NULL,
-          #                selected = NULL),
-          # 
-          # pickerInput(inputId = "picker1",
-          #             label = "Choose a characteristic",
-          #             choices = NULL,
-          #             selected = NULL,
-          #             multiple = TRUE,
-          #             options = list(),
-          #             choicesOpt = NULL,
-          #             width = "auto",
-          #             inline = FALSE
-          # ),
-          
-          # p("Download table of data as csv file."),
-          # downloadButton("downloadtrajectories", "Download")
-        #),
-        
-       # mainPanel(
-          #width = 12,
-          # tabsetPanel(
-          #   type = "tabs",
-          #   tabPanel(title = "Main Activities - Stacked bar chart",
-          #            # useShinyjs(),
-          #            # actionButton("hide", "Hide"),
-          #            div(
-          #              class = "plotly-full-screen",
-          #              shinycssloaders::withSpinner(
-          #                plotly::plotlyOutput(
-          #                  outputId = "activitiesplot"
-          #                ),
-          #                type = 8,
-          #                color = "#1D70B8",
-          #                size = 0.5
-          #              )
-          #            )
-          #            ),
-          #   tabPanel(title = "Table of data",
-          #            DT::dataTableOutput("table_activities_tbl")
-          #   )
-          # )
-        #)
-      #)
     )
     )
-  )
+   )
 }
+
+
 tabPanelEight <- function(){
   return(
     shiny::tabPanel(
@@ -612,11 +589,13 @@ tabPanelNine <- function(){
       gov_layout(
         size = "full",
         heading_text("Feedback and Suggestions", size = "l"),
-        label_hint(
-          "label9",
-          "Feedback and suggestions"
-        ),
-        p("Feedback form or something to input suggestions here")
+        # label_hint(
+        #   "label9",
+        #   "Feedback and suggestions"
+        # ),
+        h2("Give us feedback"),
+        p("If you have any feedback or suggetions for improvement, please submit then using our", a(href = "https://forms.office.com/r/pEKGshfvgU" , "feedback and suggestions form (This link will open in a new tab)"))
+        
       )
     )
   )

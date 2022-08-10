@@ -25,11 +25,25 @@ ui <- fluidPage(
         font-size:16px;
         font-weight:bold;
       }
-    "))
+    ")),
+    tags$style(HTML(
+      ".normal-text{
+      color: #0B0C0C;
+      font-family: GDS Transport;
+      font-size: 18px;
+      }
+      "
+    )),
+    tags$style(HTML(
+      "li {
+      font-family: GDS Transport;
+      font-size: 18px;
+      }"
+    ))
   ),
   shinyGovstyle::header(
-    main_text = "DfE", 
-    secondary_text = "Longitudinal Educational Outcomes (LEO) - Interactive Tool", 
+    main_text = "Department for Education", 
+    secondary_text = "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities and outcomes", 
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
   shiny::navlistPanel(

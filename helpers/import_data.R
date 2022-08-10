@@ -32,7 +32,7 @@ earnings_data_all <- earnings %>%
           paste,
           c(
             across(-c(`Years after KS4`, `Average Earnings`)),
-            sep = ", "
+            sep = " "
           )
         )
         
@@ -54,7 +54,7 @@ activities_data_all <- main_activities %>%
           paste,
           c(
             across(-c(`Years after KS4`, Activity, Percentage)),
-            sep = ", "
+            sep = " "
           )
         )
         
@@ -69,13 +69,13 @@ national_earnings <- earnings_data_all %>%
   filter(col1 == "National", col2 == "All") %>%
   select(`Years after KS4`, `Average Earnings`, Subpopulation)
 
-earnings_main_categories <- as.data.frame(names(earnings))
-earnings_main_categories$types <- ifelse(grepl("National_", names(earnings)), "National", ifelse(grepl("Non-grads_", names(earnings)), "Non-grads", "Grads"))
-earnings_main_categories$names <- sub("^[^_]*_", "", earnings_main_categories$`names(earnings)`)
-
-activities_main_categories <- as.data.frame(names(main_activities))
-activities_main_categories$types <- ifelse(grepl("National_", names(main_activities)), "National", ifelse(grepl("Non-grads_", names(main_activities)), "Non-grads", "Grads"))
-activities_main_categories$names <- sub("^[^_]*_", "", activities_main_categories$`names(main_activities)`)
+# earnings_main_categories <- as.data.frame(names(earnings))
+# earnings_main_categories$types <- ifelse(grepl("National_", names(earnings)), "National", ifelse(grepl("Non-grads_", names(earnings)), "Non-grads", "Grads"))
+# earnings_main_categories$names <- sub("^[^_]*_", "", earnings_main_categories$`names(earnings)`)
+# 
+# activities_main_categories <- as.data.frame(names(main_activities))
+# activities_main_categories$types <- ifelse(grepl("National_", names(main_activities)), "National", ifelse(grepl("Non-grads_", names(main_activities)), "Non-grads", "Grads"))
+# activities_main_categories$names <- sub("^[^_]*_", "", activities_main_categories$`names(main_activities)`)
 
 
   

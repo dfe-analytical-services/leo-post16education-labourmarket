@@ -11,13 +11,6 @@
 server <- function(input, output, session) {
   sayHello()
   
-  # observeEvent(input$btn1, {
-  #   updateNavlistPanel(
-  #     session,
-  #     "navlistPanel",
-  #     selected = "panel2"
-  #   )
-  # })
   
 # ---- Earnings Trajectory Page ------------------------------------------------
   
@@ -25,14 +18,42 @@ server <- function(input, output, session) {
  observeEvent(input$earn_select1, {
   updateSelectizeInput(session = session,
                        inputId = "earn_subcat",
-                       choices = unique(earnings_main_categories[earnings_main_categories$types == input$earn_select1, "names"]),
+                       choices = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1, "col2"]),
                        server = TRUE)
    })
   
   # Output to display and confirm the choices of the user.
-    output$ern_choice_txt <- renderText({ 
-    paste("You have selected to see the", tags$b(input$earn_select1),"population, subpopulation of ", tags$b(input$earn_subcat),".")
+  #   output$ern_choice_txt <- renderText({ 
+  #   paste("You have selected to see the", tags$b(input$earn_select1),"population, subpopulation of ", tags$b(input$earn_subcat),".")
+  # })
+    
+  observeEvent(eventExpr ={
+    input$earn_select1
+    input$earn_subcat},{
+      updatePickerInput(
+        session = session,
+        inputId = "earn_picker",
+        label = NULL,
+        selected = NULL,
+        choices = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1 & earnings_data_all$col2 == input$earn_subcat, "Subpopulation"]),
+        choicesOpt = NULL,
+        options = NULL,
+        clearOptions = TRUE
+      )
+  }
+  )
+  
+  
+  output$ern_choice_txt <- renderText({
+    picker_choices_earn <- paste(input$earn_picker, collapse = " & ")
+    
+    
+    #'You have selected the [selected sub-group] sub-group for [all individuals]'
+    c(paste("You have selected the", tags$b(input$earn_subcat)," sub-group for ", tags$b(input$earn_select1), ". With specific breakdown(s) of ", paste("<b>", picker_choices_earn,"</b>"), paste(".")))
+    #c(paste("You have selected to see the", tags$b(input$earn_select1),"population, subpopulation of ", tags$b(input$earn_subcat)," and specific characteristic(s) of ")
+    #  ,paste("<b>", picker_choices,"</b>"), paste("."))
   })
+  
     
   # Observe event looking at the population, subpopulation and comparison checkbox,
   # Looks to see if the box is checked. If box is not checked (null), then the plot without the national average line is plotted.
@@ -40,61 +61,92 @@ server <- function(input, output, session) {
   observeEvent(eventExpr = {
     input$comparisoncheck
     input$earn_select1
-    input$earn_subcat},
+    input$earn_subcat
+    input$earn_picker},
     {
       if(is.null(input$comparisoncheck)){
         
         output$earningsplot <- plotly::renderPlotly({
-          plot_earnings(input$earn_select1, input$earn_subcat)
+          validate(
+            need(!is.null(input$earn_picker), "Please select at least one breakdown.")
+          )
+          plot_earnings(input$earn_select1, input$earn_subcat, input$earn_picker)
         })
         
         # Displays the data plotted as a table.
         output$table_earnings_tbl <- DT ::renderDataTable(
-          DT::datatable(table_earnings(input$earn_select1, input$earn_subcat),
+          DT::datatable(table_earnings(input$earn_select1, input$earn_subcat, input$earn_picker),
                         options = list(dom = 'ftp',
                                        pageLength = 10), colnames = c("Years after KS4", "Average Earnings (£)", "Subpopulation")) %>%
             formatCurrency("Average Earnings",currency = "", interval = 3, mark = ",", digits=0)
         )
       }else{
         output$earningsplot <- plotly::renderPlotly({
-          plot_earnings_comparison(input$earn_select1, input$earn_subcat)
+          validate(
+            need(!is.null(input$earn_picker), "Please select at least one breakdown.")
+          )
+          plot_earnings_comparison(input$earn_select1, input$earn_subcat, input$earn_picker)
         })
         
         output$table_earnings_tbl <- DT ::renderDataTable(
-          DT::datatable(table_earnings_comparison(input$earn_select1, input$earn_subcat),
+          DT::datatable(table_earnings_comparison(input$earn_select1, input$earn_subcat, input$earn_picker),
                         options = list(dom = 'ftp',
                                        pageLength = 10), colnames = c("Years after KS4", "Average Earnings (£)", "Subpopulation")) %>%
             formatCurrency("Average Earnings",currency = "", interval = 3, mark = ",", digits=0))
       }
     })
   
+  
+  # observeEvent(input$earn_picker,{
+  #   output$activitiesplot <- plotly::renderPlotly({
+  #     validate(
+  #       need(!is.null(input$earn_picker), "Please select at least one characteristic.")
+  #     )
+  #     plot_activities(input$earn_select1, input$earn_subcat, input$earn_picker)
+  #   })
+  # })
 
   
   #Download button
+  #For some reason downloading when the check is null doesn't work.
+#   observeEvent(eventExpr = {
+#     input$earn_select1
+#     input$earn_subcat
+#     input$comparisoncheck},
+#     if(is.null(input$comparisoncheck)){
+#       
+#       output$downloadearnings <- downloadHandler(
+#         filename = function() {
+#           paste("Earnings_Trajectory",input$earn_select1,input$earn_subcat,".csv", sep = "_")
+#         },
+#         content = function(file) {
+#           write.csv(table_earnings(input$earn_select1, input$earn_subcat), file, row.names = FALSE)
+#         }
+#       )
+#     }else{
+#       output$downloadearnings <- downloadHandler(
+#         filename = function() {
+#           paste("Earnings_Trajectory",input$earn_select1,input$earn_subcat,"ave_comparison.csv", sep = "_")
+#         },
+#         content = function(file) {
+#           write.csv(table_earnings(input$earn_select1, input$earn_subcat), file, row.names = FALSE)
+#         }
+#       )
+#     }
+# )
+  
   observeEvent(eventExpr = {
     input$earn_select1
     input$earn_subcat
-    input$comparisoncheck},
-    if(is.null(input$comparisoncheck)){
-      
-      output$downloadearnings <- downloadHandler(
-        filename = function() {
-          paste("Earnings_Trajectory",input$earn_select1,input$earn_subcat,".csv", sep = "_")
-        },
-        content = function(file) {
-          write.csv(table_earnings(input$earn_select1, input$earn_subcat), file, row.names = FALSE)
-        }
-      )
-    }else{
-      output$downloadearnings <- downloadHandler(
-        filename = function() {
-          paste("Earnings_Trajectory",input$earn_select1,input$earn_subcat,"ave_comparison.csv", sep = "_")
-        },
-        content = function(file) {
-          write.csv(table_earnings(input$earn_select1, input$earn_subcat), file, row.names = FALSE)
-        }
-      )
-    }
+    input$earn_picker},
+    output$downloadearnings <- downloadHandler(
+              filename = function() {
+                paste("Earn_Traj",input$earn_select1,input$earn_subcat, paste(input$earn_picker),".csv", sep = "_")
+              },
+              content = function(file) {
+                write.csv(table_earnings(input$earn_select1, input$earn_subcat, input$earn_picker), file, row.names = FALSE)
+              }
+            )
 )
 
   
@@ -107,10 +159,21 @@ server <- function(input, output, session) {
  observeEvent(input$activity_select1,{
    updateSelectizeInput(session = session,
                         inputId = "activity_subcat",
-                        choices = unique(activities_main_categories[activities_main_categories$types == input$activity_select1, "names"]),
+                        choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1, "col2"]),
+                       # choices = unique(activities_main_categories[activities_main_categories$types == input$activity_select1, "names"]),
                         server = TRUE)
  })
  # 
+  
+  # observeEvent(input$picker1,{
+  #   tab_height = 300
+  #   if(is.null(input$picker1)){
+  #     tab_height = 300
+  #   }else{
+  #     tab_height = ((length(input$picker1)/2 + length(input$picker1)%%2)*300)+30
+  #   }
+  # })
+  
   # Another observe event that responds to the first and second choices, giving users ability to choose specific characteristics to view
   observeEvent(eventExpr = {
     input$activity_select1
@@ -132,7 +195,7 @@ server <- function(input, output, session) {
   observeEvent(input$picker1,{
       output$activitiesplot <- plotly::renderPlotly({
         validate(
-          need(!is.null(input$picker1), "Please select at least one characteristic.")
+          need(!is.null(input$picker1), "Please select at least one breakdown.")
         )
         plot_activities(input$activity_select1, input$activity_subcat, input$picker1)
       })
@@ -142,6 +205,7 @@ server <- function(input, output, session) {
  output$act_choice_txt <- renderText({
    picker_choices <- paste(input$picker1, collapse = " & ")
    
+   
    c(paste("You have selected to see the", tags$b(input$activity_select1),"population, subpopulation of ", tags$b(input$activity_subcat)," and specific characteristic(s) of ")
    ,paste("<b>", picker_choices,"</b>"), paste("."))
  })
@@ -149,18 +213,20 @@ server <- function(input, output, session) {
  
   # This produces a table alternative of the data
   output$table_activities_tbl <- DT ::renderDataTable(
-    DT::datatable(table_activities(input$activity_select1, input$activity_subcat, input$picker1), options = list(dom = 'ftp', pageLength = 10), colnames = c("Years after KS4", "Activity", "Subpopulation", "Percentage (%)"))
+    DT::datatable(table_activities(input$activity_select1, input$activity_subcat, input$picker1), options = list(dom = 'ftp', pageLength = 10), colnames = c("Years after KS4", "Activity", "Subpopulation", "Percentage (%)")) %>%
+      formatRound('Percentage', digits =0)
   )
   
   #Download Handler for main activities page
   output$downloadtrajectories <- downloadHandler(
     filename = function() {
-      paste("Main_activities",input$activity_select1,input$activity_subcat,input$activity_subsubcat,".csv", sep = "_")
+      paste("Main_activities",input$activity_select1,input$activity_subcat, paste(input$picker1,collapse = "_"),".csv", sep = "_")
     },
     content = function(file) {
-      write.csv(table_activities(input$activity_select1, input$activity_subcat, input$activity_subsubcat), file, row.names = FALSE)
+      write.csv(table_activities(input$activity_select1, input$activity_subcat, input$picker1), file, row.names = FALSE)
     }
   )
+  
   
 
 #------ COmmented out -----------------------------------------------------------
