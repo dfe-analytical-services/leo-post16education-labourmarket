@@ -41,48 +41,6 @@ DFE_bar_col <- c("#44546a","#70ad47","#4472c4","#ffc000","#a5a5a5", "#c55a11","#
 
 #"#1D70B8","#F47738","#912B88","#28A197","#D53880" 
 
-# 
-# # Reading shape files - https://cengel.github.io/R-spatial/intro.html#loading-shape-files-into-r
-# 
-# earnings_by_region = readr::read_csv(
-#   file = "data/dummy_earnings_data.csv",
-#   show_col_types = FALSE
-# )
-# 
-# regions <- sf::read_sf(
-#   dsn = "shapes",
-#   layer = "Regions_December_2018_EN_BFC"
-# ) %>%
-# sf::st_transform('+proj=longlat +datum=WGS84')
-# 
-# map_data <- regions %>%
-#   left_join(
-#     earnings_by_region,
-#     by = c("rgn18cd" = "RegionID")
-#   )
-
-
-
-# Plotting functions -----------------------------------------------------------
-
-# Plotting other average earnings 
-
-# plot_earnings <- function(input1, input2){
-#   temp <- earnings_data_all %>%
-#     filter(col1 == input1, col2 == input2)
-#   
-#   p_earnings <- ggplot(temp, aes(`Years after KS4`, `Average Earnings`, color = Subpopulation, linetype = Subpopulation))+
-#     geom_line()+
-#     ylab("Average Earnings (£)")+
-#     xlab("Years after KS4")+
-#     #scale_color_manual(values= Dfe_colours) +
-#     govstyle::theme_gov() 
-#     
-#   
-#   plotly::ggplotly(p_earnings ,res = 1200, mode = "lines", tooltip = c("Years after KS4", "Average Earnings", "linetype")) %>%
-#     layout(hovermode = "x unified", autosize = T, showlegend = TRUE) %>%
-#     config(displayModeBar = TRUE)
-# }
 
 plot_earnings <- function(input1, input2, input3){
   temp <- earnings_data_all %>%
@@ -94,6 +52,7 @@ plot_earnings <- function(input1, input2, input3){
     xlab("Years after key stage 4 (full tax years)")+
     scale_y_continuous(limits = c(0, 36000),breaks = seq(0, 35000, by = 5000), label = comma, expand = c(0,0))+
     scale_x_continuous(limits = c(1, 15),breaks = seq(1, 15, by = 1))+
+    labs(caption = "Data source: ToothGrowth")+
     #scale_color_manual(values= Dfe_colours) +
     govstyle::theme_gov()+
     theme(panel.grid.major.y = element_line("grey",size = 0.25, "solid"),
@@ -102,10 +61,11 @@ plot_earnings <- function(input1, input2, input3){
   
   
   plotly::ggplotly(p_earnings ,res = 1200, mode = "lines", tooltip = c("Years after KS4", "Average Earnings", "linetype")) %>%
-    layout(hovermode = "x unified", autosize = T, showlegend = TRUE) %>%
+    layout(hovermode = "x unified", autosize = T, showlegend = TRUE, annotations=list(x=0,y=-0.2, text="test caption", showarrow = F, xref = 'paper', yref='paper')) %>%
     config(displayModeBar = TRUE)
 
 }
+
 
 #plot_earnings("National", "Ethnicity Major", c("Chinese", "White"))
 
@@ -214,7 +174,7 @@ plot_activities <- function(input1, input2, input3){
                               plot.background = element_rect(fill = "white", color = "white"))+
                         facet_wrap(~Subpopulation, scales = "free", ncol = 2)))
   
-  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((length(input3)/2 + length(input3)%%2)*300), res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
+  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((length(input3)/2 + length(input3)%%2)*250), res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
     layout(autosize = T, showlegend = TRUE, barmode = "stack", legend=list(traceorder = "normal")) %>%
     config(displayModeBar = TRUE)%>%
     style(hoverinfo = "none", traces = c((length(input3)*8+1): (length(input3)*16))) #This chooses which traces' tooltip shouldn't appear

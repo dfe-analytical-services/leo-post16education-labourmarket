@@ -51,15 +51,15 @@ ui <- fluidPage(
     id = "navlistPanel",
     widths = c(2, 8),
     well = FALSE,
-    #tabPanelOne(),
-    #tabPanelTwo(),
-    #tabPanelThree(),
-    #tabPanelFour(),
+    tabPanelOne(),
+    tabPanelTwo(),
+    tabPanelThree(),
+    tabPanelFour(),
     tabPanelFive(),
-    tabPanelSix(),
-    tabPanelSeven(),
-    tabPanelEight(),
-    tabPanelNine()
+    # tabPanelSix(),
+    # tabPanelSeven(),
+    # tabPanelEight(),
+    # tabPanelNine()
   ),
   gov_layout(
     size = "full",
