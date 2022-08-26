@@ -19,27 +19,43 @@ ui <- fluidPage(
       rel = "stylesheet", 
       type = "text/css", 
       href = "style.css"),
-    tags$style(HTML("
+    tags$style(
+      HTML(
+        "
       .shiny-output-error-validation {
         color: red;
         font-size:16px;
         font-weight:bold;
       }
-    ")),
-    tags$style(HTML(
-      ".normal-text{
+
+    .normal-text{
       color: #0B0C0C;
       font-family: GDS Transport;
       font-size: 18px;
-      }
-      "
-    )),
-    tags$style(HTML(
-      "li {
+    }
+
+      li {
       font-family: GDS Transport;
       font-size: 18px;
-      }"
-    ))
+      }
+    
+    .inputs_box {
+      min-height: 90vh;
+      padding: 19px;
+      margin-bottom: 20px;
+      background-color: #337ebf;
+      border: 1px solid #e3e3e3;
+      border-radius: 4px;
+      -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
+      box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
+      color: #fff;
+    
+      }
+    .comp_check {
+    color: #fff;
+    }"
+      )
+    )
   ),
   shinyGovstyle::header(
     main_text = "Department for Education", 

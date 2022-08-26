@@ -20,10 +20,10 @@ library(ggthemes)
 library(scales)
 
 # geo-spatial data and mapping
-library(sf)
-library(leaflet)
-library(leaflet.extras)
-library(viridis)
+# library(sf)
+# library(leaflet)
+# library(leaflet.extras)
+# library(viridis)
 
 
 source("helpers/import_data.R", encoding = "UTF-8")
@@ -52,7 +52,7 @@ plot_earnings <- function(input1, input2, input3){
     xlab("Years after key stage 4 (full tax years)")+
     scale_y_continuous(limits = c(0, 36000),breaks = seq(0, 35000, by = 5000), label = comma, expand = c(0,0))+
     scale_x_continuous(limits = c(1, 15),breaks = seq(1, 15, by = 1))+
-    labs(caption = "Data source: ToothGrowth")+
+    #labs(caption = "Data source: ToothGrowth")+
     #scale_color_manual(values= Dfe_colours) +
     govstyle::theme_gov()+
     theme(panel.grid.major.y = element_line("grey",size = 0.25, "solid"),
@@ -61,7 +61,11 @@ plot_earnings <- function(input1, input2, input3){
   
   
   plotly::ggplotly(p_earnings ,res = 1200, mode = "lines", tooltip = c("Years after KS4", "Average Earnings", "linetype")) %>%
-    layout(hovermode = "x unified", autosize = T, showlegend = TRUE, annotations=list(x=0,y=-0.2, text="test caption", showarrow = F, xref = 'paper', yref='paper')) %>%
+    layout(hovermode = "x unified", autosize = T, showlegend = TRUE, annotations = list(x = 1, y = -0.0, text = "Source: Longitudinal Educational Outcomes dataset",
+                                                                                        xref='paper', yref='paper', showarrow = F, 
+                                                                                        xanchor='right', yanchor='auto', xshift=0, yshift=0,
+                                                                                        font = list(size = 10)),
+           title = list(text = 'Average earnings of individuals in employment \nfor KS4 cohorts 2001/02 to 2006/07', x=0, y = 1.5), margin = list(t = 60, b = 50)) %>%
     config(displayModeBar = TRUE)
 
 }
@@ -122,10 +126,14 @@ plot_earnings_comparison <- function(input1, input2, input3){
                                 panel.background = element_rect(fill = "white", color = "white"),
                                 plot.background = element_rect(fill = "white", color = "white"))
   
-  p_earnings2 <- p_earnings2 + geom_line(data = national_earnings, aes(x = `Years after KS4`, y = `Average Earnings`, color = "black"))
+  p_earnings2 <- p_earnings2 + geom_line(data = national_earnings, aes(x = `Years after KS4`, y = `Average Earnings`))
   
   plotly::ggplotly(p_earnings2 , res = 1200, mode = "lines", tooltip = c("Years after KS4", "Average Earnings", "linetype")) %>%
-    layout(hovermode = "x unified", autosize = T, showlegend = TRUE) %>%
+    layout(hovermode = "x unified", autosize = T, showlegend = TRUE,annotations = list(x = 1, y = -0.0, text = "Source: Longitudinal Education Outcomes dataset",
+                                                                                          xref='paper', yref='paper', showarrow = F, 
+                                                                                          xanchor='right', yanchor='auto', xshift=0, yshift=0,
+                                                                                          font = list(size = 10)),
+           title = list(text = 'Average earnings of individuals in employment \nfor KS4 cohorts 2001/02 to 2006/07', font = list(size = 18)), margin = list(t = 50, b = 50)) %>%
     config(displayModeBar = TRUE)
 }
 
@@ -148,11 +156,11 @@ plot_activities <- function(input1, input2, input3){
   temp <- activities_data_all %>%
     filter(col1 == input1, col2 == input2, Subpopulation %in% input3) %>%
     select(`Years after KS4`, `Activity`, Subpopulation, Percentage)
-  
+
   #temp$Activity <- factor(temp$Activity, levels = c("KS5","Other Education", "Adult FE", "Higher education", "Employment", "Out of work benefits", "No sustained activity", "Activity not captured"))
   temp$Activity <- factor(temp$Activity, levels = c("Activity not captured", "No sustained activity", "Out of work benefits", "Employment", "Higher education", "Adult FE","Other Education","KS5"))
 
-  
+
   by_subpopulation <- temp %>%
     group_by(Subpopulation) %>%
     tidyr::nest() %>%
@@ -160,12 +168,12 @@ plot_activities <- function(input1, input2, input3){
                         geom_bar(position = 'stack', stat = 'identity')+
                         ylab("Percentage (%)")+
                         xlab("Years after Key Stage 4")+
-                        geom_text(size = 3, 
-                                  position = position_stack(vjust = 0.5), 
+                        geom_text(size = 3,
+                                  position = position_stack(vjust = 0.5),
                                   label = format(ifelse(round(temp$Percentage,0) > 1, round(temp$Percentage,0), ""), 2),
                                   colour = ifelse(temp$Activity == "Activity not captured", "white", ifelse(temp$Activity == "Out of work benefits", "white", "black")))+
                         scale_fill_manual(values= DFE_bar_col) +
-                        scale_y_continuous(limits = c(0, 105),breaks = seq(0, 100, by = 10))+
+                        scale_y_continuous(limits = c(0, 105),breaks = seq(0, 100, by = 10), expand = c(0,0))+
                         scale_x_continuous(breaks = seq(1, 15, by = 1))+
                         #scale_fill_brewer(palette = "Paired")+
                         govstyle::theme_gov()+
@@ -173,17 +181,22 @@ plot_activities <- function(input1, input2, input3){
                               panel.background = element_rect(fill = "white", color = "white"),
                               plot.background = element_rect(fill = "white", color = "white"))+
                         facet_wrap(~Subpopulation, scales = "free", ncol = 2)))
-  
-  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((length(input3)/2 + length(input3)%%2)*250), res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
-    layout(autosize = T, showlegend = TRUE, barmode = "stack", legend=list(traceorder = "normal")) %>%
-    config(displayModeBar = TRUE)%>%
+
+  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*350 + (length(input3)%%2)*350), width = 900 ,res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
+    layout(autosize = F, showlegend = TRUE, barmode = "stack", legend=list(traceorder = "normal"), #annotations = list(x = 1, y = 1.3, text = "Source: Longitudinal Education Outcomes dataset",
+                                                                                                  #                      xref='paper', yref='paper', showarrow = F,
+                                                                                                   #                     xanchor='auto', yanchor='auto', xshift=0, yshift=0,
+                                                                                                    #                    font = list(size = 10)),
+           title = list(text = paste0('Main Activities of individuals for KS4 cohorts 2001/02 to 2006/07',
+                                      '<br>',
+                                      '<sup>',
+                                      'Source: Longitudinal Education Outcomes dataset',
+                                      '</sup>'), x=0, y = 1.5, font = list(size = 18)), margin = list(t = 70, r = 0, b = 50, l= 0, unit = "px")) %>%
+    config()%>%
     style(hoverinfo = "none", traces = c((length(input3)*8+1): (length(input3)*16))) #This chooses which traces' tooltip shouldn't appear
   #problem with this is that when you add new charts the number of traces changes and then you could need to specify with traces been to show or not
-  
-}
 
-#p<-plot_activities("National", "Ethnicity Major", testinput3)
-#plotly_json(p)
+}
 
 table_activities <- function(input1, input2, input3){
   temp <- activities_data_all %>%
@@ -191,6 +204,14 @@ table_activities <- function(input1, input2, input3){
     select(`Years after KS4`, `Activity`, Subpopulation, Percentage)
   temp
 }
+
+
+# testinput3 <- c("Asian","Black","White","Chinese")
+# # 
+# #plot_activities("National", "Ethnicity Major", c("Asian","Black"))
+# # 
+# (floor(length(testinput3)/2))*350 + (length(testinput3)%%2)*350
+# 300 + (length(testinput3)%%2)*300
 
 #---- Testing (delete later)--------------------------------------------------
 #testinput3 <- c("Asian")

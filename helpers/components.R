@@ -9,9 +9,12 @@ tabPanelOne <- function(){
         p("This dashboard accompanies the post-16 education and labour market activities, pathways and outcomes (LEO) research report. 
           It is an interactive tool allowing for visualisation and exploration of the data published alongside the report. This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors.", class = "normal-text"),
         #p("This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors.", class = "normal-text"),
-        p("You can view the published report and data tables at:", class = "normal-text"),
-        a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities, pathways and outcomes.", style = "font-family: GDS Transport; font-size :17px;"),
-        insert_text(inputId = "tech_link", text = paste("For more information, please refer to the technical report: ", a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)"))),
+        #p("You can view the published report and data tables at:", class = "normal-text"),
+        #a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities, pathways and outcomes.", style = "font-family: GDS Transport; font-size :17px;"),
+        insert_text(inputId = "tech_link", text = paste("You can view the published report and data tables at:","<br>", a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities, pathways and outcomes.", style = "font-family: GDS Transport; font-size :17px;"),
+                                                        "<br><br>","For more information, please refer to the technical report: ", "<br>",
+                                                        a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport; font-size :17px;"))),
+        
         h3(tags$b("Contents:")),
         fluidRow(
           column(
@@ -42,26 +45,6 @@ tabPanelOne <- function(){
             ),
           )
         ),
-        
-        # p("This research uses Longitudinal Education Outcomes (LEO) data to carry out analysis of over 3.6 million individuals doing their GCSEs between 2002 and 2007."),
-        # p("The analysis makes comparisons using the following background ‘characteristics’:"),
-        # tags$ul(
-        #   tags$li("free school meals (FSM) eligibility"),
-        #   tags$li("special educational needs (SEN) status"),
-        #   tags$li("gender"),
-        #   tags$li("ethnicity"),
-        #   tags$li("first language"),
-        #   tags$li("key stage 4 attainment"),
-        #   tags$li("school type"),
-        #   tags$li("region")
-        # ),
-        # p("It also observes how these differ for different education levels, doing comparisons of:"),
-        # tags$ul(
-        #   tags$li("graduate and non-graduates"),
-        #   tags$li("level 3 or above and level 2 or below")
-        # ),
-        #insert_text(inputId = "intronotes",
-        #           text = paste(tags$b("Notes: "), "<br>", "insert notes here")),
         details(
           inputId = "plotuserguide",
           label = "Interactive Plots User Guide:",
@@ -88,55 +71,66 @@ tabPanelTwo <- function() {
     gov_layout(
       size = "full",
       heading_text("Earnings Trajectory", size = "l"),
+      div(
+        class = "inputs_box",
+        style = "min-height:100%; height = 100%; overflow-y: visible",
+        #status = "primary",
+        #background = "light-blue",
       fluidRow(
-        column(
-          width = 3,
-          selectInput(
-            inputId = "earn_select1",
-            label = "Choose a population: ",
-            choices = c("All individuals" = "National",
-                        "Graduates" = "Grads",
-                        "Non-Graduates" = "Non-grads")
-                  )
-        ),
-        column(
-          width = 3,
-          selectizeInput(inputId = "earn_subcat",
-                         label = "Select a sub-group: ",
-                         choices = NULL,
-                         selected = NULL),
-          
-        ),
-        column(width = 3,
-               pickerInput(inputId = "earn_picker",
-                           label = "Select breakdown(s):",
+          column(
+            width = 3,
+            selectInput(
+              inputId = "earn_select1",
+              label = "Choose a population: ",
+              choices = c("All individuals" = "National",
+                          "Graduates" = "Grads",
+                          "Non-Graduates" = "Non-grads")
+            )
+          ),
+          column(
+            width = 3,
+            selectizeInput(inputId = "earn_subcat",
+                           label = "Select a sub-group: ",
                            choices = NULL,
-                           selected = NULL,
-                           multiple = TRUE,
-                           options = list('actions-box' = TRUE),
-                           choicesOpt = NULL,
-                           width = "100%",
-                           inline = FALSE
-               )
+                           selected = NULL),
+            
+          ),
+          column(width = 3,
+                 pickerInput(inputId = "earn_picker",
+                             label = "Select breakdown(s):",
+                             choices = NULL,
+                             selected = NULL,
+                             multiple = TRUE,
+                             options = list('actions-box' = TRUE),
+                             choicesOpt = NULL,
+                             width = "100%",
+                             inline = FALSE
+                 )
+          ),
+          column(
+            width = 3,
+            p("Download data"),
+            downloadButton("downloadearnings", "Download data as csv file")
+          )
         ),
-        column(
-          width = 3,
-          p("Download data"),
-          downloadButton("downloadearnings", "Download data as csv file")
+      div(
+        class = "comp_check",
+        fluidRow(
+          column(
+            width = 6,
+            checkbox_Input(inputId = "comparisoncheck",
+                           cb_labels = "Compare with all individuals",
+                           checkboxIds = "Yes",
+                           label = "",
+                           hint_label = NULL,
+                           small = TRUE)
+          )
         )
+      )
+        
       ),
-      fluidRow(
-        column(
-          width = 6,
-          checkbox_Input(inputId = "comparisoncheck",
-                         cb_labels = "Compare with all individuals",
-                         checkboxIds = "Yes",
-                         label = "",
-                         hint_label = NULL,
-                         small = TRUE)
-        )
-      ),
-      fluidRow(label_hint(
+        fluidRow(
+          label_hint(
         "earn_label",
         "Average earnings of individuals in employment for Key Stage 4 cohorts 2001/02 to 2006/07 over 15 years."
       )),
@@ -146,18 +140,18 @@ tabPanelTwo <- function() {
               type = "tabs",
               tabPanel(title = "Earnings Trajectory",
                        br(),
-                       div(
+                         div(
                          class = "plotly-full-screen",
                          shinycssloaders::withSpinner(
-                           plotly::plotlyOutput(
+                             plotly::plotlyOutput(
                              outputId = "earningsplot",
-                             height = "100%"
+                             height = "100%")
                            ),
                            type = 8,
                            color = "#1D70B8",
-                           size = 0.5
-                         )
-                       ),
+                           size = 0.5)
+                       ,
+                       
                        br(),
                        ),
               tabPanel(title = "Table of data",
@@ -230,6 +224,9 @@ tabPanelThree <- function(){
     gov_layout(
       size = "full",
       heading_text("Main Activities", size = "l"),
+      div(
+        class = "inputs_box",
+        style = "min-height:100%; height = 100%; overflow-y: visible",
       fluidRow(
         column(width = 3,
                selectInput(
@@ -263,7 +260,7 @@ tabPanelThree <- function(){
         column(width =3,
                p("Download data"),
                downloadButton("downloadtrajectories", "Download data as csv file"))
-      ),
+      )),
       fluidRow(
         label_hint("act_label", "Main activities of individuals for Key Stage 4 cohorts 2001/02 to 2006/07 over 15 years."),
         label_hint(
@@ -282,12 +279,12 @@ tabPanelThree <- function(){
                  br(),
                  div(
                    class = "plotly-full-screen",
-                   style = "padding-bottom:20px",
-                   br(),
+                   #style = "padding-bottom:30px",
+                   #br(),
                    shinycssloaders::withSpinner(
                      plotly::plotlyOutput(
                        outputId = "activitiesplot",
-                       height = "100%", # this bit needs to be reactive but is a problem
+                       height = "100%"
                      ),
                      type = 8,
                      color = "#1D70B8",
