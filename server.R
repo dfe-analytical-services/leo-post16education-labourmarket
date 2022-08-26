@@ -163,16 +163,7 @@ server <- function(input, output, session) {
                        # choices = unique(activities_main_categories[activities_main_categories$types == input$activity_select1, "names"]),
                         server = TRUE)
  })
- # 
-  
-  # observeEvent(input$picker1,{
-  #   tab_height = 300
-  #   if(is.null(input$picker1)){
-  #     tab_height = 300
-  #   }else{
-  #     tab_height = ((length(input$picker1)/2 + length(input$picker1)%%2)*300)+30
-  #   }
-  # })
+
   
   # Another observe event that responds to the first and second choices, giving users ability to choose specific characteristics to view
   observeEvent(eventExpr = {

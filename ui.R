@@ -72,10 +72,6 @@ ui <- fluidPage(
     tabPanelThree(),
     tabPanelFour(),
     tabPanelFive(),
-    # tabPanelSix(),
-    # tabPanelSeven(),
-    # tabPanelEight(),
-    # tabPanelNine()
   ),
   gov_layout(
     size = "full",
