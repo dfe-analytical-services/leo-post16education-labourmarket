@@ -9,7 +9,7 @@
 
 # Define server logic 
 server <- function(input, output, session) {
-  sayHello()
+  # sayHello()
   
   
 # ---- Earnings Trajectory Page ------------------------------------------------
@@ -22,14 +22,11 @@ server <- function(input, output, session) {
                        server = TRUE)
    })
   
-  # Output to display and confirm the choices of the user.
-  #   output$ern_choice_txt <- renderText({ 
-  #   paste("You have selected to see the", tags$b(input$earn_select1),"population, subpopulation of ", tags$b(input$earn_subcat),".")
-  # })
-    
+  #reactive for the third picker - subgroups
   observeEvent(eventExpr ={
     input$earn_select1
     input$earn_subcat},{
+      
       updatePickerInput(
         session = session,
         inputId = "earn_picker",
@@ -46,9 +43,6 @@ server <- function(input, output, session) {
   
   output$ern_choice_txt <- renderText({
     picker_choices_earn <- paste(input$earn_picker, collapse = " & ")
-    
-    
-    #'You have selected the [selected sub-group] sub-group for [all individuals]'
     c(paste("You have selected the", tags$b(input$earn_subcat)," sub-group for ", tags$b(input$earn_select1), ". With specific breakdown(s) of ", paste("<b>", picker_choices_earn,"</b>"), paste(".")))
     #c(paste("You have selected to see the", tags$b(input$earn_select1),"population, subpopulation of ", tags$b(input$earn_subcat)," and specific characteristic(s) of ")
     #  ,paste("<b>", picker_choices,"</b>"), paste("."))
@@ -64,8 +58,10 @@ server <- function(input, output, session) {
     input$earn_subcat
     input$earn_picker},
     {
+      # Checks to see if the user has selected to compare the trajectories with the national average or not
+      # if the checkbox has not been checked
       if(is.null(input$comparisoncheck)){
-        
+        # Double checks to see if the user has picked a values for the subgroups. If they have not, it returns an error message.
         output$earningsplot <- plotly::renderPlotly({
           validate(
             need(!is.null(input$earn_picker), "Please select at least one breakdown.")
@@ -81,6 +77,7 @@ server <- function(input, output, session) {
             formatCurrency("Average Earnings",currency = "", interval = 3, mark = ",", digits=0)
         )
       }else{
+        # else( i.e the box has been checked) then it will call on functions that include the national average into the plots and tables
         output$earningsplot <- plotly::renderPlotly({
           validate(
             need(!is.null(input$earn_picker), "Please select at least one breakdown.")
@@ -135,13 +132,14 @@ server <- function(input, output, session) {
 #     }
 # )
   
+  # Reactive download for the earnings trajectory that changes the name depending on the first two value picked
   observeEvent(eventExpr = {
     input$earn_select1
     input$earn_subcat
     input$earn_picker},
     output$downloadearnings <- downloadHandler(
               filename = function() {
-                paste("Earn_Traj",input$earn_select1,input$earn_subcat, paste(input$earn_picker),".csv", sep = "_")
+                paste("Earn_Traj",input$earn_select1,input$earn_subcat,".csv", sep = "_")
               },
               content = function(file) {
                 write.csv(table_earnings(input$earn_select1, input$earn_subcat, input$earn_picker), file, row.names = FALSE)
@@ -149,8 +147,6 @@ server <- function(input, output, session) {
             )
 )
 
-  
-  #output$value <- renderPrint({ input$comparisoncheck })
  
   
 # ---- Main Activity Page ------------------------------------------------------  
