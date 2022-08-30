@@ -30,12 +30,12 @@ ui <- fluidPage(
 
     .normal-text{
       color: #0B0C0C;
-      font-family: GDS Transport;
+      font-family: GDS Transport, arial, sans-serif;
       font-size: 18px;
     }
 
       li {
-      font-family: GDS Transport;
+      font-family: GDS Transport, arial, sans-serif;
       font-size: 18px;
       }
     
