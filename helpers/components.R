@@ -11,17 +11,17 @@ tabPanelOne <- function(){
         #p("This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors.", class = "normal-text"),
         #p("You can view the published report and data tables at:", class = "normal-text"),
         #a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities, pathways and outcomes.", style = "font-family: GDS Transport; font-size :17px;"),
-        insert_text(inputId = "tech_link", text = paste("You can view the published report and data tables at:","<br>", a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities, pathways and outcomes.", style = "font-family: GDS Transport; font-size :17px;"),
+        insert_text(inputId = "tech_link", text = paste("You can view the published report and data tables at:","<br>", a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities, pathways and outcomes.", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"),
                                                         "<br><br>","For more information, please refer to the technical report: ", "<br>",
-                                                        a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport; font-size :17px;"))),
+                                                        a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
         
         h3(tags$b("Contents:")),
         fluidRow(
           column(
             width = 6,
-            p(tags$b("Earnings Trajectory")," - This tab looks at the average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years. You can build on the 
+            p(tags$b("Earnings trajectory")," - This tab looks at the average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years. You can build on the 
           presented plots by selecting breakdowns you wish to see and compare. There is also a function to compare with the overall average for all individuals.", class = "normal-text"),
-          p(tags$b("Main Activities"), " - This tab looks at the main activities for individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years. You can compare the main activities by selecting multiple breakdowns.",class = "normal-text"),
+          p(tags$b("Main activities"), " - This tab looks at the main activities for individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years. You can compare the main activities by selecting multiple breakdowns.",class = "normal-text"),
           ),
           column(
             width = 6,
@@ -66,11 +66,11 @@ tabPanelOne <- function(){
 
 tabPanelTwo <- function() {
   return(shiny::tabPanel(
-    title = "Earnings Trajectory",
+    title = "Earnings trajectory",
     value = "panel6",
     gov_layout(
       size = "full",
-      heading_text("Earnings Trajectory", size = "l"),
+      heading_text("Earnings trajectory", size = "l"),
       div(
         class = "inputs_box",
         style = "min-height:100%; height = 100%; overflow-y: visible",
@@ -138,7 +138,7 @@ tabPanelTwo <- function() {
                           paste(htmlOutput("ern_choice_txt")))),
       fluidRow(tabsetPanel(
               type = "tabs",
-              tabPanel(title = "Earnings Trajectory",
+              tabPanel(title = "Earnings trajectory",
                        br(),
                          div(
                          class = "plotly-full-screen",
@@ -219,11 +219,11 @@ tabPanelTwo <- function() {
 tabPanelThree <- function(){
   return(
     shiny::tabPanel(
-    title = "Main Activities",
+    title = "Main activities",
     value = "panel7",
     gov_layout(
       size = "full",
-      heading_text("Main Activities", size = "l"),
+      heading_text("Main activities", size = "l"),
       div(
         class = "inputs_box",
         style = "min-height:100%; height = 100%; overflow-y: visible",
@@ -275,7 +275,7 @@ tabPanelThree <- function(){
       fluidRow(
         tabsetPanel(
         type = "tabs",
-        tabPanel(title = "Main Activities",
+        tabPanel(title = "Main activities",
                  br(),
                  div(
                    class = "plotly-full-screen",

@@ -1,3 +1,6 @@
+# Just incase you need to install it
+#devtools::install_github('ukgovdatascience/govstyle')
+
 # shiny app development and appearance
 library(shiny)
 library(shinyGovstyle)
