@@ -324,19 +324,19 @@ tabPanelFour <- function(){
 tabPanelFive <- function(){
   return(
     shiny::tabPanel(
-      title = "Feedback and Suggestions",      
+      title = "Feedback and suggestions",      
       value = "panel9",
       gov_layout(
         size = "full",
-        heading_text("Feedback and Suggestions", size = "l"),
+        heading_text("Feedback and suggestions", size = "l"),
         # label_hint(
         #   "label9",
         #   "Feedback and suggestions"
         # ),
         h2("Give us feedback"),
-        p("If you have any feedback or suggetions for improvement, please submit then using our", a(href = "https://forms.office.com/r/pEKGshfvgU" , "feedback and suggestions form (This link will open in a new tab).")),
+        p("If you have any feedback or suggestions for improvement, please submit them using our", a(href = "https://forms.office.com/r/pEKGshfvgU" , "feedback and suggestions form.")),
         
-        p("If you spot any errors or bugs, please submit then using our", a(href = "https://forms.office.com/r/3CTN3DGyzF", "errors and bugs report form (This link will open in a new tab)."))
+        p("If you spot any errors or bugs, please submit them using our", a(href = "https://forms.office.com/r/3CTN3DGyzF", "errors and bugs report form."))
       )
     )
   )
