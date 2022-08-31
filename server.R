@@ -88,7 +88,7 @@ server <- function(input, output, session) {
         output$table_earnings_tbl <- DT ::renderDataTable(
           DT::datatable(table_earnings_comparison(input$earn_select1, input$earn_subcat, input$earn_picker),
                         options = list(dom = 'ftp',
-                                       pageLength = 10), colnames = c("Years after KS4", "Average Earnings (£)", "Subpopulation")) %>%
+                                       pageLength = 10), colnames = c("Years after KS4", "Average Earnings (£)", "Subpopulation"), rownames = FALSE) %>%
             formatCurrency("Average Earnings",currency = "", interval = 3, mark = ",", digits=0))
       }
     })
@@ -200,7 +200,7 @@ server <- function(input, output, session) {
  
   # This produces a table alternative of the data
   output$table_activities_tbl <- DT ::renderDataTable(
-    DT::datatable(table_activities(input$activity_select1, input$activity_subcat, input$picker1), options = list(dom = 'ftp', pageLength = 10), colnames = c("Years after KS4", "Activity", "Subpopulation", "Percentage (%)")) %>%
+    DT::datatable(table_activities(input$activity_select1, input$activity_subcat, input$picker1), options = list(dom = 'ftp', pageLength = 10), colnames = c("Years after KS4", "Activity", "Subpopulation", "Percentage (%)"), rownames = FALSE) %>%
       formatRound('Percentage', digits =0)
   )
   
