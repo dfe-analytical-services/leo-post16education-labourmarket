@@ -132,7 +132,7 @@ tabPanelTwo <- function() {
         fluidRow(
           label_hint(
         "earn_label",
-        "Average earnings of individuals in employment for Key Stage 4 cohorts 2001/02 to 2006/07 over 15 years."
+        "Average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."
       )),
       fluidRow(label_hint("earningslabel",
                           paste(htmlOutput("ern_choice_txt")))),
@@ -262,7 +262,7 @@ tabPanelThree <- function(){
                downloadButton("downloadtrajectories", "Download data as csv file"))
       )),
       fluidRow(
-        label_hint("act_label", "Main activities of individuals for Key Stage 4 cohorts 2001/02 to 2006/07 over 15 years."),
+        label_hint("act_label", "Main activities of individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."),
         label_hint(
           "activitieslabel", paste(htmlOutput("act_choice_txt"))
         )
@@ -334,8 +334,9 @@ tabPanelFive <- function(){
         #   "Feedback and suggestions"
         # ),
         h2("Give us feedback"),
-        p("If you have any feedback or suggetions for improvement, please submit then using our", a(href = "https://forms.office.com/r/pEKGshfvgU" , "feedback and suggestions form (This link will open in a new tab)"))
+        p("If you have any feedback or suggetions for improvement, please submit then using our", a(href = "https://forms.office.com/r/pEKGshfvgU" , "feedback and suggestions form (This link will open in a new tab).")),
         
+        p("If you spot any errors or bugs, please submit then using our", a(href = "https://forms.office.com/r/3CTN3DGyzF", "errors and bugs report form (This link will open in a new tab)."))
       )
     )
   )
