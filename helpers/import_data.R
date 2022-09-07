@@ -16,7 +16,7 @@ import_sheets <- function(fname){
 }
 
 #path of the files
-file1 <- "data/main_activity_reformatted_v2.xlsx"
+file1 <- "data/main_activity_reformatted_v3.xlsx"
 file2 <- "data/Earnings_reformatted.xlsx"
 
 main_activities <- import_sheets(file1)
