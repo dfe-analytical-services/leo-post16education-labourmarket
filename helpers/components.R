@@ -78,9 +78,7 @@ tabPanelTwo <- function() {
             selectInput(
               inputId = "earn_select1",
               label = "Choose a population: ",
-              choices = c("All individuals" = "National",
-                          "Graduates" = "Grads",
-                          "Non-Graduates" = "Non-grads")
+              choices = c("All individuals","Graduates","Non-Graduates")
             )
           ),
           column(
@@ -178,9 +176,7 @@ tabPanelThree <- function(){
                selectInput(
                  inputId = "activity_select1",
                  label = "Choose a population: ",
-                 choices = c("All individuals" = "National",
-                             "Graduates" = "Grads",
-                             "Non-Graduates" = "Non-grads")
+                 choices = c("All individuals","Graduates","Non-Graduates")
                )
                ),
         column(width = 4,

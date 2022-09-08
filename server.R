@@ -190,11 +190,12 @@ server <- function(input, output, session) {
  
  # Output sentence to display and confirm the choices of the user.
  output$act_choice_txt <- renderText({
-   picker_choices <- paste(input$picker1, collapse = " & ")
+   picker_choices_act <- paste(input$picker1, collapse = " & ")
    
+   c(paste("You have selected the", tags$b(input$activity_subcat)," sub-group for ", tags$b(input$activity_select1), ". With specific breakdown(s) of ", paste("<b>", picker_choices_act,"</b>"), paste(".")))
    
-   c(paste("You have selected to see the", tags$b(input$activity_select1),"population, subpopulation of ", tags$b(input$activity_subcat)," and specific characteristic(s) of ")
-   ,paste("<b>", picker_choices,"</b>"), paste("."))
+   # c(paste("You have selected to see the", tags$b(input$activity_select1),"population, subpopulation of ", tags$b(input$activity_subcat)," and specific characteristic(s) of ")
+   # ,paste("<b>", picker_choices,"</b>"), paste("."))
  })
  
  

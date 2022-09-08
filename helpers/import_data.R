@@ -70,4 +70,11 @@ national_earnings <- earnings_data_all %>%
   filter(col1 == "National", col2 == "All") %>%
   select(`Years after KS4`, `Average Earnings`, Subpopulation)
 
+# Need to change the col1 values. National = All individuals, Grads = Graduates, Non-grads = Non-graduates
+earnings_data_all["col1"][earnings_data_all["col1"] == "National"] <- "All individuals"
+earnings_data_all["col1"][earnings_data_all["col1"] == "Grads"] <- "Graduates"
+earnings_data_all["col1"][earnings_data_all["col1"] == "Non-grads"] <- "Non-graduates"
 
+activities_data_all["col1"][activities_data_all["col1"] == "National"] <- "All individuals"
+activities_data_all["col1"][activities_data_all["col1"] == "Grads"] <- "Graduates"
+activities_data_all["col1"][activities_data_all["col1"] == "Non-grads"] <- "Non-graduates"

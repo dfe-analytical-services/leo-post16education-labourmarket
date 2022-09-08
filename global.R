@@ -147,8 +147,8 @@ plot_activities <- function(input1, input2, input3){
                                       '<br>',
                                       '<sup>',
                                       'Source: Longitudinal Education Outcomes dataset',
-                                      '</sup>'), x=0, y = 1.5, font = list(size = 18)), 
-           margin = list(t = 70, r = 0, b = 50, l= 0, unit = "px")) %>%
+                                      '</sup>'), x=0, y = 1.8, font = list(size = 18)), 
+           margin = list(t = 80, r = 0, b = 50, l= 0, unit = "px")) %>%
     config()%>%
     style(hoverinfo = "none", traces = c((length(input3)*8+1): (length(input3)*16))) #This chooses which traces' tooltip shouldn't appear
   #problem with this is that when you add new charts the number of traces changes and then you could need to specify with traces been to show or not
