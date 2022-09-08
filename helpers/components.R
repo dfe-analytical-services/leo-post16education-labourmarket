@@ -103,25 +103,21 @@ tabPanelTwo <- function() {
                              inline = FALSE
                  )
           ),
-          column(
-            width = 3,
-            p("Download data"),
-            downloadButton("downloadearnings", "Download data as csv file")
-          )
+           column(
+             width = 3,
+             checkbox_Input(inputId = "comparisoncheck",
+          cb_labels = "Compare with all individuals",
+          checkboxIds = "Yes",
+          label = "",
+          hint_label = NULL,
+          small = TRUE)
+           )
         ),
-      div(
-        class = "comp_check",
         fluidRow(
-          column(
-            width = 6,
-            checkbox_Input(inputId = "comparisoncheck",
-                           cb_labels = "Compare with all individuals",
-                           checkboxIds = "Yes",
-                           label = "",
-                           hint_label = NULL,
-                           small = TRUE)
-          )
-        )
+          column(width = 6,
+                 p("Download the data"),
+                 downloadButton("downloadearnings", "Download data as csv file")
+                 )
       )
         
       ),
@@ -140,15 +136,15 @@ tabPanelTwo <- function() {
                        br(),
                          div(
                          class = "plotly-full-screen",
-                         shinycssloaders::withSpinner(
+                         #shinycssloaders::withSpinner(
                              plotly::plotlyOutput(
                              outputId = "earningsplot",
                              height = "100%")
                            ),
-                           type = 8,
-                           color = "#1D70B8",
-                           size = 0.5)
-                       ,
+                           #type = 8,
+                           #color = "#1D70B8",
+                           #size = 0.5)
+                       #,
                        
                        br(),
                        ),
@@ -178,7 +174,7 @@ tabPanelThree <- function(){
         class = "inputs_box",
         style = "min-height:100%; height = 100%; overflow-y: visible",
       fluidRow(
-        column(width = 3,
+        column(width = 4,
                selectInput(
                  inputId = "activity_select1",
                  label = "Choose a population: ",
@@ -187,14 +183,14 @@ tabPanelThree <- function(){
                              "Non-Graduates" = "Non-grads")
                )
                ),
-        column(width = 3,
+        column(width = 4,
                selectizeInput(inputId = "activity_subcat",
                               label = "Select a sub-group: ",
                               choices = NULL,
                               selected = NULL)
         ),
 
-        column(width = 3,
+        column(width = 4,
                pickerInput(inputId = "picker1",
                            label = "Select breakdown(s):",
                            choices = NULL,
@@ -207,10 +203,16 @@ tabPanelThree <- function(){
                )
          ),
 
-        column(width =3,
-               p("Download data"),
+        # column(width =3,
+        #        p("Download data"),
+        #        downloadButton("downloadtrajectories", "Download data as csv file"))
+      ),
+      fluidRow(
+        column(width = 6,
+               p("Download the data"),
                downloadButton("downloadtrajectories", "Download data as csv file"))
-      )),
+      )
+      ),
       div(
         style = "padding: 12px;",
       fluidRow(
@@ -236,15 +238,15 @@ tabPanelThree <- function(){
                  br(),
                  div(
                    class = "plotly-full-screen",
-                   shinycssloaders::withSpinner(
+                   #shinycssloaders::withSpinner(
                      plotly::plotlyOutput(
                        outputId = "activitiesplot",
                        height = "100%"
                      ),
-                     type = 8,
-                     color = "#1D70B8",
-                     size = 0.5
-                   ),
+                    # type = 8,
+                    # color = "#1D70B8",
+                    # size = 0.5
+                   #),
                    br()
                  ),
                  br(),
