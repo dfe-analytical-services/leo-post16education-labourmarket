@@ -54,13 +54,12 @@ plot_earnings <- function(input1, input2, input3){
                                                                                         xref='paper', yref='paper', showarrow = F, 
                                                                                         xanchor='right', yanchor='auto', xshift=0, yshift=0,
                                                                                         font = list(size = 10)),
-           title = list(text = 'Average earnings of individuals in employment \nfor KS4 cohorts 2001/02 to 2006/07', x=0, y = 1.5), margin = list(t = 60, b = 50)) %>%
+           title = list(text = 'Average earnings of individuals in employment \nfor KS4 cohorts 2001/02 to 2006/07', font = list(size = 18)), margin = list(t = 50, b = 50)) %>%
     config(displayModeBar = TRUE)
 
 }
 
-
-#plot_earnings("National", "Ethnicity Major", c("Chinese", "White"))
+#plot_earnings("National", "Major ethnic group", c("Chinese", "White"))
 
 table_earnings <- function(input1, input2, input3){
   temp <- earnings_data_all %>%
@@ -97,7 +96,7 @@ plot_earnings_comparison <- function(input1, input2, input3){
     config(displayModeBar = TRUE)
 }
 
-#plot_earnings_comparison("National", "Ethnicity Major", c("Chinese", "White"))
+#plot_earnings_comparison("National", "Major ethnic group", c("Chinese", "White"))
 
 table_earnings_comparison <- function (input1, input2, input3){
   temp <- earnings_data_all %>%
@@ -142,7 +141,7 @@ plot_activities <- function(input1, input2, input3){
                               plot.background = element_rect(fill = "white", color = "white"))+
                         facet_wrap(~Subpopulation, scales = "free", ncol = 2)))
 
-  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400), width = 900 ,res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
+  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400), width = 880 ,res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
     layout(autosize = F, showlegend = TRUE, barmode = "stack", legend=list(traceorder = "normal"), 
            title = list(text = paste0('Main Activities of individuals for KS4 cohorts 2001/02 to 2006/07',
                                       '<br>',

@@ -8,9 +8,6 @@ tabPanelOne <- function(){
         heading_text("Introduction", size = "l"),
         p("This dashboard accompanies the post-16 education and labour market activities, pathways and outcomes (LEO) research report. 
           It is an interactive tool allowing for visualisation and exploration of the data published alongside the report. This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors.", class = "normal-text"),
-        #p("This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors.", class = "normal-text"),
-        #p("You can view the published report and data tables at:", class = "normal-text"),
-        #a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities, pathways and outcomes.", style = "font-family: GDS Transport; font-size :17px;"),
         insert_text(inputId = "tech_link", text = paste("You can view the published report and data tables at:","<br>", a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities, pathways and outcomes.", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"),
                                                         "<br><br>","For more information, please refer to the technical report: ", "<br>",
                                                         a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
@@ -34,14 +31,15 @@ tabPanelOne <- function(){
               tags$li("Ethnicity (major and minor groups)"),
               tags$li("First language"),
               tags$li("School type"),
+              tags$li("Key stage 4 attainment"),
               tags$li("Region of school"),
-              tags$li("Income Deprivation Affecting Children Index (IDACI)")
+              tags$li("IDACI (Income Deprivation Affecting Children Index) quintiles")
             ), 
             p("With populations of:", class = "normal-text"),
             tags$ul(
               tags$li("All individuals"),
-              tags$li("Graduate and non-graduate"),
-              tags$li("Level 3 or above and level 2 or below")
+              tags$li("Graduates and non-graduates"),
+              tags$li("(Non-graduates) level 3 achievement split")
             ),
           )
         ),
@@ -74,8 +72,6 @@ tabPanelTwo <- function() {
       div(
         class = "inputs_box",
         style = "min-height:100%; height = 100%; overflow-y: visible",
-        #status = "primary",
-        #background = "light-blue",
       fluidRow(
           column(
             width = 3,
@@ -129,6 +125,8 @@ tabPanelTwo <- function() {
       )
         
       ),
+      div(
+        style = "padding: 12px;",
         fluidRow(
           label_hint(
         "earn_label",
@@ -159,61 +157,13 @@ tabPanelTwo <- function() {
                        )
 
 
-            )),
-    #   sidebarLayout(
-    #     sidebarPanel(
-    #       width = 3,
-    #       selectInput(
-    #         inputId = "earn_select1",
-    #         label = "Choose a population: ",
-    #         choices = c("National level" = "National",
-    #               "Graduate level" = "Grads",
-    #               "Non-Graduate level" = "Non-grads")
-    #       ),
-    #       
-    #       selectizeInput(inputId = "earn_subcat",
-    #                      label = "Select a subpopulation: ",
-    #                      choices = NULL,
-    #                      selected = NULL),
-    #       
-    #       checkbox_Input(
-    #         inputId = "comparisoncheck",
-    #         cb_labels = "Compare with National Average",
-    #         checkboxIds = "Yes",
-    #         label = "",
-    #         hint_label = NULL,
-    #         small = TRUE
-    #       ),
-    #   #    checkboxInput("compcheck2", "Compare with National Average", value = TRUE, width = NULL),
-    #       
-    #       p("Download table of data as csv file."),
-    #       downloadButton("downloadearnings", "Download")
-    #     ),
-    #     mainPanel(
-    #       width = 9,
-    #       tabsetPanel(
-    #       type = "tabs",
-    #       tabPanel(title = "Earnings Trajectory - Line chart",
-    #                div(
-    #                  class = "plotly-full-screen",
-    #                  shinycssloaders::withSpinner(
-    #                    plotly::plotlyOutput(
-    #                      outputId = "earningsplot"
-    #                    ),
-    #                    type = 8,
-    #                    color = "#1D70B8",
-    #                    size = 0.5
-    #                  )
-    #                )
-    #                ),
-    #       tabPanel(title = "Table of data",
-    #                DT::dataTableOutput("table_earnings_tbl")
-    #                )
-    #       
-    #       
-    #     )
-    #   ),
-    # )
+            ))
+      ),
+      fluidRow(
+        insert_text(inputId = "tech_link", text = paste("For details of the definitions of the breakdowns used, please refer to the technical report: ", "<br>",
+                                                        a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
+        
+      )
   )))
 }
 tabPanelThree <- function(){
@@ -261,6 +211,13 @@ tabPanelThree <- function(){
                p("Download data"),
                downloadButton("downloadtrajectories", "Download data as csv file"))
       )),
+      div(
+        style = "padding: 12px;",
+      fluidRow(
+        insert_text(inputId = "tech_link", text = paste("For details of the definitions of the breakdowns used, please refer to the technical report: ", "<br>",
+                                                        a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
+        
+      ),
       fluidRow(
         label_hint("act_label", "Main activities of individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."),
         label_hint(
@@ -279,8 +236,6 @@ tabPanelThree <- function(){
                  br(),
                  div(
                    class = "plotly-full-screen",
-                   #style = "padding-bottom:30px",
-                   #br(),
                    shinycssloaders::withSpinner(
                      plotly::plotlyOutput(
                        outputId = "activitiesplot",
@@ -298,7 +253,8 @@ tabPanelThree <- function(){
                  DT::dataTableOutput("table_activities_tbl")
         )
       )
-      )
+      ))
+      
     )
     )
    )
