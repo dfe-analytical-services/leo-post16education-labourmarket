@@ -141,7 +141,7 @@ plot_activities <- function(input1, input2, input3){
                               plot.background = element_rect(fill = "white", color = "white"))+
                         facet_wrap(~Subpopulation, scales = "free", ncol = 2)))
 
-  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400), width = 880 ,res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
+  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400), res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
     layout(autosize = F, showlegend = TRUE, barmode = "stack", legend=list(traceorder = "normal"), 
            title = list(text = paste0('Main Activities of individuals for KS4 cohorts 2001/02 to 2006/07',
                                       '<br>',
@@ -149,7 +149,7 @@ plot_activities <- function(input1, input2, input3){
                                       'Source: Longitudinal Education Outcomes dataset',
                                       '</sup>'), x=0, y = 1.8, font = list(size = 18)), 
            margin = list(t = 80, r = 0, b = 50, l= 0, unit = "px")) %>%
-    config()%>%
+    config(displayModeBar = TRUE)%>%
     style(hoverinfo = "none", traces = c((length(input3)*8+1): (length(input3)*16))) #This chooses which traces' tooltip shouldn't appear
   #problem with this is that when you add new charts the number of traces changes and then you could need to specify with traces been to show or not
 
