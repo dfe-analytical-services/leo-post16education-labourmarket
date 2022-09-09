@@ -192,7 +192,7 @@ tabPanelThree <- function(){
                            choices = NULL,
                            selected = NULL,
                            multiple = TRUE,
-                           options = list(),
+                           options = list('actions-box' = TRUE),
                            choicesOpt = NULL,
                            width = "100%",
                            inline = FALSE
