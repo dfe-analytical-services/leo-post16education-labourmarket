@@ -139,9 +139,10 @@ plot_activities <- function(input1, input2, input3){
                         theme(panel.grid.major.y = element_line("grey",size = 0.25, "solid"),
                               panel.background = element_rect(fill = "white", color = "white"),
                               plot.background = element_rect(fill = "white", color = "white"))+
-                        facet_wrap(~Subpopulation, scales = "free", ncol = 2)))
+                        facet_wrap(~Subpopulation, scales = "free", ncol = 2, dir = "h")))
 
-  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400), res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
+  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400), 
+                   res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
     layout(autosize = F, showlegend = TRUE, barmode = "stack", legend=list(traceorder = "normal"), 
            title = list(text = paste0('Main Activities of individuals for KS4 cohorts 2001/02 to 2006/07',
                                       '<br>',
