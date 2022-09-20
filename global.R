@@ -41,7 +41,7 @@ plot_earnings <- function(input1, input2, input3){
     geom_line()+
     ylab("Average earnings £ (annual)")+
     xlab("Years after key stage 4 (full tax years)")+
-    scale_y_continuous(limits = c(0, 36000),breaks = seq(0, 35000, by = 5000), label = comma, expand = c(0,0))+
+    scale_y_continuous(limits = c(0, 41000),breaks = seq(0, 40000, by = 5000), label = comma, expand = c(0,0))+
     scale_x_continuous(limits = c(1, 15),breaks = seq(1, 15, by = 1))+
     govstyle::theme_gov()+
     theme(panel.grid.major.y = element_line("grey",size = 0.25, "solid"),
@@ -78,7 +78,7 @@ plot_earnings_comparison <- function(input1, input2, input3){
     geom_line()+
     ylab("Average Earnings £ (annual)")+
     xlab("Years after key stage 4 (full tax years)")+
-    scale_y_continuous(limits = c(0, 36000),breaks = seq(0, 35000, by = 5000), label = comma, expand = c(0,0))+
+    scale_y_continuous(limits = c(0, 41000),breaks = seq(0, 40000, by = 5000), label = comma, expand = c(0,0))+
     scale_x_continuous(limits = c(1, 15),breaks = seq(1, 15, by = 1))+
     govstyle::theme_gov()+
     theme(panel.grid.major.y = element_line("grey",size = 0.25, "solid"),
