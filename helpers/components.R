@@ -113,8 +113,8 @@ tabPanelTwo <- function() {
         ),
         fluidRow(
           column(width = 6,
-                 p("Download the data"),
-                 downloadButton("downloadearnings", "Download data as csv file")
+                 p("Download the data", style = "font-weight:bold;"),
+                 downloadButton("downloadearnings", "Download data as csv file", class = "Download_button")
                  )
       )
         
@@ -206,7 +206,7 @@ tabPanelThree <- function(){
       ),
       fluidRow(
         column(width = 6,
-               p("Download the data"),
+               p("Download the data", style = "font-weight:bold;"),
                downloadButton("downloadtrajectories", "Download data as csv file"))
       )
       ),
