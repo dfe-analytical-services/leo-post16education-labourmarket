@@ -43,16 +43,18 @@ ui <- fluidPage(
       min-height: 90vh;
       padding: 19px;
       margin-bottom: 20px;
-      background-color: #337ebf;
+      background-color: #1d70b8;
       border: 1px solid #e3e3e3;
       border-radius: 4px;
       -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
       box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
       color: #fff;
     
-      }
-    .comp_check {
-    color: #fff;
+    }
+    
+    .govuk-label.govuk-checkboxes__label{
+    color: white;
+    
     }"
       )
     )
