@@ -69,7 +69,8 @@ html {
 
 .tabbable > .tab-content {
   padding: 30px 20px;
-  border: 1px solid #b1b4b6;
+  /* border: 1px solid #b1b4b6; old darker grey */
+  border: 1px solid ##BBBEBE;
   border-top: 0
 }
 
@@ -83,7 +84,8 @@ html {
   padding-right: 19px;
   padding-bottom: 16px;
   padding-left: 19px;
-  border: 1px solid #b1b4b6;
+  /* border: 1px solid #b1b4b6; old darker grey */
+  border: 1px solid #BBBEBE;
   border-bottom: 0;
   background-color: #fff;
 }
@@ -122,7 +124,8 @@ html {
   padding-right: 19px;
   padding-bottom: 16px;
   padding-left: 19px;
-  border: 1px solid #b1b4b6;
+  /* border: 1px solid #b1b4b6; old darker grey */
+  border: 1px solid #BBBEBE;
   border-bottom: 0;
   background-color: #fff;
 }
