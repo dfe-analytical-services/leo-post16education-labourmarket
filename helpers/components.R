@@ -9,16 +9,18 @@ tabPanelOne <- function(){
         p("This dashboard accompanies the post-16 education and labour market activities, pathways and outcomes (LEO) research report. 
           It is an interactive tool allowing for visualisation and exploration of the data published alongside the report. This report contains analysis of post-16 education and labour market activities and outcomes based on different socioeconomic, demographic and education factors.", class = "normal-text"),
         insert_text(inputId = "tech_link", text = paste("You can view the published report and data tables at:","<br>", a(href = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo" , "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities, pathways and outcomes.", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"),
-                                                        "<br><br>","For more information, please refer to the technical report: ", "<br>",
+                                                        "<br>","For more information, please refer to the technical report: ", "<br>",
                                                         a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
         
-        h3(tags$b("Contents:")),
+        h2(tags$b("Contents")),
         fluidRow(
           column(
             width = 6,
-            p(tags$b("Earnings trajectory")," - This tab looks at the average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years. You can build on the 
+            h3(tags$b("Earnings trajectory")),
+            p("This tab looks at the average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years. You can build on the 
           presented plots by selecting breakdowns you wish to see and compare. There is also a function to compare with the overall average for all individuals.", class = "normal-text"),
-          p(tags$b("Main activities"), " - This tab looks at the main activities for individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years. You can compare the main activities by selecting multiple breakdowns.",class = "normal-text"),
+          h3(tags$b("Main activities")),
+          p("This tab looks at the main activities for individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years. You can compare the main activities by selecting multiple breakdowns.",class = "normal-text"),
           ),
           column(
             width = 6,

@@ -14,6 +14,7 @@
 shinyjs::useShinyjs()
 
 ui <- fluidPage(
+  #use_tota11y(),
   tags$head(
     tags$link(
       rel = "stylesheet", 
@@ -24,7 +25,7 @@ ui <- fluidPage(
         "
       .shiny-output-error-validation {
         color: red;
-        font-size:16px;
+        font-size:20px;
         font-weight:bold;
       }
 
