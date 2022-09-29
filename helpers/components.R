@@ -175,19 +175,37 @@ tabPanelThree <- function(){
         class = "inputs_box",
         style = "min-height:100%; height = 100%; overflow-y: visible",
       fluidRow(
+        # column(width = 4,
+        #        selectInput(
+        #          inputId = "activity_select1",
+        #          label = "Choose a population: ",
+        #          choices = c("All individuals","Graduates","Non-graduates")
+        #        )
+        #        ),
         column(width = 4,
-               selectInput(
+               pickerInput(
                  inputId = "activity_select1",
                  label = "Choose a population: ",
-                 choices = c("All individuals","Graduates","Non-graduates")
+                 choices = c("All individuals","Graduates","Non-graduates"),
+                 selected = c("All individuals")
                )
-               ),
-        column(width = 4,
-               selectizeInput(inputId = "activity_subcat",
-                              label = "Select a sub-group: ",
-                              choices = NULL,
-                              selected = NULL)
         ),
+        # column(width = 4,
+        #        selectizeInput(inputId = "activity_subcat",
+        #                       label = "Select a sub-group: ",
+        #                       choices = NULL,
+        #                       selected = NULL)
+        # ),
+        column(width=4,
+               pickerInput(inputId = "sub_group_picker",
+                           label = "Select a sub-group: ",
+                           choices = NULL,
+                           selected = NULL,
+                           multiple = FALSE,
+                           width ="100%",
+                           inline = FALSE
+                 
+               )),
 
         column(width = 4,
                pickerInput(inputId = "picker1",
