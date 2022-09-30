@@ -93,45 +93,6 @@ server <- function(input, output, session) {
       }
     })
   
-  
-  # observeEvent(input$earn_picker,{
-  #   output$activitiesplot <- plotly::renderPlotly({
-  #     validate(
-  #       need(!is.null(input$earn_picker), "Please select at least one characteristic.")
-  #     )
-  #     plot_activities(input$earn_select1, input$earn_subcat, input$earn_picker)
-  #   })
-  # })
-  
-  
-  #Download button
-  #For some reason downloading when the check is null doesn't work.
-  #   observeEvent(eventExpr = {
-  #     input$earn_select1
-  #     input$earn_subcat
-  #     input$comparisoncheck},
-  #     if(is.null(input$comparisoncheck)){
-  #       
-  #       output$downloadearnings <- downloadHandler(
-  #         filename = function() {
-  #           paste("Earnings_Trajectory",input$earn_select1,input$earn_subcat,".csv", sep = "_")
-  #         },
-  #         content = function(file) {
-  #           write.csv(table_earnings(input$earn_select1, input$earn_subcat), file, row.names = FALSE)
-  #         }
-  #       )
-  #     }else{
-  #       output$downloadearnings <- downloadHandler(
-  #         filename = function() {
-  #           paste("Earnings_Trajectory",input$earn_select1,input$earn_subcat,"ave_comparison.csv", sep = "_")
-  #         },
-  #         content = function(file) {
-  #           write.csv(table_earnings(input$earn_select1, input$earn_subcat), file, row.names = FALSE)
-  #         }
-  #       )
-  #     }
-  # )
-  
   # Reactive download for the earnings trajectory that changes the name depending on the first two value picked
   observeEvent(eventExpr = {
     input$earn_select1
@@ -234,7 +195,7 @@ server <- function(input, output, session) {
   output$act_choice_txt <- renderText({
     picker_choices_act <- paste(input$picker1, collapse = " & ")
     
-    c(paste("You have selected the", tags$b(input$activity_subcat)," sub-group for ", tags$b(input$sub_group_picker), ". With specific breakdown(s) of ", paste("<b>", picker_choices_act,"</b>"), paste(".")))
+    c(paste("You have selected the", tags$b(input$sub_group_picker)," sub-group for ", tags$b(input$activity_select1), ". With specific breakdown(s) of ", paste("<b>", picker_choices_act,"</b>"), paste(".")))
     
   })
   

@@ -61,8 +61,7 @@ plot_earnings <- function(input1, input2, input3){
 
 }
 
-#plot_earnings("National", "Major ethnic group", c("Chinese", "White"))
-
+# produces the alternative table for the national earnings
 table_earnings <- function(input1, input2, input3){
   temp <- earnings_data_all %>%
     filter(col1 == input1, col2 == input2, Subpopulation %in% input3) %>%
@@ -72,6 +71,7 @@ table_earnings <- function(input1, input2, input3){
 
 
 # ---- National average comparison ---------------------------------------------
+#
 plot_earnings_comparison <- function(input1, input2, input3){
   temp <- earnings_data_all %>%
     filter(col1 == input1, col2 == input2, Subpopulation %in% input3)
@@ -98,8 +98,7 @@ plot_earnings_comparison <- function(input1, input2, input3){
     config(displayModeBar = TRUE)
 }
 
-#plot_earnings_comparison("National", "Major ethnic group", c("Chinese", "White"))
-
+# produces the alternative table for the national earnings but includes the national averages in too
 table_earnings_comparison <- function (input1, input2, input3){
   temp <- earnings_data_all %>%
     filter(col1 == input1, col2 == input2, Subpopulation %in% input3) %>%
@@ -109,7 +108,6 @@ table_earnings_comparison <- function (input1, input2, input3){
   temp
 }
 
-#table_earnings_comparison("National", "Ethnicity Major", c("Chinese", "White"))
 
 #------------------------------------------------------------------------------------
 #---- Plotting Main activities stacked bar charts -----------------------------------
@@ -158,6 +156,7 @@ plot_activities <- function(input1, input2, input3){
 
 }
 #height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400)
+
 table_activities <- function(input1, input2, input3){
   temp <- activities_data_all %>%
     filter(col1 == input1, col2 == input2, Subpopulation %in% input3) %>%

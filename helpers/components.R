@@ -141,15 +141,10 @@ tabPanelTwo <- function() {
                        br(),
                          div(
                          class = "plotly-full-screen",
-                         #shinycssloaders::withSpinner(
                              plotly::plotlyOutput(
                              outputId = "earningsplot",
                              height = "100%"),
                            ),
-                           #type = 8,
-                           #color = "#1D70B8",
-                           #size = 0.5)
-                       #,
                        
                        br(),
                        ),
@@ -187,7 +182,7 @@ tabPanelThree <- function(){
                  inputId = "activity_select1",
                  label = "Choose a population: ",
                  choices = c("All individuals","Graduates","Non-graduates"),
-                 selected = c("All individuals")
+                 selected = NULL
                )
         ),
         # column(width = 4,
@@ -219,10 +214,6 @@ tabPanelThree <- function(){
                            inline = FALSE
                )
          ),
-
-        # column(width =3,
-        #        p("Download data"),
-        #        downloadButton("downloadtrajectories", "Download data as csv file"))
       ),
       fluidRow(
         column(width = 6,
@@ -249,8 +240,6 @@ tabPanelThree <- function(){
       ),
 
       fluidRow(
-        #column(
-          #width = 12,
           tabsetPanel(
             type = "tabs",
             tabPanel(title = "Main activities",
@@ -267,10 +256,6 @@ tabPanelThree <- function(){
                        )
                        #)
                        ,
-                       # type = 8,
-                       # color = "#1D70B8",
-                       # size = 0.5
-                       #),
                        br()
                      #),
                      #br(),
@@ -279,7 +264,7 @@ tabPanelThree <- function(){
                      DT::dataTableOutput("table_activities_tbl")
             )
           )
-        #)
+
       ))
       
     )
@@ -312,10 +297,6 @@ tabPanelFive <- function(){
       gov_layout(
         size = "full",
         heading_text("Feedback and suggestions", size = "l"),
-        # label_hint(
-        #   "label9",
-        #   "Feedback and suggestions"
-        # ),
         h2("Give us feedback"),
         p("If you have any feedback or suggestions for improvement, please submit them using our", a(href = "https://forms.office.com/r/pEKGshfvgU" , "feedback and suggestions form.")),
         
