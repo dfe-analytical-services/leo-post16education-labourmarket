@@ -144,7 +144,7 @@ tabPanelTwo <- function() {
                          #shinycssloaders::withSpinner(
                              plotly::plotlyOutput(
                              outputId = "earningsplot",
-                             height = "100%")
+                             height = "100%"),
                            ),
                            #type = 8,
                            #color = "#1D70B8",
@@ -255,25 +255,25 @@ tabPanelThree <- function(){
             type = "tabs",
             tabPanel(title = "Main activities",
                      br(),
-                     div(
-                       class = "plotly-full-screen",
+                     #div(
+                      # class = "plotly-full-screen",
                        #shinycssloaders::withSpinner(
-                       div(
-                         class = "act-plotly",
+                       # div(
+                       #   class = "act-plotly",
                          plotly::plotlyOutput(
                          outputId = "activitiesplot",
                          height = "100%",
                          width = "auto"
                        )
-                       )
+                       #)
                        ,
                        # type = 8,
                        # color = "#1D70B8",
                        # size = 0.5
                        #),
                        br()
-                     ),
-                     br(),
+                     #),
+                     #br(),
             ),
             tabPanel(title = "Table of data",
                      DT::dataTableOutput("table_activities_tbl")

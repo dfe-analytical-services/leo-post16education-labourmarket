@@ -129,7 +129,7 @@ plot_activities <- function(input1, input2, input3){
     mutate(plot = map(data, ~ggplot(temp, aes(`Years after KS4`, Percentage, fill = Activity, group = Subpopulation, text = format(ifelse(round(Percentage,0) > 1, round(Percentage,0), ""), 2))) +
                         geom_bar(position = 'stack', stat = 'identity')+
                         ylab("Percentage (%)")+
-                        xlab("Years after Key Stage 4")+
+                        xlab("Years after key stage 4")+
                         geom_text(size = 3,
                                   position = position_stack(vjust = 0.5),
                                   label = format(ifelse(round(temp$Percentage,0) > 1, round(temp$Percentage,0), ""), 2),
@@ -143,7 +143,7 @@ plot_activities <- function(input1, input2, input3){
                               plot.background = element_rect(fill = "white", color = "white"))+
                         facet_wrap(~Subpopulation, scales = "free", ncol = 2, dir = "h")))
 
-  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400), 
+  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400),
                    res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
     layout(autosize = F, showlegend = TRUE, barmode = "stack", legend=list(traceorder = "normal"), 
            title = list(text = paste0('Main Activities of individuals for KS4 cohorts 2001/02 to 2006/07',
@@ -157,7 +157,7 @@ plot_activities <- function(input1, input2, input3){
   #problem with this is that when you add new charts the number of traces changes and then you could need to specify with traces been to show or not
 
 }
-
+#height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400)
 table_activities <- function(input1, input2, input3){
   temp <- activities_data_all %>%
     filter(col1 == input1, col2 == input2, Subpopulation %in% input3) %>%
