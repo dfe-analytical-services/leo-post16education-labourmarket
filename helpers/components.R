@@ -129,7 +129,9 @@ tabPanelTwo <- function() {
         "Average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."
       )),
       fluidRow(label_hint("earningslabel",
-                          paste(htmlOutput("ern_choice_txt")))),
+                          paste(htmlOutput("ern_choice_txt"))),
+               label_hint("descr_act", paste("The graph shows this data as a line chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Average earnings"), "."))
+      ),
       fluidRow(
         insert_text(inputId = "tech_link", text = paste("For details of the definitions of the breakdowns used, please refer to the technical report: ", "<br>",
                                                         a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
@@ -227,7 +229,8 @@ tabPanelThree <- function(){
         label_hint("act_label", "Main activities of individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."),
         label_hint(
           "activitieslabel", paste(htmlOutput("act_choice_txt"))
-        )
+        ),
+        label_hint("descr_act", paste("The graph shows this data as a 100% stacked column chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Percentage"), " of population, with activities categorised by colour."))
       ),
       fluidRow(
         insert_text(inputId = "tech_link", text = paste("For details of the definitions of the breakdowns used, please refer to the technical report: ", "<br>",
