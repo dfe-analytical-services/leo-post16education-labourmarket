@@ -247,17 +247,18 @@ tabPanelThree <- function(){
             type = "tabs",
             tabPanel(title = "Main activities",
                      br(),
-                     #div(
-                      # class = "plotly-full-screen",
+                     div(
+                       id = "main-activites-plot",
+                       class = "plotly-full-screen",
                        #shinycssloaders::withSpinner(
-                       # div(
-                       #   class = "act-plotly",
+                        div(
+                          class = "act-plotly",
                          plotly::plotlyOutput(
                          outputId = "activitiesplot",
                          height = "100%",
                          width = "auto"
                        )
-                       #)
+                       )
                        ,
                        br()
                      #),

@@ -89,6 +89,22 @@ ui <- fluidPage(
   ),
   tags$script(HTML(
     "
+    $(document).keyup(function(e) {
+      if (e.key === 'Escape') { 
+        $('html').find('.full-screen').removeClass('full-screen').trigger('resize').hide().show();
+        
+        let buttons = document.getElementsByClassName('fullscreen-button');
+
+        if(buttons.length > 0) { 
+          for (let i = 0; i < buttons.length; i++) {
+            $('.fullscreen-button').text('View full screen');
+            $(buttons[i]).parent().attr('data-full_screen', 'false');
+            $('body').css('overflow-y', 'scroll');
+          }
+        }
+      }
+    });
+    
     function plotZoom(el){
         el = $(el);
         var parent = el.parent().parent();
@@ -97,6 +113,7 @@ ui <- fluidPage(
             parent.addClass('full-screen').trigger('resize').hide().show();
             $('.fullscreen-button').text('Exit full screen');
             el.attr('data-full_screen', 'true');
+            $('body').css('overflow-y', 'hidden');
             setTimeout(function() {
               $('html').css('visibility', 'visible');
             }, 700);
@@ -105,6 +122,7 @@ ui <- fluidPage(
             parent.removeClass('full-screen').trigger('resize').hide().show();
             $('.fullscreen-button').text('View full screen');
             el.attr('data-full_screen', 'false');
+            $('body').css('overflow-y', 'scroll');
         }
     }
     
@@ -116,7 +134,7 @@ ui <- fluidPage(
                 <a href='#' class='govuk-link fullscreen-button'>View full screen</a>
             </button>
         </div>
-        `); 
+        `);
     })
     "
   )),
