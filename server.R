@@ -15,11 +15,21 @@ server <- function(input, output, session) {
   # ---- Earnings Trajectory Page ------------------------------------------------
   
   # Second user input asking for the subpopulation, changes depending on the first population input 
-  observeEvent(input$earn_select1, {
-    updateSelectizeInput(session = session,
-                         inputId = "earn_subcat",
-                         choices = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1, "col2"]),
-                         server = TRUE)
+  # observeEvent(input$earn_select1, {
+  #   updateSelectizeInput(session = session,
+  #                        inputId = "earn_subcat",
+  #                        choices = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1, "col2"]),
+  #                        server = TRUE)
+  # })
+  
+  observeEvent(input$earn_select1,{
+    updatePickerInput(session = session,
+                      inputId = "earn_subcat",
+                      selected = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1, "col2"])[1],
+                      choices = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1, "col2"]),
+                      choicesOpt = NULL,
+                      options = NULL,
+                      clearOptions = TRUE)
   })
   
   #reactive for the third picker - subgroups

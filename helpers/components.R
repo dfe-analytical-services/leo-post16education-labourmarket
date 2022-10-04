@@ -79,18 +79,33 @@ tabPanelTwo <- function() {
       fluidRow(
           column(
             width = 3,
-            selectInput(
+            pickerInput(
               inputId = "earn_select1",
               label = "Choose a population: ",
-              choices = c("All individuals","Graduates","Non-graduates")
+              choices = c("All individuals","Graduates","Non-graduates"),
+              selected = NULL
             )
+            # selectInput(
+            #   inputId = "earn_select1",
+            #   label = "Choose a population: ",
+            #   choices = c("All individuals","Graduates","Non-graduates")
+            # )
           ),
           column(
             width = 3,
-            selectizeInput(inputId = "earn_subcat",
-                           label = "Select a sub-group: ",
-                           choices = NULL,
-                           selected = NULL),
+            pickerInput(inputId = "earn_subcat",
+                        label = "Select a sub-group: ",
+                        choices = NULL,
+                        selected = NULL,
+                        multiple = FALSE,
+                        width ="100%",
+                        inline = FALSE
+                        
+            )
+            # selectizeInput(inputId = "earn_subcat",
+            #                label = "Select a sub-group: ",
+            #                choices = NULL,
+            #                selected = NULL),
             
           ),
           column(width = 3,
