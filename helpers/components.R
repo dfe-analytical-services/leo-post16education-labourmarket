@@ -52,6 +52,8 @@ tabPanelOne <- function(){
             tags$ul(
               tags$li("Hover over lines/bars in the plot to see specific values."), 
               tags$li("The bar along the top of the plots contains extra interactive features such as download as PNG and/or resize plot and zoom."),
+              tags$li("Click \"View full screen\" to display the plots as full screen."),
+              tags$li("To exit full screen, click \"Exit full screen\" or press the escape key (Esc)."),
               tags$br(),
               tags$b("Using the Key:"),
               tags$li("Double clicking a line/value in the key will isolate the value in the plot."),
@@ -172,13 +174,6 @@ tabPanelThree <- function(){
         class = "inputs_box",
         style = "min-height:100%; height = 100%; overflow-y: visible",
       fluidRow(
-        # column(width = 4,
-        #        selectInput(
-        #          inputId = "activity_select1",
-        #          label = "Choose a population: ",
-        #          choices = c("All individuals","Graduates","Non-graduates")
-        #        )
-        #        ),
         column(width = 4,
                pickerInput(
                  inputId = "activity_select1",
@@ -187,12 +182,6 @@ tabPanelThree <- function(){
                  selected = NULL
                )
         ),
-        # column(width = 4,
-        #        selectizeInput(inputId = "activity_subcat",
-        #                       label = "Select a sub-group: ",
-        #                       choices = NULL,
-        #                       selected = NULL)
-        # ),
         column(width=4,
                pickerInput(inputId = "sub_group_picker",
                            label = "Select a sub-group: ",
@@ -215,7 +204,7 @@ tabPanelThree <- function(){
                            width = "100%",
                            inline = FALSE
                )
-         ),
+         )
       ),
       fluidRow(
         column(width = 6,
@@ -258,19 +247,16 @@ tabPanelThree <- function(){
                          height = "100%",
                          width = "auto"
                        )
-                       )
-                       ,
+                       ),
                        br()
-                     #),
-                     #br(),
-            ),
+            )),
             tabPanel(title = "Table of data",
-                     DT::dataTableOutput("table_activities_tbl")
-            )
+                     DT::dataTableOutput("table_activities_tbl"))
           )
 
-      ))
-      
+      )
+      )
+ ##     
     )
     )
    )
