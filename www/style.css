@@ -38,20 +38,21 @@ html {
   font-weight: 700;
   line-height: 1.1428571429;
   background-color: #eee !important;
-  color: #1d70b8;
+  color: #175E9D;
   font-size: 15px;
-  border-color: #1d70b8;
+  border-color: #175E9D;
+  /*old colour : #1d70b8*/
 }
 
 .nav-pills > li.active > a, 
 .nav-pills > li.active > a:focus, 
 .nav-pills > li.active > a:hover {
-  color: #1d70b8 !important;
+  color: #175E9D !important;
 }
 
 .nav-pills > li > a:focus,
 .nav-pills > li > a:hover {
-   border-color: #1d70b8;
+   border-color: #175E9D;
 }
 
 .nav-pills > li > a {
@@ -70,7 +71,7 @@ html {
 .tabbable > .tab-content {
   padding: 30px 20px;
   /* border: 1px solid #b1b4b6; old darker grey */
-  border: 1px solid ##BBBEBE;
+  border: 1px solid #BBBEBE;
   border-top: 0
 }
 
