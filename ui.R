@@ -15,6 +15,8 @@ shinyjs::useShinyjs()
 
 ui <- fluidPage(
   #use_tota11y(),
+  tags$html(lang="en"),
+  tags$title("Longitudinal Education Outcomes (LEO): post-16 education and labour market activities and outcomes"),
   tags$head(
     tags$link(
       rel = "stylesheet", 
@@ -63,7 +65,9 @@ ui <- fluidPage(
   shinyGovstyle::header(
     main_text = "Department for Education", 
     secondary_text = "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities and outcomes", 
-    logo = "shinyGovstyle/images/moj_logo.png"
+    logo = "shinyGovstyle/images/moj_logo.png",
+    main_link = "https://www.gov.uk/government/organisations/department-for-education",
+    secondary_link = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo"
   ),
   shiny::navlistPanel(
     "",
