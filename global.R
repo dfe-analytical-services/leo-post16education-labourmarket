@@ -30,8 +30,10 @@ source("helpers/components.R", encoding = "UTF-8")
 
 
 # These colours have been copied from the original main report - meant to replicate the plots in the report as much as possible
-DFE_bar_col <- c("#44546a","#70ad47","#4472c4","#ffc000","#a5a5a5", "#c55a11","#ed7d31","#5b9bd5")
+#DFE_bar_col <- c("#44546a","#70ad47","#4472c4","#ffc000","#a5a5a5", "#c55a11","#ed7d31","#5b9bd5")
 
+#These colours were chosen and tested by our accessibility tester - uses a combination of DfE recommended colours and other recommended colours
+new_cols <- c("#12436D","#f46a25","#801650","#28a197","#3D3D3D","#a285d1","#540000","#FF5E59")
 
 # ---- Earnings Trajectory plots ------------------------------------------------
 # Function without the national average line
@@ -131,8 +133,9 @@ plot_activities <- function(input1, input2, input3){
                         geom_text(size = 3,
                                   position = position_stack(vjust = 0.5),
                                   label = format(ifelse(round(temp$Percentage,0) > 1, round(temp$Percentage,0), ""), 2),
-                                  colour = ifelse(temp$Activity == "Activity not captured", "white", ifelse(temp$Activity == "Out of work benefits", "white", "black")))+
-                        scale_fill_manual(values= DFE_bar_col) +
+                                  colour = ifelse(temp$Activity == "Activity not captured", "white", ifelse(temp$Activity == "Out of work benefits", "white", ifelse(temp$Activity == "Higher education", "white", ifelse(temp$Activity == "Other Education", "white", "black"))))
+                                  )+
+                        scale_fill_manual(values= new_cols) +
                         scale_y_continuous(limits = c(0, 105),breaks = seq(0, 100, by = 10), expand = c(0,0))+
                         scale_x_continuous(breaks = seq(1, 15, by = 1))+
                         govstyle::theme_gov()+
