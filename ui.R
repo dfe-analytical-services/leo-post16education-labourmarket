@@ -93,6 +93,8 @@ ui <- fluidPage(
   ),
   tags$script(HTML(
     "
+    $('img.govuk-header__logotype-crown-fallback-image').prop('alt','');
+    
     $(document).keyup(function(e) {
       if (e.key === 'Escape') { 
         $('html').find('.full-screen').removeClass('full-screen').trigger('resize').hide().show();
