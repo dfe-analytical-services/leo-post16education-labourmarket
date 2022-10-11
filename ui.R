@@ -55,6 +55,12 @@ ui <- fluidPage(
     
     }
     
+    p{
+      color: #0B0C0C;
+      font-family: GDS Transport, arial, sans-serif;
+      font-size: 18px;
+    }
+    
     .govuk-label.govuk-checkboxes__label{
     color: white;
     
