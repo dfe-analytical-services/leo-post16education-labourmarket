@@ -61,6 +61,14 @@ ui <- fluidPage(
       font-size: 18px;
     }
     
+    h2{
+    font-weight: bold;
+    }
+    
+    h3{
+    font-weight: bold;
+    }
+    
     .govuk-label.govuk-checkboxes__label{
     color: white;
     
