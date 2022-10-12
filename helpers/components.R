@@ -292,7 +292,7 @@ tabPanelFour <- function(){
         tags$ul(
           tags$li("Screen reader and keyboard users cannot navigate through the interactive graphs effectively. An accessible alternative is provided in a CSV format for users to download on this dashboard."), 
           tags$li("Users may have difficultly reading the graph due to the use of colour. An accessible alternative is provided in a CSV format for users to download on this dashboard."),
-          tags$li("Speech recognition users may not be able to use commands for ‘Interactive Plots User Guide:’ and all the list boxes effectively. Mouse grid is accessible alternative."),
+          tags$li("Speech recognition users may not be able to use commands for ‘Interactive Plots User Guide:’ and all the list boxes effectively. Mouse grid is an accessible alternative."),
           tags$li("Keyboard users may find it difficult to navigate through the dashboard due to the lack of instructions and interactive elements not working in a logical way. To navigate through the navigation bar, use the arrow keys and press tab to enter into the page."),
           tags$li("Keyboard users cannot navigate through the list boxes in a logical way. To use the dropdowns, the space bar and the up and down arrow keys can be used to expand the drop down. The tab key must be used to navigate through the options and enter must be clicked to choose an option."),
           tags$li("Tick boxes can only be selected using the space bar rather than the enter key."),
