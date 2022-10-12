@@ -14,48 +14,46 @@ server <- function(input, output, session) {
   
   # ---- Earnings Trajectory Page ------------------------------------------------
   
-  # Second user input asking for the subpopulation, changes depending on the first population input 
-  # observeEvent(input$earn_select1, {
-  #   updateSelectizeInput(session = session,
-  #                        inputId = "earn_subcat",
-  #                        choices = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1, "col2"]),
-  #                        server = TRUE)
-  # })
-  
-  observeEvent(input$earn_select1,{
-    updatePickerInput(session = session,
-                      inputId = "earn_subcat",
-                      selected = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1, "col2"])[1],
-                      choices = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1, "col2"]),
-                      choicesOpt = NULL,
-                      options = NULL,
-                      clearOptions = TRUE)
-  })
-  
-  #reactive for the third picker - subgroups
-  observeEvent(eventExpr ={
-    input$earn_select1
-    input$earn_subcat},{
-      
+  # Second user input for earnings Trajectory page - subgroups
+  observeEvent(#looks at the first user input choice
+    input$earn_select1, {
+      #updates the second picker with the new filtered values and has a default of the first one in the array
       updatePickerInput(
         session = session,
-        inputId = "earn_picker",
-        label = NULL,
-        selected = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1 & earnings_data_all$col2 == input$earn_subcat, "Subpopulation"])[1],
-        choices = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1 & earnings_data_all$col2 == input$earn_subcat, "Subpopulation"]),
+        inputId = "earn_subcat",
+        selected = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1, "col2"])[1],
+        choices = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1, "col2"]),
         choicesOpt = NULL,
         options = NULL,
         clearOptions = TRUE
       )
-    }
-  )
+    })
   
+  #reactive for the third picker - breakdowns
+  observeEvent(#looks at the 1st and 2nd user inputs
+    eventExpr = {
+      input$earn_select1
+      input$earn_subcat
+    }, {
+      #updates the last picker with the filtered choices from inputs 1 and 2 and defaults to the first in array
+      updatePickerInput(
+        session = session,
+        inputId = "earn_picker",
+        label = NULL,
+        selected = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1 &
+                                              earnings_data_all$col2 == input$earn_subcat, "Subpopulation"])[1],
+        choices = unique(earnings_data_all[earnings_data_all$col1 == input$earn_select1 &
+                                             earnings_data_all$col2 == input$earn_subcat, "Subpopulation"]),
+        choicesOpt = NULL,
+        options = NULL,
+        clearOptions = TRUE
+      )
+    })
   
+  #reactive text to display the choices made by the user.
   output$ern_choice_txt <- renderText({
     picker_choices_earn <- paste(input$earn_picker, collapse = " & ")
     c(paste("You have selected the", tags$b(input$earn_subcat)," sub-group for ", tags$b(input$earn_select1), ". With specific breakdown(s) of ", paste("<b>", picker_choices_earn,"</b>"), paste(".")))
-    #c(paste("You have selected to see the", tags$b(input$earn_select1),"population, subpopulation of ", tags$b(input$earn_subcat)," and specific characteristic(s) of ")
-    #  ,paste("<b>", picker_choices,"</b>"), paste("."))
   })
   
   
@@ -103,7 +101,7 @@ server <- function(input, output, session) {
       }
     })
   
-  # Reactive download for the earnings trajectory that changes the name depending on the first two value picked
+  # Reactive download for the earnings trajectory that changes the name depending on the first two values picked
   observeEvent(eventExpr = {
     input$earn_select1
     input$earn_subcat
@@ -122,86 +120,55 @@ server <- function(input, output, session) {
   
   # ---- Main Activity Page ------------------------------------------------------  
   
-  # Second input that responds to the first population choice
-  # observeEvent(input$activity_select1,{
-  #   updateSelectizeInput(session = session,
-  #                        inputId = "activity_subcat",
-  #                        choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1, "col2"]),
-  #                       # choices = unique(activities_main_categories[activities_main_categories$types == input$activity_select1, "names"]),
-  #                        server = TRUE)
-  # })
-  
-  observeEvent(input$activity_select1,{
-    updatePickerInput(session = session,
-                      inputId = "sub_group_picker",
-                      selected = unique(activities_data_all[activities_data_all$col1 == input$activity_select1, "col2"])[1],
-                      choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1, "col2"]),
-                      # choices = unique(activities_main_categories[activities_main_categories$types == input$activity_select1, "names"]),
-                      choicesOpt = NULL,
-                      options = NULL,
-                      clearOptions = TRUE)
-  })
-  
-  # Another observe event that responds to the first and second choices, giving users ability to choose specific characteristics to view
-  # observeEvent(eventExpr = {
-  #   input$activity_select1
-  #   input$activity_subcat},
-  #   {
-  #     updatePickerInput(
-  #       session = session,
-  #       inputId = "picker1",
-  #       label = NULL,
-  #       selected = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 & activities_data_all$col2 == input$activity_subcat, "Subpopulation"])[1],
-  #       choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 & activities_data_all$col2 == input$activity_subcat, "Subpopulation"]),
-  #       choicesOpt = NULL,
-  #       options = NULL,
-  #       clearOptions = TRUE
-  #     )
-  #   })
-  
-  observeEvent(eventExpr = {
-    input$activity_select1
-    input$sub_group_picker},
-    {
+  # Second user input - subgroups
+  observeEvent(#looks at the first user input choice
+    input$activity_select1, {
+      #updates the second picker with the new filtered values and has a default of the first one in the array
       updatePickerInput(
         session = session,
-        inputId = "picker1",
-        label = NULL,
-        selected = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 & activities_data_all$col2 == input$sub_group_picker, "Subpopulation"])[1],
-        choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 & activities_data_all$col2 == input$sub_group_picker, "Subpopulation"]),
+        inputId = "sub_group_picker",
+        selected = unique(activities_data_all[activities_data_all$col1 == input$activity_select1, "col2"])[1],
+        choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1, "col2"]),
         choicesOpt = NULL,
         options = NULL,
         clearOptions = TRUE
       )
     })
   
-  # This is a space to give the user an error message when you do not pick a value in the picker
-  # observeEvent(input$picker1,{
-  #   output$activitiesplot <- plotly::renderPlotly({
-  #     validate(
-  #       need(!is.null(input$picker1), "Please select at least one breakdown.")
-  #     )
-  #     plot_activities(input$activity_select1, input$activity_subcat, input$picker1)
-  #   })
-  # })
+  #third user input - breakdowns
+  observeEvent(#looks at the 1st and 2nd user inputs
+    eventExpr = {
+      input$activity_select1
+      input$sub_group_picker
+    },
+    {
+      #updates the last picker with the filtered choices from inputs 1 and 2 and defaults to the first in array
+      updatePickerInput(
+        session = session,
+        inputId = "picker1",
+        label = NULL,
+        selected = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 &
+                                                activities_data_all$col2 == input$sub_group_picker, "Subpopulation"])[1],
+        choices = unique(activities_data_all[activities_data_all$col1 == input$activity_select1 &
+                                               activities_data_all$col2 == input$sub_group_picker, "Subpopulation"]),
+        choicesOpt = NULL,
+        options = NULL,
+        clearOptions = TRUE
+      )
+    })
+  
   
   observeEvent(input$picker1,{
     output$activitiesplot <- plotly::renderPlotly({
+      #validation to make sure that the user has picked at least one breakdown
       validate(
         need(!is.null(input$picker1), "Please select at least one breakdown.")
       )
       plot_activities(input$activity_select1, input$sub_group_picker, input$picker1)
     })
   })
-  
-  # Output sentence to display and confirm the choices of the user.
-  # output$act_choice_txt <- renderText({
-  #   picker_choices_act <- paste(input$picker1, collapse = " & ")
-  #   
-  #   c(paste("You have selected the", tags$b(input$activity_subcat)," sub-group for ", tags$b(input$activity_select1), ". With specific breakdown(s) of ", paste("<b>", picker_choices_act,"</b>"), paste(".")))
-  #   
-  # })
-  
+
+  #reactive text to display what the user has picked
   output$act_choice_txt <- renderText({
     picker_choices_act <- paste(input$picker1, collapse = " & ")
     
@@ -209,28 +176,13 @@ server <- function(input, output, session) {
     
   })
   
-  
-  # This produces a table alternative of the data
-  # output$table_activities_tbl <- DT ::renderDataTable(
-  #   DT::datatable(table_activities(input$activity_select1, input$activity_subcat, input$picker1), options = list(dom = 'ftp', pageLength = 10), colnames = c("Years after KS4", "Activity", "Subpopulation", "Percentage (%)"), rownames = FALSE) %>%
-  #     formatRound('Percentage', digits =0)
-  # )
-  # 
+
   output$table_activities_tbl <- DT ::renderDataTable(
     DT::datatable(table_activities(input$activity_select1, input$sub_group_picker, input$picker1), options = list(dom = 'ftp', pageLength = 10), colnames = c("Years after KS4", "Activity", "Subpopulation", "Percentage (%)"), rownames = FALSE) %>%
       formatRound('Percentage', digits =0)
   )
   
-  #Download Handler for main activities page
-  # output$downloadtrajectories <- downloadHandler(
-  #   filename = function() {
-  #     paste("Main_activities",input$activity_select1,input$activity_subcat, paste(input$picker1,collapse = "_"),".csv", sep = "_")
-  #   },
-  #   content = function(file) {
-  #     write.csv(table_activities(input$activity_select1, input$activity_subcat, input$picker1), file, row.names = FALSE)
-  #   }
-  # )
-  
+  # Reactive download for the main activities data that changes the name depending on the first two values picked
   output$downloadtrajectories <- downloadHandler(
     filename = function() {
       paste("Main_activities",input$activity_select1,input$sub_group_picker, paste(input$picker1,collapse = "_"),".csv", sep = "_")

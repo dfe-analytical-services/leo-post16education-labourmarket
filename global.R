@@ -33,7 +33,6 @@ source("helpers/components.R", encoding = "UTF-8")
 #DFE_bar_col <- c("#44546a","#70ad47","#4472c4","#ffc000","#a5a5a5", "#c55a11","#ed7d31","#5b9bd5")
 
 #These colours were chosen and tested by our accessibility tester - uses a combination of DfE recommended colours and other recommended colours
-#new_cols <- c("#12436D","#f46a25","#801650","#28a197","#3D3D3D","#a285d1","#540000","#FF5E59")
 new_cols <- c("#12436D","#f46a25","#801650","#28a197","#3D3D3D","#a285d1","#673302","#FF5E59")
 
 # ---- Earnings Trajectory plots ------------------------------------------------
@@ -160,7 +159,7 @@ res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percen
   #problem with this is that when you add new charts the number of traces changes and then you could need to specify with traces been to show or not
 
 }
-#height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400)
+
 
 table_activities <- function(input1, input2, input3){
   temp <- activities_data_all %>%
