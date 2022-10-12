@@ -304,11 +304,10 @@ tabPanelFour <- function(){
           ),
         
         h2("Feedback and contact information"),
-        p("If you need information on this dashboard in a different format like accessible PDF, large print, easy read, audio recording or braille:"),
+        p("We are always looking to improve the accessibility of this service. If you find any problems not listed on this page or think we’re not meeting the accessibility requirements, or if you need information on this website in a different format like an accessible PDF, large print, easy read, audio recording or braille, fill in the form below:"),
         tags$ul(
-          tags$li(" ")
+          tags$li(a(href = "https://forms.office.com/r/pEKGshfvgU" , "feedback and suggestions form."))
         ),
-        p("We will review your request and get back to you within [] days."),
         
         h2("Enforcement procedure"),
         p("The Equality and Human Rights Commission (EHRC) is responsible for enforcing the accessibility regulations. If you’re not happy with how we respond to your complaint,", a(href = "https://www.equalityadvisoryservice.com/" , "contact the Equality Advisory and Support Service (EASS).")),
