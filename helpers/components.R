@@ -296,15 +296,15 @@ tabPanelFour <- function(){
           tags$li("Keyboard users may find it difficult to navigate through the dashboard due to the lack of instructions and interactive elements not working in a logical way. To navigate through the navigation bar, use the arrow keys and press tab to enter into the page."),
           tags$li("Keyboard users cannot navigate through the list boxes in a logical way. To use the dropdowns, the space bar and the up and down arrow keys can be used to expand the drop down. The tab key must be used to navigate through the options and enter must be clicked to choose an option."),
           tags$li("Tick boxes can only be selected using the space bar rather than the enter key."),
-          tags$li("Instructions read out by the screen reader for the list boxes gives users incorrect information on how to use these elements. Though it states arrow keys must be used to select an option, tab must be used to enable this."),
-          tags$li("While using the tab key to navigate through the different selections of the list boxes, the text is not read out to screen reader users."),
+          tags$li("The screen reader, which reads out the instructions for the list boxes, gives users incorrect information on how to use these elements. Though it states arrow keys must be used to select an option, tab must be used instead of the arrow keys."),
+          tags$li("While using the tab key to navigate through the different selections of the list boxes, the screen reader does not read out the text to the users."),
           tags$li("Some users are not able to reflow up to 300% on this dashboard."),
           tags$li("Some text and interactive elements may not translate well to a screen reader."),
           tags$li("Some features within the tables of data may be limited to users of assistive technology.")
           ),
         
-        h2("Feedback and contact information"),
-        p("We are always looking to improve the accessibility of this service. If you find any problems not listed on this page or think we’re not meeting the accessibility requirements, or if you need information on this website in a different format like an accessible PDF, large print, easy read, audio recording or braille, fill in the form below:"),
+        h2("Reporting accessibility problems with this dashboard"),
+        p("We are always looking to improve the accessibility of this service. If you find any problems not listed on this page or think we’re not meeting the accessibility requirements, fill out this form: "),
         tags$ul(
           tags$li(a(href = "https://forms.office.com/r/pEKGshfvgU" , "feedback and suggestions form."))
         ),
@@ -342,8 +342,7 @@ tabPanelFour <- function(){
           tags$li("Parsing errors which could disrupt the use of this dashboard for assistive technologies. This fails WCAG 2.1 A success criterion 4.1.1 (Parsing)."),
           tags$li("Some keyboard users may have difficulty when using the ‘View full screen’ due to a missing keyboard event handler. This fails WCAG 2.1 A success criterion 2.1.1 (Keyboard).")
           ),
-        br(),
-        p("In [date], we will review the system again and hope to address these errors."),
+        p("In October 2023, we will review the dashboard again and hope to address these errors."),
         
         h2("How we tested this dashboard"),
         p("This dashboard was last tested on [07/10/2022]. The test was carried out by the DfE."),
@@ -353,7 +352,7 @@ tabPanelFour <- function(){
           tags$li("JAWS (2021), a screen reader (text to speech) program developed for users whose vision loss prevents them from seeing screen content or navigating with a mouse."),
           tags$li("Zoomtext (2020), a magnification and reading program tailored for low-vision users. It enlarges and enhances everything on screen, echoes typing and essential program activity, and reads screen content."),
           tags$li("Fusion (2020), is a hybrid of ZoomText with its screen magnification and visual enhancements, coupled with the power and speed of JAWS for screen reading functionality."),
-          tags$li("Sortsite (6.45), a one-click web automation testing tool."),
+          tags$li("Sortsite (V6.45), a one-click web automation testing tool."),
           tags$li("Shinya11y, an R shiny automation testing package."),
         ),
         p("At the time of testing, these were the DfE’s supported versions of accessibility software."),
@@ -366,7 +365,7 @@ tabPanelFour <- function(){
           tags$li("manual visual and programmatic testing"),
           tags$li("using only a keyboard to navigate through the service"),
           tags$li("using only speech recognition to navigate through the service"),
-          tags$li("using automations testing tools such as sortsite and shinya11y")),
+          tags$li("using automations testing tools such as Sortsite and Shinya11y")),
         p("During testing, the following disabilities were considered:"),
         tags$ul(
           tags$li("Keyboard Only: The user has a motor impairment that limits them to using only a keyboard to operate a computer."),
@@ -376,8 +375,6 @@ tabPanelFour <- function(){
           tags$li("Deaf or Hard of Hearing: The user has a hearing impairment that limits their access to audio content."),
           tags$li("Learning Difficulties: The user has a learning disability that limits their access to content that is presented in a way that requires a high level of literacy.")
         ),
-        
-        br(),
         h3("Browser compatibility"),
         p("The browsers used were Edge Chromium and Chrome as these are standard in the DfE and its agencies. The operating system used was Windows."),
         br(),
