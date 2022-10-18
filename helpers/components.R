@@ -272,11 +272,11 @@ tabPanelThree <- function(){
 tabPanelFour <- function(){
   return(
     shiny::tabPanel(
-      title = "Accessibility Statement",      
+      title = "Accessibility statement",      
       value = "panel8",
       gov_layout(
         size = "full",
-        heading_text("Accessibility Statement", size = "l"),
+        heading_text("Accessibility statement", size = "l"),
         h2("Using this dashboard"),
         p("This R-shiny dashboard is run by Department for Education (DfE). We follow the recommendations of the WCAG 2.1 requirements."),
         p("We want as many people as possible to be able to use the report by: "),
