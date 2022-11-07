@@ -54,10 +54,12 @@ plot_earnings <- function(input1, input2, input3){
   
   
   plotly::ggplotly(p_earnings ,res = 1200, mode = "lines", tooltip = c("Years after KS4", "Average Earnings", "linetype")) %>%
+    #style(hoverlabel = list(bgcolor = "rgba(255,255,255,0.75)", bordercolor = "transparent")) %>%
     layout(hovermode = "x unified", autosize = T, showlegend = TRUE, annotations = list(x = 1, y = -0.0, text = "Source: Longitudinal Educational Outcomes dataset",
                                                                                         xref='paper', yref='paper', showarrow = F, 
                                                                                         xanchor='right', yanchor='auto', xshift=0, yshift=0,
                                                                                         font = list(size = 10)),
+           hoverlabel = list(bgcolor = "rgba(255,255,255,0.75)", bordercolor = "transparent"),
            title = list(text = 'Average earnings of individuals in employment \nfor KS4 cohorts 2001/02 to 2006/07', font = list(size = 18)), margin = list(t = 50, b = 50)) %>%
     config(displayModeBar = TRUE)
 
@@ -96,6 +98,8 @@ plot_earnings_comparison <- function(input1, input2, input3){
                                                                                           xref='paper', yref='paper', showarrow = F, 
                                                                                           xanchor='right', yanchor='auto', xshift=0, yshift=0,
                                                                                           font = list(size = 10)),
+           
+           hoverlabel = list(bgcolor = "rgba(255,255,255,0.75)", bordercolor = "transparent"),
            title = list(text = 'Average earnings of individuals in employment \nfor KS4 cohorts 2001/02 to 2006/07', font = list(size = 18)), margin = list(t = 50, b = 50)) %>%
     config(displayModeBar = TRUE)
 }
