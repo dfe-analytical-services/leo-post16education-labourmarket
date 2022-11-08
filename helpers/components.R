@@ -29,7 +29,11 @@ tabPanelOne <- function(){
               tags$li("Overall average"),
               tags$li("Gender"),
               tags$li("Free school meals (FSM) eligibility"),
-              tags$li("Special educational needs (SEN)"),
+              tags$li("Special educational needs (SEN)", span(
+                `data-toggle` = "tooltip", `data-placement` = "right",
+                title = "SEN markers here are ones used before the EHCP and SEN support changes took place in 2014",
+                icon("info-circle")
+              )),
               tags$li("Ethnicity (major and minor groups)"),
               tags$li("First language"),
               tags$li("School type"),
@@ -260,6 +264,21 @@ tabPanelThree <- function(){
                      DT::dataTableOutput("table_activities_tbl"))
           )
 
+      ),
+      details(
+        inputId = "plotuserguide",
+        label = "Description of main activities:",
+        help_text = (
+          tags$ul(
+            tags$li(tags$b("Activitity not captured - "),"the individual was matched to LEO data but could not be found in any of the applicable labour market or education datasets for that tax year."), 
+            tags$li(tags$b("No sustained activity - "),"the individual had some paid employment, participated in some learning (KS5, other education, adult FE or HE) or claimed some out of work benefits in the tax year, but did not fulfil the requirements for any of the definitions outlined above."),
+            tags$li(tags$b("Out of work benefits - ")," the individual was claiming out of work benefits for at least one day in each of (at least) six consecutive months of the tax year. Details on out of work benefits can be found in the Technical report."),
+            tags$li(tags$b("Employment - "),"the individual has been in paid employment for at least one day in each of the 12 months of the tax year. If the individual has a spell of employment but no income in the tax year (e.g. career break) then the individual is not counted as being employed."),
+            tags$li(tags$b("Higher Education - "),"the individual appears in the Higher Education Statistics Agency (HESA) Student Record data (UK HE institutions) for at least one day in each of six consecutive months of the tax year, studying for a level 4 or higher qualification."),
+            tags$li(tags$b("Adult FE - "),"for (tax) years 3 to 15. The individual appeared in the ILR aims data (in England) for at least one day in each of six consecutive months of the tax year. This includes both classroom learning and apprenticeships at any level."),
+            tags$li(tags$b("Other education - "),"for (tax) years 1 and 2 only. The individual appeared in the Individualised Learning Record (ILR) aims data (in England) for at least one day in each of six consecutive months of the tax year. This includes classroom learning at level 2 or below (level 3 learning in this time period is covered by key stage 5) and apprenticeships at any level."),
+            tags$li(tags$b("KS5 - "),"the individual was entered for one or more level 3 qualifications (A levels or equivalent) and was aged 16 to 18 at the start of the academic year (in English institutions) in the tax year which overlaps the start of the academic year."))
+        )
       )
       )
  ##     
