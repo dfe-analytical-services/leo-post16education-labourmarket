@@ -150,7 +150,7 @@ plot_activities <- function(input1, input2, input3){
                         facet_wrap(~Subpopulation, scales = "free", ncol = 2, dir = "h")))
 
 
-  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*400 + (length(input3)%%2)*400),
+  plotly::ggplotly(by_subpopulation$plot[[1]], height = ((floor(length(input3)/2))*500 + (length(input3)%%2)*500),
 res = 1200, mode = "bar", tooltip = c("Activity","Subpopulation", format("Percentage", 2))) %>%
     layout(autosize = TRUE, showlegend = TRUE, barmode = "stack", legend=list(traceorder = "normal"), 
            title = list(text = paste0('Main Activities of individuals for KS4 cohorts 2001/02 to 2006/07',

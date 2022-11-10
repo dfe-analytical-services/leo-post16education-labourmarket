@@ -31,7 +31,7 @@ tabPanelOne <- function(){
               tags$li("Free school meals (FSM) eligibility"),
               tags$li("Special educational needs (SEN)", span(
                 `data-toggle` = "tooltip", `data-placement` = "right",
-                title = "SEN markers here are ones used before the EHCP and SEN support changes took place in 2014",
+                title = "CHANGE THIS: SEN markers here are ones used before the EHCP and SEN support changes took place in 2014",
                 icon("info-circle")
               )),
               tags$li("Ethnicity (major and minor groups)"),
@@ -78,11 +78,18 @@ tabPanelTwo <- function() {
       size = "full",
       heading_text("Earnings trajectory", size = "l"),
       div(
+        style = "padding: 12px;",
+        fluidRow(
+          p("Average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years.", class = "normal-text"),
+          p("The graph shows this data as a line chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Average earnings"), ".") 
+        )
+      ),
+      div(
         class = "inputs_box",
         style = "min-height:100%; height = 100%; overflow-y: visible",
       fluidRow(
           column(
-            width = 3,
+            width = 2,
             pickerInput(
               inputId = "earn_select1",
               label = "Choose a population: ",
@@ -91,7 +98,7 @@ tabPanelTwo <- function() {
             )
           ),
           column(
-            width = 3,
+            width = 2,
             pickerInput(inputId = "earn_subcat",
                         label = "Select a sub-group: ",
                         choices = NULL,
@@ -115,36 +122,41 @@ tabPanelTwo <- function() {
                              inline = FALSE
                  )
           ),
+         
            column(
-             width = 3,
+             width = 2,
              checkbox_Input(inputId = "comparisoncheck",
           cb_labels = "Compare with all individuals",
           checkboxIds = "Yes",
           label = "",
           hint_label = NULL,
           small = TRUE)
-           )
-        ),
-        fluidRow(
-          column(width = 6,
+           ),
+          column(width = 3,
                  p("Download the data", style = "font-weight:bold; color:white; font-size:14px;"),
                  downloadButton("downloadearnings", "Download data as csv file", class = "Download_button")
-                 )
-      )
+          )
+        ),
+      #   fluidRow(
+      #     column(width = 6,
+      #            p("Download the data", style = "font-weight:bold; color:white; font-size:14px;"),
+      #            downloadButton("downloadearnings", "Download data as csv file", class = "Download_button")
+      #            )
+      # )
         
       ),
       div(
         style = "padding: 12px;",
-        fluidRow(
-          label_hint(
-        "earn_label",
-        "Average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."
-      )),
+      #   fluidRow(
+      #     label_hint(
+      #   "earn_label",
+      #   "Average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."
+      # )),
       fluidRow(label_hint("earningslabel",
                           paste(htmlOutput("ern_choice_txt"))),
-               label_hint("descr_act", paste("The graph shows this data as a line chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Average earnings"), "."))
-      ),
-      fluidRow(
+               #label_hint("descr_act", paste("The graph shows this data as a line chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Average earnings"), ".")),
+      #),
+      #fluidRow(
         insert_text(inputId = "tech_link", text = paste("For details of the definitions of the breakdowns used, please refer to the technical report: ", "<br>",
                                                         a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
         
@@ -182,10 +194,17 @@ tabPanelThree <- function(){
       size = "full",
       heading_text("Main activities", size = "l"),
       div(
+        style = "padding: 12px;",
+        fluidRow(
+          p("Main activities of individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years.", class = "normal-text"),
+          p("The graph shows this data as a 100% stacked column chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Percentage"), " of population, with activities categorised by colour.", class = "normal-text")
+        )
+      ),
+      div(
         class = "inputs_box",
         style = "min-height:100%; height = 100%; overflow-y: visible",
       fluidRow(
-        column(width = 4,
+        column(width = 3,
                pickerInput(
                  inputId = "activity_select1",
                  label = "Choose a population: ",
@@ -193,7 +212,7 @@ tabPanelThree <- function(){
                  selected = NULL
                )
         ),
-        column(width=4,
+        column(width=3,
                pickerInput(inputId = "sub_group_picker",
                            label = "Select a sub-group: ",
                            choices = NULL,
@@ -204,7 +223,7 @@ tabPanelThree <- function(){
                  
                )),
 
-        column(width = 4,
+        column(width = 3,
                pickerInput(inputId = "picker1",
                            label = "Select breakdown(s):",
                            choices = NULL,
@@ -215,24 +234,27 @@ tabPanelThree <- function(){
                            width = "100%",
                            inline = FALSE
                )
-         )
-      ),
-      fluidRow(
-        column(width = 6,
+         ),
+        column(width = 3,
                p("Download the data", style = "font-weight:bold; color:white; font-size:14px;"),
                downloadButton("downloadtrajectories", "Download data as csv file"))
-      )
+      ),
+      # fluidRow(
+      #   column(width = 6,
+      #          p("Download the data", style = "font-weight:bold; color:white; font-size:14px;"),
+      #          downloadButton("downloadtrajectories", "Download data as csv file"))
+      # )
       ),
       div(
         style = "padding: 12px;",
       fluidRow(
-        label_hint("act_label", "Main activities of individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."),
+        #label_hint("act_label", "Main activities of individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."),
         label_hint(
           "activitieslabel", paste(htmlOutput("act_choice_txt"))
         ),
-        label_hint("descr_act", paste("The graph shows this data as a 100% stacked column chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Percentage"), " of population, with activities categorised by colour."))
-      ),
-      fluidRow(
+        #label_hint("descr_act", paste("The graph shows this data as a 100% stacked column chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Percentage"), " of population, with activities categorised by colour."))
+      #),
+      #fluidRow(
         insert_text(inputId = "tech_link", text = paste("For details of the definitions of the breakdowns used, please refer to the technical report: ", "<br>",
                                                         a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
         
@@ -267,10 +289,10 @@ tabPanelThree <- function(){
       ),
       details(
         inputId = "plotuserguide",
-        label = "Description of main activities:",
+        label = "Description of main activities: CHANGE THIS",
         help_text = (
           tags$ul(
-            tags$li(tags$b("Activitity not captured - "),"the individual was matched to LEO data but could not be found in any of the applicable labour market or education datasets for that tax year."), 
+            tags$li(tags$b("Activity not captured - "),"the individual was matched to LEO data but could not be found in any of the applicable labour market or education datasets for that tax year."), 
             tags$li(tags$b("No sustained activity - "),"the individual had some paid employment, participated in some learning (KS5, other education, adult FE or HE) or claimed some out of work benefits in the tax year, but did not fulfil the requirements for any of the definitions outlined above."),
             tags$li(tags$b("Out of work benefits - ")," the individual was claiming out of work benefits for at least one day in each of (at least) six consecutive months of the tax year. Details on out of work benefits can be found in the Technical report."),
             tags$li(tags$b("Employment - "),"the individual has been in paid employment for at least one day in each of the 12 months of the tax year. If the individual has a spell of employment but no income in the tax year (e.g. career break) then the individual is not counted as being employed."),
