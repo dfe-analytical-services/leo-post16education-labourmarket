@@ -309,3 +309,29 @@ html {
     width: 80% !important;
   }
 }
+
+.btn {
+    font-size:19px !important;
+    font-family: GDS Transport, arial, sans-serif !important;
+    }
+    
+.btn-default {
+  border-color: #1d70b8 !important;
+  border-width: medium !important;
+}
+
+.user_guide_popup {
+  font-size:19px !important;
+    font-family: GDS Transport, arial, sans-serif !important;
+}
+
+@media (min-width: 40.0625em){
+  .govuk-checkboxes--small .govuk-checkboxes__label {
+    padding: 10px 1px 1px 1px;
+}
+}
+
+.shiny-input-container:not(.shiny-input-container-inline) {
+    width: 100%;
+    max-width: 100%;
+}
