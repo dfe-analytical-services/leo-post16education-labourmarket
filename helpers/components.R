@@ -157,6 +157,7 @@ tabPanelTwo <- function() {
               tabPanel(title = "Earnings trajectory",
                        br(),
                          div(
+                           #id = "main-activities-plot",
                          class = "plotly-full-screen",
                              plotly::plotlyOutput(
                              outputId = "earningsplot",
