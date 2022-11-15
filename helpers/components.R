@@ -42,6 +42,7 @@ tabPanelOne <- function(){
               tags$li("Region of school"),
               tags$li("IDACI (Income Deprivation Affecting Children Index) quintiles")
             ), 
+            p("For more information on the above definitions, see pages 18 to 20 of the main", a(href ="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990668/Research_report_-_Post_16_education_and_labour_market_activities_pathways_and_outcomes__LEO_.pdf", " report."), class = "normal-text"),
             p("With populations of:", class = "normal-text"),
             tags$ul(
               tags$li("All individuals"),
