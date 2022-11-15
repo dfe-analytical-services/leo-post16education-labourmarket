@@ -73,8 +73,8 @@ national_earnings <- earnings_data_all %>%
 # Need to change the col1 values. National = All individuals, Grads = Graduates, Non-grads = Non-graduates
 earnings_data_all["col1"][earnings_data_all["col1"] == "National"] <- "All individuals"
 earnings_data_all["col1"][earnings_data_all["col1"] == "Grads"] <- "Graduates and non-graduates"
-earnings_data_all["col1"][earnings_data_all["col1"] == "Non-grads"] <- "Non-graduates by achievement level"
+earnings_data_all["col1"][earnings_data_all["col1"] == "Non-grads"] <- "Non-graduates: level 3 and above and level 2 or below"
 
 activities_data_all["col1"][activities_data_all["col1"] == "National"] <- "All individuals"
 activities_data_all["col1"][activities_data_all["col1"] == "Grads"] <- "Graduates and non-graduates"
-activities_data_all["col1"][activities_data_all["col1"] == "Non-grads"] <- "Non-graduates by achievement level"
+activities_data_all["col1"][activities_data_all["col1"] == "Non-grads"] <- "Non-graduates: level 3 and above and level 2 or below"

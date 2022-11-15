@@ -46,7 +46,7 @@ tabPanelOne <- function(){
             tags$ul(
               tags$li("All individuals"),
               tags$li("Graduates and non-graduates"),
-              tags$li("(Non-graduates) level 3 achievement split")
+              tags$li("Non-graduates: level 3 and above and level 2 or below")
             ),
           )
         )
@@ -78,7 +78,7 @@ tabPanelTwo <- function() {
             pickerInput(
               inputId = "earn_select1",
               label = "Choose a population: ",
-              choices = c("All individuals","Graduates and non-graduates","Non-graduates by achievement level"),
+              choices = c("All individuals","Graduates and non-graduates","Non-graduates: level 3 and above and level 2 or below"),
               selected = NULL
             )
           ),
@@ -216,7 +216,7 @@ tabPanelThree <- function(){
                pickerInput(
                  inputId = "activity_select1",
                  label = "Choose a population: ",
-                 choices = c("All individuals","Graduates and non-graduates","Non-graduates by achievement level"),
+                 choices = c("All individuals","Graduates and non-graduates","Non-graduates: level 3 and above and level 2 or below"),
                  selected = NULL
                )
         ),
