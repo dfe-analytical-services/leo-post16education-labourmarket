@@ -30,11 +30,7 @@ tabPanelOne <- function(){
               tags$li("Overall average"),
               tags$li("Gender"),
               tags$li("Free school meals (FSM) eligibility"),
-              tags$li("Special educational needs (SEN)", span(
-                `data-toggle` = "tooltip", `data-placement` = "right",
-                title = "CHANGE THIS: SEN markers here are ones used before the EHCP and SEN support changes took place in 2014",
-                icon("info-circle")
-              )),
+              tags$li("Special educational needs (SEN)"),
               tags$li("Ethnicity (major and minor groups)"),
               tags$li("First language"),
               tags$li("School type"),
