@@ -38,7 +38,7 @@ tabPanelOne <- function(){
               tags$li("Region of school"),
               tags$li("IDACI (Income Deprivation Affecting Children Index) quintiles")
             ), 
-            p("For more information on the above definitions, see pages 18 to 20 of the main", a(href ="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990668/Research_report_-_Post_16_education_and_labour_market_activities_pathways_and_outcomes__LEO_.pdf", " report."), class = "normal-text"),
+            p("For more information on the above definitions, see pages 18 to 20 of the", a(href ="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990668/Research_report_-_Post_16_education_and_labour_market_activities_pathways_and_outcomes__LEO_.pdf", " main report."), class = "normal-text"),
             p("With populations of:", class = "normal-text"),
             tags$ul(
               tags$li("All individuals"),
@@ -63,7 +63,7 @@ tabPanelTwo <- function() {
         style = "padding: 12px;",
         fluidRow(
           p("Average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years.", class = "normal-text"),
-          p("The graph shows this data as a line chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Average earnings"), ".") 
+          p("The graph shows this data as a line chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Average earnings.")) 
         )
       ),
       div(
@@ -302,7 +302,7 @@ tabPanelThree <- function(){
                   tags$li(tags$b("Other education - "),"applicable to years 1 to 2 only. The individual had a learning aim in the Individualised Learning Record (ILR) aims data for at least one day in each of 6 consecutive months of the tax year. This includes classroom learning at level 2 or below and apprenticeships any level."),
                   tags$li(tags$b("KS5 - "),"the individual was entered for one or more level 3 qualifications (A levels or equivalent) and was aged 16 to 18 at the start of the academic year (in English institutions) in the tax year which overlaps the start of the academic year."),
                   tags$br(),
-                  p("Where the requirements for more than one activity have been met, the main activity is selected using a hierarchy (education -> out-of-work benefits -> employment). More detail on this methodology is available in the", a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report.", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;")))
+                  p("Where the requirements for more than one activity have been met, the main activity is selected using a hierarchy (education supersedes out-of-work benefits supersedes employment). More detail on this methodology is available in the", a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report.", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;")))
               )
             )),
             tabPanel(title = "Table of data",

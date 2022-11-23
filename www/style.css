@@ -335,3 +335,11 @@ html {
     width: 100%;
     max-width: 100%;
 }
+
+.h5 {
+  font-size: 20px !important;
+}
+
+.h6 {
+  font-size: 19px !important;
+}
