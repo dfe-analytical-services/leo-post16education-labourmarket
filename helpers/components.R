@@ -71,7 +71,7 @@ tabPanelOne <- function(){
             tags$li("The bar along the top of the plots contains extra interactive features such as download as PNG and/or resize plot and zoom."),
             tags$li("Click \"View full screen\" to display the plots as full screen."),
             tags$li("To exit full screen, click \"Exit full screen\" or press the escape key (Esc)."),
-            tags$br(),
+            #tags$br(),
             tags$h6("Using the Key", style = "font-family: GDS Transport, arial, sans-serif; font-size :19px; font-weight: bold"),
             tags$li("Double clicking a line/value in the key will isolate the value in the plot."),
             tags$li("Double clicking the same value again will restore the original plot"),
