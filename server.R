@@ -209,7 +209,7 @@ server <- function(input, output, session) {
           tags$li(tags$b("Main activities - "),"looks at the main activities for individuals. You can compare the main activities by selecting multiple breakdowns."),
           tags$li(tags$b("Accessibility statement - "),"contains the accessibility statement for this tool."),
           tags$li(tags$b("Feedback and suggestions - "),"contains links for a user feedback form and a form for reporting any bugs or errors found within the tool.")),
-        tags$br(),
+        #tags$br(),
         tags$h5("Interactive Plots User Guide", style = "font-family: GDS Transport, arial, sans-serif; font-size :20px; font-weight: bold"),
       tags$ul(
         tags$li("Hover over lines/bars in the plot to see specific values."), 
