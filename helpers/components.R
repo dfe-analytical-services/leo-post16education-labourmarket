@@ -387,7 +387,7 @@ tabPanelFour <- function(){
           tags$li("Some users are not able to reflow up to 300% on this dashboard."),
           tags$li("Some text and interactive elements may not translate well to a screen reader."),
           tags$li("Some features within the tables of data may be limited to users of assistive technology."),
-          tags$li("The interactive user guide on each page does not automatically get focus on it once clicked but the focus lies on the page behind, and it is not announced to assistive technology users when it appears. There is an accessible version of the user guide on the ‘Introduction’ page.")
+          tags$li("The interactive user guide on each page, when clicked, does not get automatic focus. The focus lies on the page behind and is not announced to assistive technology users when it appears. This is an accessible alternative of the user guide on the 'Introduction' page.")
           ),
         
         h2("Reporting accessibility problems with this dashboard"),
