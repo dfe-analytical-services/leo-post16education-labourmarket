@@ -378,7 +378,7 @@ tabPanelFour <- function(){
         tags$ul(
           tags$li("Screen reader and keyboard users cannot navigate through the interactive graphs effectively. An accessible alternative is provided in a CSV format for users to download on this dashboard."), 
           tags$li("Users may have difficultly reading the graph due to the use of colour. An accessible alternative is provided in a CSV format for users to download on this dashboard."),
-          tags$li("Speech recognition users may not be able to use commands for ‘Interactive Plots User Guide:’ and all the list boxes effectively. Mouse grid is an accessible alternative."),
+          tags$li("Speech recognition users may not be able to use commands for the drop downs ‘Accessible version of the user guide:’, ‘Notes on earnings trajectory data:’, ‘Notes on main activities data:’ and all the list boxes within this dashboard effectively. Mouse grid is an accessible alternative. "),
           tags$li("Keyboard users may find it difficult to navigate through the dashboard due to the lack of instructions and interactive elements not working in a logical way. To navigate through the navigation bar, use the arrow keys and press tab to enter into the page."),
           tags$li("Keyboard users cannot navigate through the list boxes in a logical way. To use the dropdowns, the space bar and the up and down arrow keys can be used to expand the drop down. The tab key must be used to navigate through the options and enter must be clicked to choose an option."),
           tags$li("Tick boxes can only be selected using the space bar rather than the enter key."),
@@ -386,7 +386,8 @@ tabPanelFour <- function(){
           tags$li("While using the tab key to navigate through the different selections of the list boxes, the screen reader does not read out the text to the users."),
           tags$li("Some users are not able to reflow up to 300% on this dashboard."),
           tags$li("Some text and interactive elements may not translate well to a screen reader."),
-          tags$li("Some features within the tables of data may be limited to users of assistive technology.")
+          tags$li("Some features within the tables of data may be limited to users of assistive technology."),
+          tags$li("The interactive user guide on each page does not automatically get focus on it once clicked but the focus lies on the page behind, and it is not announced to assistive technology users when it appears. There is an accessible version of the user guide on the ‘Introduction’ page.")
           ),
         
         h2("Reporting accessibility problems with this dashboard"),
@@ -396,7 +397,7 @@ tabPanelFour <- function(){
         ),
         
         h2("Enforcement procedure"),
-        p("The Equality and Human Rights Commission (EHRC) is responsible for enforcing the accessibility regulations. If you’re not happy with how we respond to your complaint,", a(href = "https://www.equalityadvisoryservice.com/" , "contact the Equality Advisory and Support Service (EASS).")),
+        p("The Equality and Human Rights Commission (EHRC) is responsible for enforcing the accessibility regulations. If you’re not happy with how we respond to your complaint, contact the ", a(href = "https://www.equalityadvisoryservice.com/" , "Equality Advisory and Support Service (EASS).")),
         
         
         h2("Technical information about this dashboard's accessibility"),
@@ -407,7 +408,7 @@ tabPanelFour <- function(){
         p("This dashboard is partially compliant with the Web Content Accessibility Guidelines version 2.1 AA standard, due to the non-compliances listed."),
         
         h2("Non-compliance with the accessibility regulations"),
-        p("The contant below is non-accessible:"),
+        p("The content below is non-accessible:"),
         tags$ul(
           tags$li("Graphs will not always reflow correctly depending on aspect ratio of screen. This can cause loss of information. This fails WCAG 2.1 A success criterion 1.4.10 (Reflow)."),
           tags$li("No guidance given to keyboard or screen reader users on how to navigate through the list box elements and navigation bar. This fails WCAG 2.1 A success criterion 3.3.2 (Labels or Instructions)."),
@@ -431,7 +432,7 @@ tabPanelFour <- function(){
         p("In October 2023, we will review the dashboard again and hope to address these errors."),
         
         h2("How we tested this dashboard"),
-        p("This dashboard was last tested on [07/10/2022]. The test was carried out by the DfE."),
+        p("This dashboard was last tested on [02/12/2022]. The test was carried out by the DfE."),
         p("Testing was carried out using:"),
         tags$ul(
           tags$li("Dragon NaturallySpeaking (V15.5), a voice recognition (speech to text) program which requires minimal user interface from a mouse or keyboard."),
@@ -465,7 +466,7 @@ tabPanelFour <- function(){
         p("The browsers used were Edge Chromium and Chrome as these are standard in the DfE and its agencies. The operating system used was Windows."),
         br(),
         p("This statement was prepared on 10th October 2022."),
-        p("This statement was last updated on 10th October 2022."),
+        p("This statement was last updated on 2nd December 2022."),
 
       )
     )
