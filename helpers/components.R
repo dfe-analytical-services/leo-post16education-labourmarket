@@ -77,7 +77,6 @@ tabPanelOne <- function(){
             tags$li("Double clicking the same value again will restore the original plot"),
             tags$li("Single clicking a line/value in the key will remove that line/value from the plot"))
               )
-             
             )
           )
         )
@@ -387,7 +386,7 @@ tabPanelFour <- function(){
           tags$li("Some users are not able to reflow up to 300% on this dashboard."),
           tags$li("Some text and interactive elements may not translate well to a screen reader."),
           tags$li("Some features within the tables of data may be limited to users of assistive technology."),
-          tags$li("The interactive user guide on each page, when clicked, does not get automatic focus. The focus lies on the page behind and is not announced to assistive technology users when it appears. This is an accessible alternative of the user guide on the 'Introduction' page.")
+          tags$li("The interactive user guide on each page, when clicked, does not get automatic focus. The focus lies on the page behind and is not announced to assistive technology users when it appears. There is an accessible alternative of the user guide on the 'Introduction' page.")
           ),
         
         h2("Reporting accessibility problems with this dashboard"),
@@ -426,7 +425,7 @@ tabPanelFour <- function(){
           tags$li("Certain buttons within the table of data tab are unable to be pressed while using a screen reader. This fails WCAG 2.1 A success criterion 4.1.1 (Parsing)."),
           tags$li("Focus can get lost when navigating through the page after ‘View full screen’ is clicked. This fails WCAG 2.1 A success criterion 2.4.7 (Focus Visible)."),
           tags$li("Screen reader reads out text which is not on the current page once ‘View full screen’ has been navigated to. This fails WCAG 2.1 A success criterion 4.1.1 (Parsing)."),
-          tags$li("Parsing errors which could disrupt the use of this dashboard for assistive technologies. This fails WCAG 2.1 A success criterion 4.1.1 (Parsing)."),
+          tags$li("Due to the limitations of using RShiny and the shinyGovstyle package, some parsing errors may occur when using assistive technologies. This may specifically be affected when using the 'user guide' and 'view full screen' features. This fails WCAG 2.1 A success criterion 4.1.1 (Parsing)."),
           tags$li("Some keyboard users may have difficulty when using the ‘View full screen’ due to a missing keyboard event handler. This fails WCAG 2.1 A success criterion 2.1.1 (Keyboard).")
           ),
         p("In October 2023, we will review the dashboard again and hope to address these errors."),
