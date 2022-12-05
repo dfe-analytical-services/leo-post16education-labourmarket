@@ -38,10 +38,11 @@ new_cols <- c("#12436D","#f46a25","#801650","#28a197","#3D3D3D","#a285d1","#FF5E
 
 # ---- Earnings Trajectory plots ------------------------------------------------
 # Function without the national average line
-plot_earnings <- function(input1, input2, input3){
+#input1, input2, 
+plot_earnings <- function(input3){
   temp <- earnings_data_all %>%
-    filter(col1 == input1, col2 == input2, Subpopulation %in% input3)
-  
+    filter(Subpopulation %in% input3)
+  #col1 == input1, col2 == input2, 
   p_earnings <- ggplot(temp, aes(`Years after KS4`, `Average Earnings`, color = Subpopulation, linetype = Subpopulation))+
     geom_line()+
     ylab("Average earnings £ (annual)")+
@@ -76,10 +77,11 @@ table_earnings <- function(input1, input2, input3){
 
 
 # ---- National average comparison ---------------------------------------------
-#
-plot_earnings_comparison <- function(input1, input2, input3){
+#input1, input2, 
+plot_earnings_comparison <- function(input3){
   temp <- earnings_data_all %>%
-    filter(col1 == input1, col2 == input2, Subpopulation %in% input3)
+    #col1 == input1, col2 == input2, 
+    filter(Subpopulation %in% input3)
   
   p_earnings2 <- ggplot(temp, aes(`Years after KS4`, `Average Earnings`, color = Subpopulation, linetype = Subpopulation))+
     geom_line()+
@@ -118,10 +120,11 @@ table_earnings_comparison <- function (input1, input2, input3){
 
 #------------------------------------------------------------------------------------
 #---- Plotting Main activities stacked bar charts -----------------------------------
-
-plot_activities <- function(input1, input2, input3){
+#input1, input2, 
+plot_activities <- function(input3){
   temp <- activities_data_all %>%
-    filter(col1 == input1, col2 == input2, Subpopulation %in% input3) %>%
+    #col1 == input1, col2 == input2, 
+    filter(Subpopulation %in% input3) %>%
     select(`Years after KS4`, `Activity`, Subpopulation, Percentage)
 
   # Displays the legend in order of the bars

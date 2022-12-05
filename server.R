@@ -74,7 +74,8 @@ server <- function(input, output, session) {
           validate(
             need(!is.null(input$earn_picker), "Please select at least one breakdown.")
           )
-          plot_earnings(input$earn_select1, input$earn_subcat, input$earn_picker)
+          #input$earn_select1, input$earn_subcat,
+          plot_earnings( input$earn_picker)
         })
         
         # Displays the data plotted as a table.
@@ -90,7 +91,8 @@ server <- function(input, output, session) {
           validate(
             need(!is.null(input$earn_picker), "Please select at least one breakdown.")
           )
-          plot_earnings_comparison(input$earn_select1, input$earn_subcat, input$earn_picker)
+          #input$earn_select1, input$earn_subcat,
+          plot_earnings_comparison( input$earn_picker)
         })
         
         output$table_earnings_tbl <- DT ::renderDataTable(
@@ -164,7 +166,8 @@ server <- function(input, output, session) {
       validate(
         need(!is.null(input$picker1), "Please select at least one breakdown.")
       )
-      plot_activities(input$activity_select1, input$sub_group_picker, input$picker1)
+      #input$activity_select1, input$sub_group_picker,
+      plot_activities(input$picker1)
     })
   })
 
