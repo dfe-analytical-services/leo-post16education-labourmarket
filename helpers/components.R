@@ -13,6 +13,7 @@ tabPanelOne <- function(){
                                                         a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
         
         h2(tags$b("Contents")),
+        #actionButton("tutorial", " User Guide", icon = icon("info",class = NULL, lib="font-awesome")),
         fluidRow(
           column(
             width = 6,
@@ -29,11 +30,7 @@ tabPanelOne <- function(){
               tags$li("Overall average"),
               tags$li("Gender"),
               tags$li("Free school meals (FSM) eligibility"),
-              tags$li("Special educational needs (SEN)", span(
-                `data-toggle` = "tooltip", `data-placement` = "right",
-                title = "SEN markers here are ones used before the EHCP and SEN support changes took place in 2014",
-                icon("info-circle")
-              )),
+              tags$li("Special educational needs (SEN)"),
               tags$li("Ethnicity (major and minor groups)"),
               tags$li("First language"),
               tags$li("School type"),
@@ -41,28 +38,46 @@ tabPanelOne <- function(){
               tags$li("Region of school"),
               tags$li("IDACI (Income Deprivation Affecting Children Index) quintiles")
             ), 
+            p("For more information on the above definitions, see pages 18 to 20 of the", a(href ="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990668/Research_report_-_Post_16_education_and_labour_market_activities_pathways_and_outcomes__LEO_.pdf", " main report."), class = "normal-text"),
             p("With populations of:", class = "normal-text"),
             tags$ul(
               tags$li("All individuals"),
               tags$li("Graduates and non-graduates"),
-              tags$li("(Non-graduates) level 3 achievement split")
+              tags$li("Non-graduates: level 3 and above and level 2 or below")
             ),
           )
         ),
-        details(
-          inputId = "plotuserguide",
-          label = "Interactive Plots User Guide:",
-          help_text = (
-            tags$ul(
-              tags$li("Hover over lines/bars in the plot to see specific values."), 
-              tags$li("The bar along the top of the plots contains extra interactive features such as download as PNG and/or resize plot and zoom."),
-              tags$li("Click \"View full screen\" to display the plots as full screen."),
-              tags$li("To exit full screen, click \"Exit full screen\" or press the escape key (Esc)."),
+        fluidRow(
+          details(
+            inputId = "accessible_user_guide",
+            label = "Accessible version of the user guide:",
+            help_text = (
+              tags$ul(
+                 tags$h2("How to use this dashboard", style = "font-family: GDS Transport, arial, sans-serif; font-size :20px; font-weight: bold"),
+              "Use the navigation bar on the left to select which tab you want to view.",
               tags$br(),
-              tags$b("Using the Key:"),
-              tags$li("Double clicking a line/value in the key will isolate the value in the plot."),
-              tags$li("Double clicking the same value again will restore the original plot"),
-              tags$li("Single clicking a line/value in the key will remove that line/value from the plot"))
+              tags$h2("Dashboard Structure", style = "font-family: GDS Transport, arial, sans-serif; font-size :20px; font-weight: bold"),
+              tags$ul(
+                tags$li(tags$b("Introduction - "),"a basic introduction to the tool and provides links to the research report and the technical report."), 
+                tags$li(tags$b("Earnings trajectory - "),"looks at the average earnings of individuals in employment. You can build on the 
+          presented plots by selecting breakdowns you wish to see and compare. There is also a function to compare with the overall average for all individuals."),
+          tags$li(tags$b("Main activities - "),"looks at the main activities for individuals. You can compare the main activities by selecting multiple breakdowns."),
+          tags$li(tags$b("Accessibility statement - "),"contains the accessibility statement for this tool."),
+          tags$li(tags$b("Feedback and suggestions - "),"contains links for a user feedback form and a form for reporting any bugs or errors found within the tool.")),
+          #tags$br(),
+          tags$h2("Interactive Plots User Guide", style = "font-family: GDS Transport, arial, sans-serif; font-size :20px; font-weight: bold"),
+          tags$ul(
+            tags$li("Hover over lines/bars in the plot to see specific values."), 
+            tags$li("The bar along the top of the plots contains extra interactive features such as download as PNG and/or resize plot and zoom."),
+            tags$li("Click \"View full screen\" to display the plots as full screen."),
+            tags$li("To exit full screen, click \"Exit full screen\" or press the escape key (Esc)."),
+            #tags$br(),
+            tags$h3("Using the Key", style = "font-family: GDS Transport, arial, sans-serif; font-size :19px; font-weight: bold"),
+            tags$li("Double clicking a line/value in the key will isolate the value in the plot."),
+            tags$li("Double clicking the same value again will restore the original plot"),
+            tags$li("Single clicking a line/value in the key will remove that line/value from the plot"))
+              )
+            )
           )
         )
       )
@@ -78,6 +93,13 @@ tabPanelTwo <- function() {
       size = "full",
       heading_text("Earnings trajectory", size = "l"),
       div(
+        style = "padding: 12px;",
+        fluidRow(
+          p("Average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years.", class = "normal-text"),
+          p("The graph shows this data as a line chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Average earnings.")) 
+        )
+      ),
+      div(
         class = "inputs_box",
         style = "min-height:100%; height = 100%; overflow-y: visible",
       fluidRow(
@@ -86,7 +108,7 @@ tabPanelTwo <- function() {
             pickerInput(
               inputId = "earn_select1",
               label = "Choose a population: ",
-              choices = c("All individuals","Graduates","Non-graduates"),
+              choices = c("All individuals","Graduates and non-graduates","Non-graduates: level 3 and above and level 2 or below"),
               selected = NULL
             )
           ),
@@ -115,6 +137,7 @@ tabPanelTwo <- function() {
                              inline = FALSE
                  )
           ),
+         
            column(
              width = 3,
              checkbox_Input(inputId = "comparisoncheck",
@@ -123,28 +146,38 @@ tabPanelTwo <- function() {
           label = "",
           hint_label = NULL,
           small = TRUE)
-           )
+           ),
+          #column(width = 3,
+          #       p("Download the data", style = "font-weight:bold; color:white; font-size:14px;"),
+          #       downloadButton("downloadearnings", "Download data as csv file", class = "Download_button")
+          #)
         ),
-        fluidRow(
-          column(width = 6,
-                 p("Download the data", style = "font-weight:bold; color:white; font-size:14px;"),
-                 downloadButton("downloadearnings", "Download data as csv file", class = "Download_button")
-                 )
-      )
+      #   fluidRow(
+      #     column(width = 6,
+      #            p("Download the data", style = "font-weight:bold; color:white; font-size:14px;"),
+      #            downloadButton("downloadearnings", "Download data as csv file", class = "Download_button")
+      #            )
+      # )
         
       ),
       div(
         style = "padding: 12px;",
-        fluidRow(
-          label_hint(
-        "earn_label",
-        "Average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."
-      )),
+      #   fluidRow(
+      #     label_hint(
+      #   "earn_label",
+      #   "Average earnings of individuals in employment for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."
+      # )),
+      #p("Download the data", style = "font-weight:bold; color:black; font-size:14px;"),
+      # fluidRow(
+      #   downloadButton("downloadearnings", "Download data as csv file", class = "Download_button"),
+      #   tags$br(),
+      # ),
+      
       fluidRow(label_hint("earningslabel",
                           paste(htmlOutput("ern_choice_txt"))),
-               label_hint("descr_act", paste("The graph shows this data as a line chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Average earnings"), "."))
-      ),
-      fluidRow(
+               #label_hint("descr_act", paste("The graph shows this data as a line chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Average earnings"), ".")),
+      #),
+      #fluidRow(
         insert_text(inputId = "tech_link", text = paste("For details of the definitions of the breakdowns used, please refer to the technical report: ", "<br>",
                                                         a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
         
@@ -154,6 +187,7 @@ tabPanelTwo <- function() {
               tabPanel(title = "Earnings trajectory",
                        br(),
                          div(
+                           #id = "main-activities-plot",
                          class = "plotly-full-screen",
                              plotly::plotlyOutput(
                              outputId = "earningsplot",
@@ -161,13 +195,29 @@ tabPanelTwo <- function() {
                            ),
                        
                        br(),
+                       details(
+                         inputId = "earnings_notes",
+                         label = "Notes on earnings trajectory data:",
+                         help_text = (
+                           tags$ul(
+                             tags$li("Average (median) annualised earnings over time are shown for all individuals and different sub-groups, using earnings of individuals that are in paid employment during that year."), 
+                             tags$li("As the dataset includes several cohorts of individuals, their earnings at the same time point are from different tax years e.g. year 1 for the 2001/02 KS4 academic year cohort is 2003-04 but for the 2006/07 KS4 academic year cohort it is 2008-09. To allow comparisons like for like, we inflate earnings from all years to the most recent tax year (2017-18)."),
+                             tags$br(),
+                             p(" More detail on this methodology is available in the", a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report.", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;")))
+                         )
+                       )
                        ),
               tabPanel(title = "Table of data",
                        DT::dataTableOutput("table_earnings_tbl")
                        )
 
 
-            ))
+            )),
+      fluidRow(
+        br(),
+        downloadButton("downloadearnings", "Download data as csv file", class = "Download_button"),
+        #br(),
+      )
       ),
       
   )))
@@ -182,14 +232,22 @@ tabPanelThree <- function(){
       size = "full",
       heading_text("Main activities", size = "l"),
       div(
+        style = "padding: 12px;",
+        fluidRow(
+          p("Main activities of individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years.", class = "normal-text"),
+          p("The graph shows this data as a 100% stacked column chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Percentage"), " of population, with activities categorised by colour.", class = "normal-text")
+        )
+      ),
+      div(
         class = "inputs_box",
         style = "min-height:100%; height = 100%; overflow-y: visible",
       fluidRow(
+        width = 12,
         column(width = 4,
                pickerInput(
                  inputId = "activity_select1",
                  label = "Choose a population: ",
-                 choices = c("All individuals","Graduates","Non-graduates"),
+                 choices = c("All individuals","Graduates and non-graduates","Non-graduates: level 3 and above and level 2 or below"),
                  selected = NULL
                )
         ),
@@ -215,24 +273,27 @@ tabPanelThree <- function(){
                            width = "100%",
                            inline = FALSE
                )
-         )
+         ),
+        # column(width = 3,
+        #        p("Download the data", style = "font-weight:bold; color:white; font-size:14px;"),
+        #        downloadButton("downloadtrajectories", "Download data as csv file"))
       ),
-      fluidRow(
-        column(width = 6,
-               p("Download the data", style = "font-weight:bold; color:white; font-size:14px;"),
-               downloadButton("downloadtrajectories", "Download data as csv file"))
-      )
+      # fluidRow(
+      #   column(width = 6,
+      #          p("Download the data", style = "font-weight:bold; color:white; font-size:14px;"),
+      #          downloadButton("downloadtrajectories", "Download data as csv file"))
+      # )
       ),
       div(
         style = "padding: 12px;",
       fluidRow(
-        label_hint("act_label", "Main activities of individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."),
+        #label_hint("act_label", "Main activities of individuals for key stage 4 cohorts 2001/02 to 2006/07 over 15 years."),
         label_hint(
           "activitieslabel", paste(htmlOutput("act_choice_txt"))
         ),
-        label_hint("descr_act", paste("The graph shows this data as a 100% stacked column chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Percentage"), " of population, with activities categorised by colour."))
-      ),
-      fluidRow(
+        #label_hint("descr_act", paste("The graph shows this data as a 100% stacked column chart where the x-axis is ", tags$b("Years after key stage 4"), " and the y-axis is ", tags$b("Percentage"), " of population, with activities categorised by colour."))
+      #),
+      #fluidRow(
         insert_text(inputId = "tech_link", text = paste("For details of the definitions of the breakdowns used, please refer to the technical report: ", "<br>",
                                                         a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report for Education and Labour Market Pathways of Individuals (LEO)", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;"))),
         
@@ -259,26 +320,31 @@ tabPanelThree <- function(){
                        )
                        ),
                        br()
+            ),
+            details(
+              inputId = "main_activities_notes",
+              label = "Notes on main activities data:",
+              help_text = (
+                tags$ul(
+                  tags$li(tags$b("Activity not captured - "),"the individual could not be found in the labour market or education datasets for that tax year."), 
+                  tags$li(tags$b("No sustained activity - "),"the individual had some paid employment, participated in some learning or claimed some out-of-work benefits in the tax year, but did not fulfil any of the activity requirements."),
+                  tags$li(tags$b("Out of work benefits - "),"the individual was claiming out-of-work benefits for at least 1 day in each of (at least) 6 consecutive months of the tax year."),
+                  tags$li(tags$b("Employment - "),"the individual was in paid employment for at least one day in each of the 12 months of the tax year."),
+                  tags$li(tags$b("Higher Education (HE) - "),"the individual was studying for a qualification of at least level 4 in a UK higher education institution for at least one day in each of six consecutive months of the tax year."),
+                  tags$li(tags$b("Adult FE - "),"applicable to years 3 to 15 only. The individual had a learning aim in the Individualised Learning Record (ILR) for at least one day in each of 6 consecutive months of the tax year. This includes classroom learning and apprenticeships at any level."),
+                  tags$li(tags$b("Other education - "),"applicable to years 1 to 2 only. The individual had a learning aim in the Individualised Learning Record (ILR) aims data for at least one day in each of 6 consecutive months of the tax year. This includes classroom learning at level 2 or below and apprenticeships any level."),
+                  tags$li(tags$b("KS5 - "),"the individual was entered for one or more level 3 qualifications (A levels or equivalent) and was aged 16 to 18 at the start of the academic year (in English institutions) in the tax year which overlaps the start of the academic year."),
+                  tags$br(),
+                  p("Where the requirements for more than one activity have been met, the main activity is selected using a hierarchy (education supersedes out-of-work benefits supersedes employment). More detail on this methodology is available in the", a(href = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/993969/Technical_Report_for_Education_and_Labour_Market_Pathways_of_Individuals__LEO_.pdf", "Technical Report.", style = "font-family: GDS Transport, arial, sans-serif; font-size :17px;")))
+              )
             )),
             tabPanel(title = "Table of data",
                      DT::dataTableOutput("table_activities_tbl"))
-          )
+            
+          ),
+          br(),
+          downloadButton("downloadtrajectories", "Download data as csv file")
 
-      ),
-      details(
-        inputId = "plotuserguide",
-        label = "Description of main activities:",
-        help_text = (
-          tags$ul(
-            tags$li(tags$b("Activitity not captured - "),"the individual was matched to LEO data but could not be found in any of the applicable labour market or education datasets for that tax year."), 
-            tags$li(tags$b("No sustained activity - "),"the individual had some paid employment, participated in some learning (KS5, other education, adult FE or HE) or claimed some out of work benefits in the tax year, but did not fulfil the requirements for any of the definitions outlined above."),
-            tags$li(tags$b("Out of work benefits - ")," the individual was claiming out of work benefits for at least one day in each of (at least) six consecutive months of the tax year. Details on out of work benefits can be found in the Technical report."),
-            tags$li(tags$b("Employment - "),"the individual has been in paid employment for at least one day in each of the 12 months of the tax year. If the individual has a spell of employment but no income in the tax year (e.g. career break) then the individual is not counted as being employed."),
-            tags$li(tags$b("Higher Education - "),"the individual appears in the Higher Education Statistics Agency (HESA) Student Record data (UK HE institutions) for at least one day in each of six consecutive months of the tax year, studying for a level 4 or higher qualification."),
-            tags$li(tags$b("Adult FE - "),"for (tax) years 3 to 15. The individual appeared in the ILR aims data (in England) for at least one day in each of six consecutive months of the tax year. This includes both classroom learning and apprenticeships at any level."),
-            tags$li(tags$b("Other education - "),"for (tax) years 1 and 2 only. The individual appeared in the Individualised Learning Record (ILR) aims data (in England) for at least one day in each of six consecutive months of the tax year. This includes classroom learning at level 2 or below (level 3 learning in this time period is covered by key stage 5) and apprenticeships at any level."),
-            tags$li(tags$b("KS5 - "),"the individual was entered for one or more level 3 qualifications (A levels or equivalent) and was aged 16 to 18 at the start of the academic year (in English institutions) in the tax year which overlaps the start of the academic year."))
-        )
       )
       )
  ##     
@@ -311,7 +377,7 @@ tabPanelFour <- function(){
         tags$ul(
           tags$li("Screen reader and keyboard users cannot navigate through the interactive graphs effectively. An accessible alternative is provided in a CSV format for users to download on this dashboard."), 
           tags$li("Users may have difficultly reading the graph due to the use of colour. An accessible alternative is provided in a CSV format for users to download on this dashboard."),
-          tags$li("Speech recognition users may not be able to use commands for ‘Interactive Plots User Guide:’ and all the list boxes effectively. Mouse grid is an accessible alternative."),
+          tags$li("Speech recognition users may not be able to use commands for the drop downs ‘Accessible version of the user guide:’, ‘Notes on earnings trajectory data:’, ‘Notes on main activities data:’ and all the list boxes within this dashboard effectively. Mouse grid is an accessible alternative. "),
           tags$li("Keyboard users may find it difficult to navigate through the dashboard due to the lack of instructions and interactive elements not working in a logical way. To navigate through the navigation bar, use the arrow keys and press tab to enter into the page."),
           tags$li("Keyboard users cannot navigate through the list boxes in a logical way. To use the dropdowns, the space bar and the up and down arrow keys can be used to expand the drop down. The tab key must be used to navigate through the options and enter must be clicked to choose an option."),
           tags$li("Tick boxes can only be selected using the space bar rather than the enter key."),
@@ -319,7 +385,8 @@ tabPanelFour <- function(){
           tags$li("While using the tab key to navigate through the different selections of the list boxes, the screen reader does not read out the text to the users."),
           tags$li("Some users are not able to reflow up to 300% on this dashboard."),
           tags$li("Some text and interactive elements may not translate well to a screen reader."),
-          tags$li("Some features within the tables of data may be limited to users of assistive technology.")
+          tags$li("Some features within the tables of data may be limited to users of assistive technology."),
+          tags$li("The interactive user guide on each page, when clicked, does not get automatic focus. The focus lies on the page behind and is not announced to assistive technology users when it appears. There is an accessible alternative of the user guide on the 'Introduction' page.")
           ),
         
         h2("Reporting accessibility problems with this dashboard"),
@@ -329,7 +396,7 @@ tabPanelFour <- function(){
         ),
         
         h2("Enforcement procedure"),
-        p("The Equality and Human Rights Commission (EHRC) is responsible for enforcing the accessibility regulations. If you’re not happy with how we respond to your complaint,", a(href = "https://www.equalityadvisoryservice.com/" , "contact the Equality Advisory and Support Service (EASS).")),
+        p("The Equality and Human Rights Commission (EHRC) is responsible for enforcing the accessibility regulations. If you’re not happy with how we respond to your complaint, contact the ", a(href = "https://www.equalityadvisoryservice.com/" , "Equality Advisory and Support Service (EASS).")),
         
         
         h2("Technical information about this dashboard's accessibility"),
@@ -340,7 +407,7 @@ tabPanelFour <- function(){
         p("This dashboard is partially compliant with the Web Content Accessibility Guidelines version 2.1 AA standard, due to the non-compliances listed."),
         
         h2("Non-compliance with the accessibility regulations"),
-        p("The contant below is non-accessible:"),
+        p("The content below is non-accessible:"),
         tags$ul(
           tags$li("Graphs will not always reflow correctly depending on aspect ratio of screen. This can cause loss of information. This fails WCAG 2.1 A success criterion 1.4.10 (Reflow)."),
           tags$li("No guidance given to keyboard or screen reader users on how to navigate through the list box elements and navigation bar. This fails WCAG 2.1 A success criterion 3.3.2 (Labels or Instructions)."),
@@ -358,13 +425,13 @@ tabPanelFour <- function(){
           tags$li("Certain buttons within the table of data tab are unable to be pressed while using a screen reader. This fails WCAG 2.1 A success criterion 4.1.1 (Parsing)."),
           tags$li("Focus can get lost when navigating through the page after ‘View full screen’ is clicked. This fails WCAG 2.1 A success criterion 2.4.7 (Focus Visible)."),
           tags$li("Screen reader reads out text which is not on the current page once ‘View full screen’ has been navigated to. This fails WCAG 2.1 A success criterion 4.1.1 (Parsing)."),
-          tags$li("Parsing errors which could disrupt the use of this dashboard for assistive technologies. This fails WCAG 2.1 A success criterion 4.1.1 (Parsing)."),
+          tags$li("Due to the limitations of using RShiny and the shinyGovstyle package, some parsing errors may occur when using assistive technologies. This may specifically be affected when using the 'user guide' and 'view full screen' features. This fails WCAG 2.1 A success criterion 4.1.1 (Parsing)."),
           tags$li("Some keyboard users may have difficulty when using the ‘View full screen’ due to a missing keyboard event handler. This fails WCAG 2.1 A success criterion 2.1.1 (Keyboard).")
           ),
         p("In October 2023, we will review the dashboard again and hope to address these errors."),
         
         h2("How we tested this dashboard"),
-        p("This dashboard was last tested on [07/10/2022]. The test was carried out by the DfE."),
+        p("This dashboard was last tested on [02/12/2022]. The test was carried out by the DfE."),
         p("Testing was carried out using:"),
         tags$ul(
           tags$li("Dragon NaturallySpeaking (V15.5), a voice recognition (speech to text) program which requires minimal user interface from a mouse or keyboard."),
@@ -398,7 +465,7 @@ tabPanelFour <- function(){
         p("The browsers used were Edge Chromium and Chrome as these are standard in the DfE and its agencies. The operating system used was Windows."),
         br(),
         p("This statement was prepared on 10th October 2022."),
-        p("This statement was last updated on 10th October 2022."),
+        p("This statement was last updated on 2nd December 2022."),
 
       )
     )
