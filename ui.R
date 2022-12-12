@@ -14,14 +14,15 @@
 shinyjs::useShinyjs()
 
 ui <- fluidPage(
-  #use_tota11y(),
-  tags$html(lang="en"),
+  # use_tota11y(),
+  tags$html(lang = "en"),
   tags$title("Longitudinal Education Outcomes (LEO): post-16 education and labour market activities and outcomes"),
   tags$head(
     tags$link(
-      rel = "stylesheet", 
-      type = "text/css", 
-      href = "style.css"),
+      rel = "stylesheet",
+      type = "text/css",
+      href = "style.css"
+    ),
     tags$link(
       rel = "shortcut icon",
       href = "dfefavicon.png"
@@ -45,7 +46,7 @@ ui <- fluidPage(
       font-family: GDS Transport, arial, sans-serif;
       font-size: 18px;
       }
-    
+
     .inputs_box {
       min-height: 90vh;
       padding: 19px;
@@ -56,33 +57,33 @@ ui <- fluidPage(
       -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
       box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
       color: #fff;
-    
+
     }
-    
+
     p{
       color: #0B0C0C;
       font-family: GDS Transport, arial, sans-serif;
       font-size: 18px;
     }
-    
+
     h2{
     font-weight: bold;
     }
-    
+
     h3{
     font-weight: bold;
     }
-    
+
     .govuk-label.govuk-checkboxes__label{
     color: white;
-    
+
     }"
       )
     )
   ),
   shinyGovstyle::header(
-    main_text = "", 
-    secondary_text = "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities and outcomes", 
+    main_text = "",
+    secondary_text = "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities and outcomes",
     logo = "images/DfE_logo_primary.png",
     logo_width = 125,
     logo_height = 72,
@@ -99,8 +100,7 @@ ui <- fluidPage(
     tabPanelThree(),
     tabPanelFour(),
     tabPanelFive(),
-    header = actionButton("tutorial", " User Guide", icon = icon("info",class = NULL, lib="font-awesome"), style = "margin-top: 10px;float:  right;")
-    ,
+    header = actionButton("tutorial", " User Guide", icon = icon("info", class = NULL, lib = "font-awesome"), style = "margin-top: 10px;float:  right;"),
   ),
   gov_layout(
     size = "full",
@@ -111,19 +111,19 @@ ui <- fluidPage(
     tags$br()
   ),
   tags$script(
-    src="script.js"
+    src = "script.js"
   ),
   tags$script(HTML(
     "
     $('img.govuk-header__logotype-crown-fallback-image').prop('alt','');
-    
+
     $(document).keyup(function(e) {
-      if (e.key === 'Escape') { 
+      if (e.key === 'Escape') {
         $('html').find('.full-screen').removeClass('full-screen').trigger('resize').hide().show();
-        
+
         let buttons = document.getElementsByClassName('fullscreen-button');
 
-        if(buttons.length > 0) { 
+        if(buttons.length > 0) {
           for (let i = 0; i < buttons.length; i++) {
             $('.fullscreen-button').text('View full screen');
             $(buttons[i]).parent().attr('data-full_screen', 'false');
@@ -132,7 +132,7 @@ ui <- fluidPage(
         }
       }
     });
-    
+
     function plotZoom(el){
         el = $(el);
         var parent = el.parent().parent();
@@ -145,7 +145,7 @@ ui <- fluidPage(
             setTimeout(function() {
               $('html').css('visibility', 'visible');
             }, 700);
-            
+
         } else {
             parent.removeClass('full-screen').trigger('resize').hide().show();
             $('.fullscreen-button').text('View full screen');
@@ -153,7 +153,7 @@ ui <- fluidPage(
             $('body').css('overflow-y', 'scroll');
         }
     }
-    
+
     $(function(){
        $('.plotly-full-screen  .plotly.html-widget').append(
         `
