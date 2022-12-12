@@ -37,7 +37,7 @@ tidy_code_function <- function() {
   app_scripts <- eval(styler::style_dir(recursive = FALSE)$changed)
   message("R scripts")
   message("----------------------------------------")
-  r_scripts <- eval(styler::style_dir("R/")$changed)
+  r_scripts <- eval(styler::style_dir("helpers/")$changed)
   message("Test scripts")
   message("----------------------------------------")
   test_scripts <- eval(styler::style_dir("tests/", filetype = "r")$changed)
