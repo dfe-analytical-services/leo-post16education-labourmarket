@@ -22,6 +22,10 @@ ui <- fluidPage(
       rel = "stylesheet", 
       type = "text/css", 
       href = "style.css"),
+    tags$link(
+      rel = "shortcut icon",
+      href = "dfefavicon.png"
+    ),
     tags$style(
       HTML(
         "
@@ -77,9 +81,11 @@ ui <- fluidPage(
     )
   ),
   shinyGovstyle::header(
-    main_text = "Department for Education", 
+    main_text = "", 
     secondary_text = "Longitudinal Education Outcomes (LEO): post-16 education and labour market activities and outcomes", 
-    logo = "shinyGovstyle/images/moj_logo.png",
+    logo = "images/DfE_logo_primary.png",
+    logo_width = 125,
+    logo_height = 72,
     main_link = "https://www.gov.uk/government/organisations/department-for-education",
     secondary_link = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo"
   ),
