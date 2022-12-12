@@ -1,0 +1,20 @@
+{
+  "input": {
+    "activity_select1": "All individuals",
+    "comparisoncheck": null,
+    "earn_picker": "Overall Average",
+    "earn_select1": "All individuals",
+    "earn_subcat": "All",
+    "navlistPanel": "panel5",
+    "picker1": "National Average",
+    "sub_group_picker": "All",
+    "tutorial": 0,
+    "Yes": false
+  },
+  "output": {
+
+  },
+  "export": {
+
+  }
+}

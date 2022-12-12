@@ -3,19 +3,19 @@
 # }
 #---- Import the data ----------------------------------------------------------
 # function to import all of the sheets in one excel sheet as a list of tibbles
-import_sheets <- function(fname){
+import_sheets <- function(fname) {
   # reads the sheet names from the file
   sheets <- readxl::excel_sheets(fname)
   # creates tibble with all of the sheets
   tibble <- lapply(sheets, function(x) readxl::read_excel(fname, sheet = x))
   data_frame <- lapply(tibble, as.data.frame)
-  
+
   names(data_frame) <- sheets
-  
+
   return(data_frame)
 }
 
-#path of the files
+# path of the files
 file1 <- "data/main_activity_reformatted_v3.xlsx"
 file2 <- "data/Earnings_reformatted_v2.xlsx"
 
@@ -35,13 +35,11 @@ earnings_data_all <- earnings %>%
             sep = " "
           )
         )
-        
-      ) %>% 
+      ) %>%
       select(`Years after KS4`, `Average Earnings`, Subpopulation)
-    
   }) %>%
   bind_rows(.id = "table") %>%
-  tidyr::separate(table, into = c("col1", "col2"), sep = "_", extra = "merge") 
+  tidyr::separate(table, into = c("col1", "col2"), sep = "_", extra = "merge")
 
 
 # Function to map all of the main activities data into a single formatted table like the earnings
@@ -57,10 +55,8 @@ activities_data_all <- main_activities %>%
             sep = " "
           )
         )
-        
-      ) %>% 
+      ) %>%
       select(`Years after KS4`, Activity, Percentage, Subpopulation)
-    
   }) %>%
   bind_rows(.id = "table") %>%
   tidyr::separate(table, into = c("col1", "col2"), sep = "_", extra = "merge")
