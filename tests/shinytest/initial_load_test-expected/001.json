@@ -1,11 +1,15 @@
 {
   "input": {
-    "link_to_app_content_tab": 0,
-    "navlistPanel": "Homepage",
-    "selectArea": "England",
-    "selectBenchLAs": null,
-    "selectPhase": "All LA maintained schools",
-    "tabsetpanels": "Example panel 1"
+    "activity_select1": "All individuals",
+    "comparisoncheck": null,
+    "earn_picker": "Overall Average",
+    "earn_select1": "All individuals",
+    "earn_subcat": "All",
+    "navlistPanel": "panel5",
+    "picker1": "National Average",
+    "sub_group_picker": "All",
+    "tutorial": 0,
+    "Yes": false
   },
   "output": {
 

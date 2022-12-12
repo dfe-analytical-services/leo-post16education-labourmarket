@@ -23,6 +23,10 @@ library(ggthemes)
 library(scales)
 library(bslib)
 
+# testing
+library(styler)
+library(shinytest)
+
 # library(shina11y)
 
 
