@@ -23,6 +23,7 @@ ui <- fluidPage(
       type = "text/css",
       href = "style.css"
     ),
+    tags$head(includeHTML(("google-analytics.html"))),
     tags$link(
       rel = "shortcut icon",
       href = "dfefavicon.png"
