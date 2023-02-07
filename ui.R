@@ -91,6 +91,16 @@ ui <- fluidPage(
     main_link = "https://www.gov.uk/government/organisations/department-for-education",
     secondary_link = "https://www.gov.uk/government/publications/post-16-education-and-labour-market-activities-pathways-and-outcomes-leo"
   ),
+  shinyGovstyle::banner(
+    "beta banner",
+    "beta",
+    paste0(
+      "<b>We're looking for volunteers! We've developed several new dashboards ",
+      "in the last 12 months and we'd really like to know what you think of them. ",
+      "If you're interested in helping us improve our products, please sign up ",
+      "using our <a href='https://forms.office.com/e/ZjNxf10uuN'>user-testing volunteer form</a>.</b><br>"
+    )
+  ),
   shiny::navlistPanel(
     "",
     id = "navlistPanel",
