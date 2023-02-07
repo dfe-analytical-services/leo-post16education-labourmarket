@@ -27,7 +27,7 @@ app$snapshot()
 app$setInputs("earn_picker" = "With statement of SEN")
 app$snapshot()
 
-app$setInputs("comparisoncheck" = "Yes" )
+app$setInputs("comparisoncheck" = "Yes")
 app$snapshot()
 
 app$setInputs("earn_select1" = "All individuals")
